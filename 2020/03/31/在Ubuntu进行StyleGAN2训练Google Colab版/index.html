@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="hoholiday">
+  <meta name="keywords" content="">
+  <title>在Ubuntu进行StyleGAN2训练Google Colab版 - hohliday&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_9n5xqdrq0nc.css">
+
+
+
+  <link  rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>hohliday's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2020-03-31 11:04">
+                    星期二, 三月 31日 2020, 11:04 上午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    1.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    15
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h1><ul>
+<li>稳定的梯子</li>
+<li>谷歌账号(有钱最好，新用户可以试用300$)</li>
+<li>训练集</li>
+</ul>
+<h1 id="准备训练集"><a href="#准备训练集" class="headerlink" title="准备训练集"></a>准备训练集</h1><p>如果只想走一下流程的话，随便准备百来张图片就可以了，毕竟跑一次训练成本很高，支持的图片尺寸有256x256，512x512和1024x1024。</p>
+<p>推荐一个国内的网站<a href="http://www.seeprettyface.com/" target="_blank" rel="noopener">seeprettyface</a>，有不少产品和免费的图库下载。</p>
+<p>StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.py将原始图片转换成Tensorflow的tfrecords格式，会占用更大的空间，所以需要预留好硬盘。</p>
+<h1 id="下载StyleGAN2源码"><a href="#下载StyleGAN2源码" class="headerlink" title="下载StyleGAN2源码"></a>下载StyleGAN2源码</h1><pre><code class="shell">%tensorflow_version 1.x
+
+!git clone https://github.com/NVlabs/stylegan2
+%cd stylegan2</code></pre>
+<p>outputs:</p>
+<pre><code class="shell">Cloning into &#39;stylegan2&#39;...
+remote: Enumerating objects: 7, done.
+remote: Counting objects: 100% (7/7), done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 117 (delta 2), reused 3 (delta 0), pack-reused 110
+Receiving objects: 100% (117/117), 587.49 KiB | 21.76 MiB/s, done.
+Resolving deltas: 100% (47/47), done.
+/content/stylegan2</code></pre>
+<h2 id="源码修改"><a href="#源码修改" class="headerlink" title="源码修改"></a>源码修改</h2><h3 id="如发生错误C-versions-less-than-C-11-are-not-supported"><a href="#如发生错误C-versions-less-than-C-11-are-not-supported" class="headerlink" title="如发生错误C++ versions less than C++11 are not supported"></a>如发生错误C++ versions less than C++11 are not supported</h3><p>修改文件  dnnlib/tflib/custom_ops.py：</p>
+<pre><code class="python">cmd = opts.strip()</code></pre>
+<p>改为</p>
+<pre><code class="python">cmd = &#39;nvcc --std=c++11 -DNDEBUG &#39; + opts.strip()</code></pre>
+<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><h2 id="一般虚拟机-GPU"><a href="#一般虚拟机-GPU" class="headerlink" title="一般虚拟机(GPU)"></a>一般虚拟机(GPU)</h2><p>配置StyleGAN2的运行环境主要需要以下几点：</p>
+<ol>
+<li><a href="https://developer.nvidia.com/cuda-toolkit" target="_blank" rel="noopener">NVIDIA CUDA Toolkit(含驱动)</a></li>
+<li><a href="https://developer.nvidia.com/rdp/form/cudnn-download-survey" target="_blank" rel="noopener">NVIDIA cuDNN (需要登录)</a></li>
+<li><a href="https://www.python.org/downloads/" target="_blank" rel="noopener">Python3.6</a></li>
+<li><a href="https://www.tensorflow.org/install/gpu" target="_blank" rel="noopener">Tensorflow-gpu</a></li>
+</ol>
+<p>这些东西的配置逛网和网上都有很多教程了，安装的顺序按照上述就行。</p>
+<p>如果是阿里云的服务器，不要选择“GPU虚拟化”的类型，驱动各种装不上，选“GPU计算型”即可，懒的话还可以用阿里提供的<a href="https://help.aliyun.com/document_detail/60149.html?spm=5176.ecsbuyv3.0.0.c5c23675LahT5D#section-bl2-k23-ygb" target="_blank" rel="noopener">自动安装脚本</a>安装驱动+cuda+cnDUU。</p>
+<p><strong>其他python依赖</strong>：</p>
+<ul>
+<li>numpy</li>
+<li>scipy==1.3.3</li>
+<li>requests==2.22.0</li>
+<li>Pillow==6.2.1</li>
+</ul>
+<h2 id="Google-Colab"><a href="#Google-Colab" class="headerlink" title="Google Colab"></a>Google Colab</h2><ol>
+<li>将数据集放到Drive内</li>
+<li>挂载 Google Drive</li>
+<li><del>充值 Google Colab Pro</del></li>
+</ol>
+<pre><code class="python">#挂载 Google Drive
+from google.colab import drive
+drive.mount(&#39;/content/drive&#39;)</code></pre>
+<p>outputs:</p>
+<pre><code class="shell">Go to this URL in a browser: [https://accounts.google.com/o/oauth2/auth?client_id=...)
+ Enter your authorization code: ·········· Mounted at /content/drive</code></pre>
+<h1 id="转换图片为数据集"><a href="#转换图片为数据集" class="headerlink" title="转换图片为数据集"></a>转换图片为数据集</h1><p>因为StyleGAN2不能直接输入原始图片，所以需要转成tfrecords格式。</p>
+<p>python dataset_tool.py create_from_images  <strong>TF_RECORD的输出路径</strong>   <strong>输入的图片集合</strong></p>
+<pre><code class="shell">!python dataset_tool.py create_from_images /content/drive/My\ Drive/download/datasets/mysets /content/drive/My\ Drive/download/images</code></pre>
+<p>outputs:</p>
+<pre><code class="shel">Loading images from &quot;/content/drive/My Drive/download/images&quot;
+Creating dataset &quot;/content/drive/My Drive/download/images_tf_records&quot;
+Added 151 images.</code></pre>
+<h1 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h1><h2 id="检查运行环境"><a href="#检查运行环境" class="headerlink" title="检查运行环境"></a>检查运行环境</h2><pre><code class="python"># 检查运行环境
+
+!nvcc test_nvcc.cu -o test_nvcc -run
+!nvidia-smi -L
+
+import tensorflow as tf
+print(&#39;Tensorflow version: {}&#39;.format(tf.__version__) )
+print(&#39;GPU Identified at: {}&#39;.format(tf.test.gpu_device_name()))</code></pre>
+<p>outputs:</p>
+<pre><code class="shell">CPU says hello.
+GPU says hello.
+Tensorflow version: 1.15.0
+GPU 0: Tesla P100-PCIE-16GB (UUID: GPU-99160cdb-b950-8328-38c2-b9a0b9128643)
+GPU Identified at: /device:GPU:0</code></pre>
+<h2 id="运行参数"><a href="#运行参数" class="headerlink" title="运行参数"></a>运行参数</h2><p>run_training.py有3个必须配置的参数：</p>
+<ul>
+<li>config 训练配置项</li>
+<li>data-dir 训练集的位置,例如 /datasets</li>
+<li>dataset 训练集内的子文件夹名字，例如完整路径是/datasets/mysets，这里就输入mysets，</li>
+</ul>
+<p>config：不同的配置影响会训练的时间，具体参见<a href="https://github.com/hoholidayx/stylegan2" target="_blank" rel="noopener">官方文档</a></p>
+<table>
+<thead>
+<tr>
+<th>config</th>
+<th>desc</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>config-a</td>
+<td>Baseline StyleGAN</td>
+</tr>
+<tr>
+<td>config-b</td>
+<td>Weight demodulation</td>
+</tr>
+<tr>
+<td>config-c</td>
+<td>Lazy regularization</td>
+</tr>
+<tr>
+<td>config-d</td>
+<td>Path length regularization</td>
+</tr>
+<tr>
+<td>config-e</td>
+<td>No growing, new G &amp; D arch.</td>
+</tr>
+<tr>
+<td>config-f</td>
+<td>Large networks (default)</td>
+</tr>
+</tbody></table>
+<p>total-kimg：训练的循环次数，默认是25000</p>
+<h2 id="开始运行"><a href="#开始运行" class="headerlink" title="开始运行"></a>开始运行</h2><pre><code class="shell"># 开始训练
+!python ./run_training.py --config &quot;config-f&quot; --total-kimg 10000 --dataset &quot;mysets&quot; --data-dir &quot;/content/drive/My Drive/download/datasets&quot;</code></pre>
+<h1 id="训练结果"><a href="#训练结果" class="headerlink" title="训练结果"></a>训练结果</h1><p>colab内存不够，看来还是要充值。</p>
+<blockquote>
+<p>tick 0     kimg 0.0      lod 0.00  minibatch 4    time 18s          sec/tick 17.8    sec/kimg 1114.10 </p>
+</blockquote>
+<p>sec/kimg 表示每次循环需要的时间，在GCP上，4 CPUs 、26 GB Mem &amp; K80 GPU，大概时间是 900秒，仅供参考。</p>
+<p>模型训练完后默认保存到results目录下，results/00xxx-stylegan2-{dataset}-{gpu}-{config}/network-final.pkl。</p>
+<h1 id="评估模型"><a href="#评估模型" class="headerlink" title="评估模型"></a>评估模型</h1><p>这一步骤没有做，因为只是为了过一遍流程和踩坑，具体可以参考<a href="https://github.com/NVlabs/stylegan2#evaluation-metrics" target="_blank" rel="noopener">官方文档</a>，比较简单。</p>
+<pre><code class="shell">python run_metrics.py --data-dir=/content/drive/My\ Drive/download/datasets \ 
+--network=stylegan2/results/00000-stylegan2-myset-1gpu-config-f/network-final.pkl \
+  --metrics=fid50k,ppl2_wend --dataset=myset</code></pre>
+<h1 id="测试模型"><a href="#测试模型" class="headerlink" title="测试模型"></a>测试模型</h1><pre><code class="shell">python3.6 run_generator.py generate-images --network=stylegan2/results/00000-stylegan2-myset-1gpu-config-f/network-final.pkl \
+  --seeds=66,230,389,1518 --truncation-psi=1.0</code></pre>
+<p>根据seeds得到4个结果：</p>
+<p><img src="%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C1.png" srcset="/img/loading.gif" alt="运行结果1.png"></p>
+<p><img src="%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C2.png" srcset="/img/loading.gif" alt="运行结果2.png"></p>
+<p><img src="%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C3.png" srcset="/img/loading.gif" alt="运行结果3.png"></p>
+<p><img src="%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C4.png" srcset="/img/loading.gif" alt="运行结果4.png"></p>
+<p>因为这次运行的训练集数量很少，循环次数也很少，所以得到的结果也只能如上所示，但是还是依稀可以看到图片的轮廓的。</p>
+<p>如果训练时间足够样本足够的话，正常的过程应该是这样的：</p>
+<p><img src="%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B.gif" srcset="/img/loading.gif" alt="训练过程.gif"></p>
+<h1 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h1><p>完整ipynb<a href="https://colab.research.google.com/drive/18TFQScGlCD0WnjAXwPrgcr_KMzcryJ3y" target="_blank" rel="noopener">下载</a>。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/StyleGAN/">StyleGAN</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+                    
+                      <a class="hover-with-bg" href="/tags/AI/">AI</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Ubuntu/">Ubuntu</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ubuntu下搭建CUDA+cuDNN+tf+Python环境</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">
+                        <span class="hidden-mobile">关于Android游戏助手</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script defer>
+      var _mtac = {};
+      (function () {
+        var mta = document.createElement("script");
+        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500716418");
+        
+        mta.setAttribute("cid", "500716419");
+        
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1278771147&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "在Ubuntu进行StyleGAN2训练Google Colab版&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 35,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

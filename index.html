@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="hoholiday">
+  <meta name="keywords" content="">
+  <title>hohliday&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_9n5xqdrq0nc.css">
+
+
+
+  <link  rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>hohliday's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/" target="_blank">
+          <img src="http://localhost:4000/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/%E5%B0%81%E9%9D%A2%E5%9B%BE.jpeg" srcset="/img/loading.gif" alt="Ubuntu下搭建CUDA+cuDNN+tf+Python环境">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/">Ubuntu下搭建CUDA+cuDNN+tf+Python环境</a>
+
+      <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/" class="index-excerpt">
+        
+        
+          
+        
+        <div>安装NVIDIA CUDA版本
+Ubuntu：16.0.4
+Toolkit：10.0
+cuDNN：7.5.1 (April 22, 2019) for CUDA 10.0
+
+
+官网下载CUDA Toolkit
+
+安装cuda之前需要先安装gcc、g++和 build-essential等。
+sudo apt-get install build-essential gcc g++ make binu</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-04-22
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Ubuntu/">Ubuntu</a>
+            
+              <a href="/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/" target="_blank">
+          <img src="https://hoholidayx.github.io/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/%E5%B0%81%E9%9D%A2%E5%9B%BE.png" srcset="/img/loading.gif" alt="在Ubuntu进行StyleGAN2训练Google Colab版">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/">在Ubuntu进行StyleGAN2训练Google Colab版</a>
+
+      <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/" class="index-excerpt">
+        
+        
+          
+        
+        <div>准备工具
+稳定的梯子
+谷歌账号(有钱最好，新用户可以试用300$)
+训练集
+
+准备训练集如果只想走一下流程的话，随便准备百来张图片就可以了，毕竟跑一次训练成本很高，支持的图片尺寸有256x256，512x512和1024x1024。
+推荐一个国内的网站seeprettyface，有不少产品和免费的图库下载。
+StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.py将原</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-03-31
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/StyleGAN/">StyleGAN</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+              <a href="/tags/AI/">AI</a>
+            
+              <a href="/tags/Ubuntu/">Ubuntu</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/" target="_blank">
+          <img src="https://hoholidayx.github.io/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E8%87%AA%E5%8A%A8%E5%88%B7%E5%86%92%E9%99%A9%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" alt="关于Android游戏助手">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">关于Android游戏助手</a>
+
+      <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/" class="index-excerpt">
+        
+        
+          
+        
+        <div>游戏助手是什么终于开始这个系列的填坑了，自上次17年写的文章《LuaJava在Java、Android中的使用》 已经过了2年，主要介绍了游戏助手技术栈的其中一项。本文开始将继续记录一些项目中碰到的问题和有价值的经验。项目坟头都长草了祭奠一下。
+
+这里游戏助手主要指的是Android端的应用，虽然iOS端也有能够实现的方案，但是成本较高且本人对iOS技术钻研不精，所以不做讨论。
+游戏助手是什么，用</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-03-17
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/%E6%B8%B8%E6%88%8F/">游戏</a>
+            
+              <a href="/tags/%E8%BE%85%E5%8A%A9/">辅助</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/03/03/LuaJava%E6%A1%86%E6%9E%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%94%AF%E6%8C%81%E4%BF%AE%E6%94%B9/">LuaJava框架多线程支持修改</a>
+
+      <a href="/2020/03/03/LuaJava%E6%A1%86%E6%9E%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%94%AF%E6%8C%81%E4%BF%AE%E6%94%B9/" class="index-excerpt">
+        
+        
+          
+        
+        <div>问题背景LuaJava框架是不支持多线程调用的，例如在游戏助手里，脚本需要在Java层执行一个异步任务，然后回调通知Lua层，因为Lua是单独跑在一个线程里，而回调是在主线程，所以这时候会发生崩溃或者Lua虚拟机的栈异常。
+解决方案这种情况有两种解决方案，一是修改LUA虚拟机，使其在当前线程能够执行post过来的任务，类似Handler，这种方案没有实现;二是在Java层或者JNI层修改，使其线程</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-03-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/LuaJava/">LuaJava</a>
+            
+              <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_blank">
+          <img src="https://hoholidayx.github.io/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/Lua%E6%A0%88%E6%A8%A1%E5%9E%8B.png" srcset="/img/loading.gif" alt="LuaJava在Java、Android中的使用">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">LuaJava在Java、Android中的使用</a>
+
+      <a href="/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最近公司在做一个项目，需要用Lua语言编写的脚本来动态控制安卓app的行为。  
+项目涉及到Lua、LuaJava框架和安卓native开发等知识点。本文主要介绍Lua和Java语言之间是怎么相互调用的，并记录一些开发过程中碰到的问题。
+Lua一些概念
+Lua是一门扩展式程序设计语言，被设计成支持通用过程式编程，并有相关数据描述设施。同时对面向对象编程、函数式编程和数据驱动式编程也提供了良好的支持</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2017-10-08
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/LUA/">LUA</a>
+            
+              <a href="/tags/JAVA/">JAVA</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script defer>
+      var _mtac = {};
+      (function () {
+        var mta = document.createElement("script");
+        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500716418");
+        
+        mta.setAttribute("cid", "500716419");
+        
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1278771147&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Keep thinking&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 35,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
