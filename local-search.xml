@@ -124,6 +124,41 @@
   
   
   <entry>
+    <title>小记Java内存回收</title>
+    <link href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/"/>
+    <url>/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/</url>
+    
+    <content type="html"><![CDATA[<p>Java GC（Garbage Collection，GC），就是释放垃圾占用的内存空间，防止内存泄露。</p><p><img src="%E5%8F%AF%E5%9B%9E%E6%94%B6%E5%9E%83%E5%9C%BE.jpg" srcset="/img/loading.gif" alt="可回收垃圾.jpg"></p><h1 id="判断对象是否可以回收"><a href="#判断对象是否可以回收" class="headerlink" title="判断对象是否可以回收"></a>判断对象是否可以回收</h1><p>判断内存对象是否能被回收主要有两种方法：</p><ul><li>引用计数法（Reachability Counting）</li><li>可达性分析算法（Reachability Analysis）</li></ul><h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><p>引用计数法是最简单的，在分配对象的时候，记录该对象当前的被引用次数 RC ，当有其他对象引用该对象的时候 RC 加1，解除引用的时候减1，当 RC 为0的时候就会被回收调。</p><pre><code class="java">// 字符串&quot;gc&quot;被s引用String s = new String(&quot;gc&quot;);//释放引用， 字符串&quot;gc&quot;被回收s = null;</code></pre><p>优点：</p><ol><li><p>可立即回收。每个对象都知道自己的引用计数，当变为0时可以立即回收，将自己接到空闲链表</p></li><li><p>GC暂停时间短。应用更新指针的时候就可以执行垃圾回收，开销分摊到整个生命周期，不需要挂起整个应用的运行直到堆中所有对象都处理结束（Stop-The-World）。</p></li></ol><p>缺点：</p><ol><li><p>计数器值的增减处理频繁。每次对象更新都需要对计数器进行增减，特别是被引用次数多的对象。</p></li><li><p>计数器需要占用很多位。计数器的值最大必须要能数完堆中所有对象的引用数。</p></li><li><p><strong>循环引用无法回收</strong>。</p></li></ol><h2 id="可达性分析法"><a href="#可达性分析法" class="headerlink" title="可达性分析法"></a>可达性分析法</h2><p>可达性分析法解决了循环依赖的问题，基本思路是构建一系列的 GC 树，从根节点 GC Root 开始搜索，当对象不在任何一个 GC 树上的就属于可回收垃圾。</p><p><img src="%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="可达性分析法.jpeg"></p><h3 id="GC-Root根节点的选择"><a href="#GC-Root根节点的选择" class="headerlink" title="GC Root根节点的选择"></a>GC Root根节点的选择</h3><p>在 Java 中，可作为 GC Root 的对象包括以下4种：</p><ul><li><p>虚拟机栈（栈帧中的本地变量表）中引用的对象</p></li><li><p>方法区中类静态属性引用的对象</p></li><li><p>方法区中常量引用的对象</p></li><li><p>本地方法栈中 JNI（即一般说的 Native 方法）引用的对象</p></li></ul><h1 id="回收算法"><a href="#回收算法" class="headerlink" title="回收算法"></a>回收算法</h1><p>确定了哪些垃圾可以被回收后，垃圾收集器要做的事情就是开始进行垃圾回收。</p><h2 id="标记清除法"><a href="#标记清除法" class="headerlink" title="标记清除法"></a>标记清除法</h2><p>标记清除法最快最简单，直接回收被标记的垃圾。</p><p>缺点：</p><p>产生大量的内存碎片，内存利用率低。</p><p><img src="%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="标记清除法.jpeg"></p><h2 id="复制法"><a href="#复制法" class="headerlink" title="复制法"></a>复制法</h2><p>复制法将内存区域划分成两等分，每次只使用一份，回收垃圾的时候将存活的对象复制到另一边，然后清理掉这块内存。</p><p>优点：</p><p>速度快，避免内存碎片</p><p>缺点：</p><p>内存利用率不高，只能使用一半的内存</p><p><img src="%E5%A4%8D%E5%88%B6%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="复制法.jpeg"></p><h2 id="标记整理法"><a href="#标记整理法" class="headerlink" title="标记整理法"></a>标记整理法</h2><p>标记清除法的升级版，在清除完标记的垃圾之后，存活的对象整理向一边移动，留出更大的内存区域。</p><p>优点：</p><p>避免内存碎片，内存利用率高</p><p>缺点：</p><p>内存变动频繁效率低速度慢</p><p><img src="%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="标记整理法.jpeg"></p><h2 id="分代回收法"><a href="#分代回收法" class="headerlink" title="分代回收法"></a>分代回收法</h2><p>分代回收算法综合了上面几种方法的优点，根据不同场景使用不同的方法。</p><p>该方法主要将内存分为新生代区和老年代区（Old），新生代区由Eden区和Survivor区组成，其中Survivor区又分为From和To区。</p><p><img src="%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="分代回收法.jpeg"></p><h3 id="Eden区"><a href="#Eden区" class="headerlink" title="Eden区"></a>Eden区</h3><p>大多数对象消亡速度都很快，所以大部分内存都在Eden区进行分配。</p><p>在Eden区进行的GC被称作（<strong>Minor GC</strong>），速度很快，每次Minor GC后基本会清空Eden区，剩余存活的对象会进入Survivor的From区，如果From区不够大会直接进入到Old区。</p><h3 id="Survivor区"><a href="#Survivor区" class="headerlink" title="Survivor区"></a>Survivor区</h3><p>Survivor区相当于Eden和Old的缓冲区，因为Eden 的 Minor GC 速度快，避免太多对象太快进入Old区。</p><p>每一次Minor GC ， Survivor 的 From 和 To 区就会进行<strong>复制回收</strong>，Survivor 中存活的对象年龄增加，直到达成年后（16岁或动态阈值）被送往Old区。</p><h3 id="Old区"><a href="#Old区" class="headerlink" title="Old区"></a>Old区</h3><p>Old区占用大部分内存空间，每次GC都会触发Stop-The-World，也叫 <strong>Major GC</strong> ，频率会比 Minor GC 要低。</p><p>因为Old区存活对象多，如果用复制法会操作很多次内存效率和空间利用率都低，所以在Old区折中使用<strong>标记整理法</strong>来进行回收。</p><h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://yq.aliyun.com/articles/708634" target="_blank" rel="noopener">咱们从头到尾说一次 Java 垃圾回收</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Android</category>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Android</tag>
+      
+      <tag>Java</tag>
+      
+      <tag>垃圾回收</tag>
+      
+      <tag>内存</tag>
+      
+      <tag>JVM</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>LuaJava在Java、Android中的使用</title>
     <link href="/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <url>/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/</url>

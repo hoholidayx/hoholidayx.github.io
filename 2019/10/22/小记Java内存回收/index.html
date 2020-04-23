@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="hoholiday">
   <meta name="keywords" content="">
-  <title>LuaJava框架多线程支持修改 - hohliday&#39;s blog</title>
+  <title>小记Java内存回收 - hohliday&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
@@ -128,8 +128,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-03-03 12:17">
-                    星期二, 三月 3日 2020, 12:17 中午
+                  <time datetime="2019-10-22 17:03">
+                    星期二, 十月 22日 2019, 5:03 下午
                   </time>
                 </div>
               
@@ -149,7 +149,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    15
+                    11
                      分钟
                   </span>
                 
@@ -178,139 +178,75 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>LuaJava框架是不支持多线程调用的，例如在游戏助手里，脚本需要在Java层执行一个异步任务，然后回调通知Lua层，因为Lua是单独跑在一个线程里，而回调是在主线程，所以这时候会发生崩溃或者Lua虚拟机的栈异常。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>这种情况有两种解决方案，一是修改LUA虚拟机，使其在当前线程能够执行post过来的任务，类似Handler，这种方案没有实现;二是在Java层或者JNI层修改，使其线程安全。</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>  JNI编程和Linux上的C/C++编程还是挺相似的，每次java调用JNI中的函数时都会传入有关JVM的一些参数（如JNIEnv，jobject），每次JNI回调java中的方法时都要通过JVM的有关参数来实现，当在JNI中涉及到多线程的话还是有一些不一样的地方，就是要在子线程函数里使用AttachCurrentThread()和DetachCurrentThread()这两个函数，在这两个函数之间加入回调java方法所需要的代码。</p>
-<p>  JNIEnv是一个线程相关的变量,JNIEnv 对于每个 thread 而言是唯一的,JNIEnv *env指针不可以为多个线程共用。但是Java虚拟机的JavaVM指针是整个jvm公用的，我们可以通过JavaVM来得到当前线程的JNIEnv指针。可以使用javaAttachThread保证取得当前线程的Jni环境变量。</p>
-<h2 id="native层修改"><a href="#native层修改" class="headerlink" title="native层修改"></a>native层修改</h2><ol>
-<li>保存全局的JavaVM指针</li>
+              <p>Java GC（Garbage Collection，GC），就是释放垃圾占用的内存空间，防止内存泄露。</p>
+<p><img src="%E5%8F%AF%E5%9B%9E%E6%94%B6%E5%9E%83%E5%9C%BE.jpg" srcset="/img/loading.gif" alt="可回收垃圾.jpg"></p>
+<h1 id="判断对象是否可以回收"><a href="#判断对象是否可以回收" class="headerlink" title="判断对象是否可以回收"></a>判断对象是否可以回收</h1><p>判断内存对象是否能被回收主要有两种方法：</p>
+<ul>
+<li>引用计数法（Reachability Counting）</li>
+<li>可达性分析算法（Reachability Analysis）</li>
+</ul>
+<h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><p>引用计数法是最简单的，在分配对象的时候，记录该对象当前的被引用次数 RC ，当有其他对象引用该对象的时候 RC 加1，解除引用的时候减1，当 RC 为0的时候就会被回收调。</p>
+<pre><code class="java">// 字符串&quot;gc&quot;被s引用
+String s = new String(&quot;gc&quot;);
+
+//释放引用， 字符串&quot;gc&quot;被回收
+s = null;</code></pre>
+<p>优点：</p>
+<ol>
+<li><p>可立即回收。每个对象都知道自己的引用计数，当变为0时可以立即回收，将自己接到空闲链表</p>
+</li>
+<li><p>GC暂停时间短。应用更新指针的时候就可以执行垃圾回收，开销分摊到整个生命周期，不需要挂起整个应用的运行直到堆中所有对象都处理结束（Stop-The-World）。</p>
+</li>
 </ol>
-<pre><code class="C">jint JNI_OnLoad(JavaVM* vm, void* reserved) {
-    ...
-
-    //将vm指针保存到全局变量中
-    set_jvm(vm);
-    ...
-}
-</code></pre>
-<ol start="2">
-<li>Lua运行时获取当前线程的env</li>
+<p>缺点：</p>
+<ol>
+<li><p>计数器值的增减处理频繁。每次对象更新都需要对计数器进行增减，特别是被引用次数多的对象。</p>
+</li>
+<li><p>计数器需要占用很多位。计数器的值最大必须要能数完堆中所有对象的引用数。</p>
+</li>
+<li><p><strong>循环引用无法回收</strong>。</p>
+</li>
 </ol>
-<p>在 luajava.c的getEnvFromState方法实现里，去更新指针。</p>
-<pre><code class="C">JNIEnv *getEnvFromState(lua_State *L) {
-
-    JNIEnv *javaEnv = NULL;
-    if (g_jvm-&gt;AttachCurrentThread(&amp;javaEnv, NULL) == JNI_OK) {
-        return javaEnv;
-    } else {
-        LOGE(&quot;JavaEnv attach failed!&quot;);
-        return NULL;
-    }
-}</code></pre>
-<h2 id="Java层修改"><a href="#Java层修改" class="headerlink" title="Java层修改"></a>Java层修改</h2><ol start="3">
-<li>去除同步锁</li>
-</ol>
-<p>在<a href="https://github.com/jasonsantos/luajava/blob/b27d23db7d3b701931ac96740b5a9b05be8d240b/src/java/org/keplerproject/luajava/Console.java#L84" target="_blank" rel="noopener">Console.java</a>中，去除掉pcall的synchronized，否则在整个脚本运行期间，pcall会持续占有luastate的锁，导致其他线程无法获得同步锁，所以无法调用luastate的其他方法。</p>
-<p>这里并不是说完全去除掉同步锁，而是只需要在多线程操作的地方，局部同步LuaState，否则LuaVM栈可能会出错。</p>
-<ol start="4">
-<li>在 JavaFunction 类，删除掉LuaState L，用全局ThreadLocal来代替存储。</li>
-</ol>
-<p>execute稍作修改，让native调用的时候调的是execute(long)方法，这样在方法执行之前可以做一些事情。</p>
-<pre><code class="Java">    public abstract class JavaFunction {
-
-    /**
-     * This is the state in which this function will exist.
-     */
-    //    protected LuaState L;
-    //用来保存c层lua_state的指针，当需要在对应栈上操作的时候，从这个ThreadLocal取
-    protected static final ThreadLocal&lt;Long&gt; mLuaStateCPoniter = new ThreadLocal&lt;Long&gt;() {
-        @Override
-        protected Long initialValue() {
-            return (long) 0;
-        }
-    };
-
-    /**
-     * This method is called from Lua. Any parameters can be taken with
-     * &lt;code&gt;getParam&lt;/code&gt;. A reference to the JavaFunctionWrapper itself is
-     * always the first parameter received. Values passed back as results
-     * of the function must be pushed onto the stack.
-     *
-     * @return The number of values pushed onto the stack.
-     */
-
-    public abstract int execute() throws LuaException;
-
-    //native调用这个同步的execute，保证在正确的栈上调用完后才能让其他线程换栈
-
-    public int execute(long lua_state) throws LuaException {
-        mLuaStateCPoniter.set(lua_state);
-        return execute();
-    }
-
-    /**
-     * Constructor that receives a LuaState.
-     *
-     * @param L LuaState object associated with this JavaFunction object
-     */
-    public JavaFunction(LuaState L) {
-        mLuaStateCPoniter.set(L.getCPtrPeer());
-    }
-
-    /**
-     * Returns a parameter received from Lua. Parameters are numbered from 1.
-     * A reference to the JavaFunction itself is always the first parameter
-     * received (the same as &lt;code&gt;this&lt;/code&gt;).
-     *
-     * @param idx Index of the parameter.
-     * @return Reference to parameter.
-     * @see LuaObject
-     */
-    public LuaObject getParam(int idx) {
-        long luaStateCPoniter = mLuaStateCPoniter.get();
-        LuaState L = LuaStateFactory.getExistingState(luaStateCPoniter);
-        return L.getLuaObject(idx);
-    }
-
-    /**
-     * Register a JavaFunction with a given name. This method registers in a
-     * global variable the JavaFunction specified.
-     *
-     * @param name name of the function.
-     */
-    public void register(String name) throws LuaException {
-        long luaStateCPoniter = mLuaStateCPoniter.get();
-        //新增的方法，用于获取当前线程的LuaState
-        LuaState L = LuaStateFactory.getExistingState(luaStateCPoniter);
-        synchronized (L) {
-            L.pushJavaFunction(this);//在栈上生成一个userdata，并设置其metatable的一些方法
-            L.setGlobal(name);//然后将这个userdata存在global表上
-        }
-    }
-}</code></pre>
-<ol start="5">
-<li>LuaStateFatcoty新增一个方法，根据当前的CPointer获取对应的LuaState。</li>
-</ol>
-<pre><code class="Java">    /**
-     * Returns a existing instance of LuaState
-     *
-     * @param cPointer
-     * @return LuaState
-     */
-    public synchronized static LuaState getExistingState(long cPointer) {
-        for(Object luaState:states){
-            if(luaState!=null){
-                LuaState lua_state = (LuaState)luaState;
-                if(lua_state.getCPtrPeer() == cPointer){
-                    return lua_state;
-                }
-            }
-        }
-        return null;
-    }
-</code></pre>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这种实现方式有点类似于协程，魔改之后算是基本能支持多线程操作，虽然不是很完美也可能不太稳定。这个多线程方案在产品中调用频次很低，所以也没有反馈实际效果如何，但是至少不崩溃并且异步回调是正常的。</p>
-<p>因为Lua虚拟机本身就是只能单线程执行的，强行使其多线程执行肯定会有一些问题，除非有人有能力修改Lua的虚拟机那也是不错的。</p>
+<h2 id="可达性分析法"><a href="#可达性分析法" class="headerlink" title="可达性分析法"></a>可达性分析法</h2><p>可达性分析法解决了循环依赖的问题，基本思路是构建一系列的 GC 树，从根节点 GC Root 开始搜索，当对象不在任何一个 GC 树上的就属于可回收垃圾。</p>
+<p><img src="%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="可达性分析法.jpeg"></p>
+<h3 id="GC-Root根节点的选择"><a href="#GC-Root根节点的选择" class="headerlink" title="GC Root根节点的选择"></a>GC Root根节点的选择</h3><p>在 Java 中，可作为 GC Root 的对象包括以下4种：</p>
+<ul>
+<li><p>虚拟机栈（栈帧中的本地变量表）中引用的对象</p>
+</li>
+<li><p>方法区中类静态属性引用的对象</p>
+</li>
+<li><p>方法区中常量引用的对象</p>
+</li>
+<li><p>本地方法栈中 JNI（即一般说的 Native 方法）引用的对象</p>
+</li>
+</ul>
+<h1 id="回收算法"><a href="#回收算法" class="headerlink" title="回收算法"></a>回收算法</h1><p>确定了哪些垃圾可以被回收后，垃圾收集器要做的事情就是开始进行垃圾回收。</p>
+<h2 id="标记清除法"><a href="#标记清除法" class="headerlink" title="标记清除法"></a>标记清除法</h2><p>标记清除法最快最简单，直接回收被标记的垃圾。</p>
+<p>缺点：</p>
+<p>产生大量的内存碎片，内存利用率低。</p>
+<p><img src="%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="标记清除法.jpeg"></p>
+<h2 id="复制法"><a href="#复制法" class="headerlink" title="复制法"></a>复制法</h2><p>复制法将内存区域划分成两等分，每次只使用一份，回收垃圾的时候将存活的对象复制到另一边，然后清理掉这块内存。</p>
+<p>优点：</p>
+<p>速度快，避免内存碎片</p>
+<p>缺点：</p>
+<p>内存利用率不高，只能使用一半的内存</p>
+<p><img src="%E5%A4%8D%E5%88%B6%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="复制法.jpeg"></p>
+<h2 id="标记整理法"><a href="#标记整理法" class="headerlink" title="标记整理法"></a>标记整理法</h2><p>标记清除法的升级版，在清除完标记的垃圾之后，存活的对象整理向一边移动，留出更大的内存区域。</p>
+<p>优点：</p>
+<p>避免内存碎片，内存利用率高</p>
+<p>缺点：</p>
+<p>内存变动频繁效率低速度慢</p>
+<p><img src="%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="标记整理法.jpeg"></p>
+<h2 id="分代回收法"><a href="#分代回收法" class="headerlink" title="分代回收法"></a>分代回收法</h2><p>分代回收算法综合了上面几种方法的优点，根据不同场景使用不同的方法。</p>
+<p>该方法主要将内存分为新生代区和老年代区（Old），新生代区由Eden区和Survivor区组成，其中Survivor区又分为From和To区。</p>
+<p><img src="%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="分代回收法.jpeg"></p>
+<h3 id="Eden区"><a href="#Eden区" class="headerlink" title="Eden区"></a>Eden区</h3><p>大多数对象消亡速度都很快，所以大部分内存都在Eden区进行分配。</p>
+<p>在Eden区进行的GC被称作（<strong>Minor GC</strong>），速度很快，每次Minor GC后基本会清空Eden区，剩余存活的对象会进入Survivor的From区，如果From区不够大会直接进入到Old区。</p>
+<h3 id="Survivor区"><a href="#Survivor区" class="headerlink" title="Survivor区"></a>Survivor区</h3><p>Survivor区相当于Eden和Old的缓冲区，因为Eden 的 Minor GC 速度快，避免太多对象太快进入Old区。</p>
+<p>每一次Minor GC ， Survivor 的 From 和 To 区就会进行<strong>复制回收</strong>，Survivor 中存活的对象年龄增加，直到达成年后（16岁或动态阈值）被送往Old区。</p>
+<h3 id="Old区"><a href="#Old区" class="headerlink" title="Old区"></a>Old区</h3><p>Old区占用大部分内存空间，每次GC都会触发Stop-The-World，也叫 <strong>Major GC</strong> ，频率会比 Minor GC 要低。</p>
+<p>因为Old区存活对象多，如果用复制法会操作很多次内存效率和空间利用率都低，所以在Old区折中使用<strong>标记整理法</strong>来进行回收。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://yq.aliyun.com/articles/708634" target="_blank" rel="noopener">咱们从头到尾说一次 Java 垃圾回收</a></p>
 
             </article>
             <hr>
@@ -320,9 +256,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
-                    
                       <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
                     
                   </div>
                 
@@ -332,9 +268,13 @@
                     
                       <a class="hover-with-bg" href="/tags/Android/">Android</a>
                     
-                      <a class="hover-with-bg" href="/tags/LuaJava/">LuaJava</a>
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+                      <a class="hover-with-bg" href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%86%85%E5%AD%98/">内存</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JVM/">JVM</a>
                     
                   </div>
                 
@@ -347,9 +287,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">
+                      <a href="/2020/03/03/LuaJava%E6%A1%86%E6%9E%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%94%AF%E6%8C%81%E4%BF%AE%E6%94%B9/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">关于Android游戏助手</span>
+                        <span class="hidden-mobile">LuaJava框架多线程支持修改</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -357,8 +297,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/">
-                        <span class="hidden-mobile">小记Java内存回收</span>
+                      <a href="/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">LuaJava在Java、Android中的使用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -550,7 +490,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "LuaJava框架多线程支持修改&nbsp;",
+        "小记Java内存回收&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 35,
