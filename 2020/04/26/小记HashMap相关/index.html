@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="hoholiday">
+  <meta name="keywords" content="">
+  <title>小记HashMap相关 - hohliday&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_9n5xqdrq0nc.css">
+
+
+
+  <link  rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>hohliday's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2020-04-26 17:00">
+                    星期日, 四月 26日 2020, 5:00 下午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    2.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    30
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>代码版本：<a href="https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:libcore/ojluni/src/main/java/java/util/HashMap.java" target="_blank" rel="noopener">java/util/HashMap.java @ Android-10.0.0_r30</a></p>
+<hr>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>HashMap 是 Android、Java 面试的常客，阅读学习其源码还是很有必要的。总之先来一个 HashMap 的整体结构，然后顺着慢慢分析。</p>
+<p><img src="HashMap%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.jpg" srcset="/img/loading.gif" alt="HashMap存储结构.jpg"></p>
+<p>HashMap 的存储结构由数组、链表和红黑树组成，JDK1.8 之前没有使用红黑树。</p>
+<h1 id="构造-HashMap"><a href="#构造-HashMap" class="headerlink" title="构造 HashMap"></a>构造 HashMap</h1><p>HashMap 的构建有两个重要的参数：</p>
+<ul>
+<li>initialCapacity，初始容量</li>
+<li>loadFactor，负载因子，和扩容有关，默认值 0.75</li>
+</ul>
+<pre><code class="java"> public HashMap(int initialCapacity, float loadFactor) {
+        ...
+        this.loadFactor = loadFactor;
+        this.threshold = tableSizeFor(initialCapacity);
+    }</code></pre>
+<p>initialCapacity 参数传入 tableSizeFor 方法内算出一个扩容触发的 threshold 阈值。</p>
+<blockquote>
+<p>threshold: The next size value at which to resize (capacity * load factor).</p>
+</blockquote>
+<p>先看一下 tableSizeFor 方法，这个方法目的是为了找到<strong>不小于  cap 的最小的 2的幂</strong>。</p>
+<pre><code class="java">    /**
+     * Returns a power of two size for the given target capacity.
+     */
+    static final int tableSizeFor(int cap) {
+        int n = cap - 1;
+        n |= n &gt;&gt;&gt; 1;
+        n |= n &gt;&gt;&gt; 2;
+        n |= n &gt;&gt;&gt; 4;
+        n |= n &gt;&gt;&gt; 8;
+        n |= n &gt;&gt;&gt; 16;
+        return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+    }</code></pre>
+<p>这里为什么需要</p>
+<pre><code class="java">int n = cap - 1;</code></pre>
+<p>是因为如果 cap 已经是2 的幂而不减 1，经过下面的位运算之后会得到 cap 的 2 倍。</p>
+<p>这段算法比较抽象，借图表示一下：</p>
+<p><img src="tableSizeFor.jpeg" srcset="/img/loading.gif" alt="tableSizeFor.jpeg"></p>
+<p>因为 Integer 是 32bit ，算法移动到 16bit 的时候最多就是 32 个 1 了，所以最后可能产生负数。</p>
+<p>实际上在构造方法里 threshold 的值并没有乘上load factor，而是推迟到了 put 方法调用的时候，重新更新 threshold 的值。</p>
+<h1 id="插入或更新数据-——-put"><a href="#插入或更新数据-——-put" class="headerlink" title="插入或更新数据 —— put"></a>插入或更新数据 —— put</h1><h2 id="hash-方法"><a href="#hash-方法" class="headerlink" title="hash 方法"></a>hash 方法</h2><pre><code class="java">  public V put(K key, V value) {
+        return putVal(hash(key), key, value, false, true);
+    }</code></pre>
+<p>put 方法是最复杂的地方之一，虽然入口方法只有一行代码…</p>
+<p>首先重新对传入的 key 进行 hash 计算。</p>
+<pre><code class="java">  /**
+     * Computes key.hashCode() and spreads (XORs) higher bits of hash
+     * to lower.  Because the table uses power-of-two masking, sets of
+     * hashes that vary only in bits above the current mask will
+     * always collide. (Among known examples are sets of Float keys
+     * holding consecutive whole numbers in small tables.)  So we
+     * apply a transform that spreads the impact of higher bits
+     * downward. There is a tradeoff between speed, utility, and
+     * quality of bit-spreading. Because many common sets of hashes
+     * are already reasonably distributed (so don&#39;t benefit from
+     * spreading), and because we use trees to handle large sets of
+     * collisions in bins, we just XOR some shifted bits in the
+     * cheapest possible way to reduce systematic lossage, as well as
+     * to incorporate impact of the highest bits that would otherwise
+     * never be used in index calculations because of table bounds.
+     */
+    static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
+    }</code></pre>
+<p>这里为什么要重新计算一次 hash 而不使用原来的？这个和 table 的 index 计算有关。</p>
+<pre><code class="java">n = table.length;
+index = （n-1） &amp; hash;</code></pre>
+<p>假设 table.length=2^4=16，经过计算会发现只有后 4 位参与了运算。</p>
+<p><img src="hash%E6%96%B9%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="hash方法.jpeg"></p>
+<p>因为数据表长度是 2 的幂，在没有高位参与运算的时候，特别在数据表较短的时候容易产生碰撞，方案考虑现在 hashcode 比较成熟，综合性能与效率，仅做一次高低位异或就可以减少大部分冲突。</p>
+<h2 id="resize"><a href="#resize" class="headerlink" title="resize"></a>resize</h2><p>在 putVal 之前先研究一下 resize 容量调整方法，在这个方法里不只是扩容这么简单，它主要做了：</p>
+<ul>
+<li>table 初始化</li>
+<li>扩容复制</li>
+<li>拆分链表、红黑树，提高查询效率</li>
+</ul>
+<pre><code class="java">/**
+     * Initializes or doubles table size.  If null, allocates in
+     * accord with initial capacity target held in field threshold.
+     * Otherwise, because we are using power-of-two expansion, the
+     * elements from each bin must either stay at same index, or move
+     * with a power of two offset in the new table.
+     *
+     * @return the table
+     */
+    final Node&lt;K,V&gt;[] resize() {
+        Node&lt;K,V&gt;[] oldTab = table;
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+        if (oldCap &gt; 0) {
+            //已经初始化过了
+            if (oldCap &gt;= MAXIMUM_CAPACITY) {
+                //防止越界
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            //1.扩大新容量为原来的两倍。为了实现右移一位就能乘以 2 的操作，所以容量要设置为 2 的幂。
+            //2.如果新容量小于最大容量，并且旧容量大于默认初始容量（16），更新新的阈值到原来两倍
+            else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+                     oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+                newThr = oldThr &lt;&lt; 1; // double threshold
+        }
+        else if (oldThr &gt; 0) // initial capacity was placed in threshold
+            // 只有 table初始化的时候才会进入这个分支，新容量跟构造时候算出来的阈值一样
+            newCap = oldThr;
+        else {               // zero initial threshold signifies using defaults
+            // 也是table初始化的时候，但是构造时候没有设置阈值，使用默认的容量和阈值。
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        if (newThr == 0) {
+            // 根据新容量更新新的阈值，上文构建方法的时候提到过
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;
+        //根据新容量创建新的 table 数组
+        Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+        table = newTab;
+        if (oldTab != null) {
+            //开始复制旧的数据到新数组上
+            //复制时候需要保证元素还在原来的 index 上，或者以 2 次幂偏量移动
+            for (int j = 0; j &lt; oldCap; ++j) {
+                Node&lt;K,V&gt; e;
+                if ((e = oldTab[j]) != null) {
+                    //释放旧 table 的引用
+                    oldTab[j] = null;
+                    if (e.next == null)
+                        // 如果是普通节点，直接计算 e 在新数组上的 index
+                        newTab[e.hash &amp; (newCap - 1)] = e;
+                    else if (e instanceof TreeNode)
+                        //拆分树节点或者取消树化，将子树或者节点分摊在新table对应的位置上
+                        //目的：容量大了就不需要这么高的树了，提高查询效率
+                        ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
+                    else { // preserve order
+                        // 这里做链表的拆分，链表拆成高低位 2 个。
+                        Node&lt;K,V&gt; loHead = null, loTail = null;
+                        Node&lt;K,V&gt; hiHead = null, hiTail = null;
+                        Node&lt;K,V&gt; next;
+                        do {
+                            next = e.next;
+                            if ((e.hash &amp; oldCap) == 0) {
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        if (loTail != null) {
+                            loTail.next = null;
+                            //低位链表在原来的位置
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                            // 高位链表增加 oldCap 偏移拆分到新的位置上
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }</code></pre>
+<h2 id="putVal"><a href="#putVal" class="headerlink" title="putVal"></a>putVal</h2><p>put 方法最终调用到 putVal 中，</p>
+<pre><code class="java">/**
+     * Implements Map.put and related methods
+     *
+     * @param hash hash for key
+     * @param key the key
+     * @param value the value to put
+     * @param onlyIfAbsent if true, don&#39;t change existing value
+     * @param evict if false, the table is in creation mode.
+     * @return previous value, or null if none
+     */
+    final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+        ...</code></pre>
+<p>table 是一个 Node&lt;K,V&gt;数组，如果是第一次 put 或者数据为空则先进行resize ，得到当前的容量 n 。</p>
+<pre><code class="java"> if ((p = tab[i = (n - 1) &amp; hash]) == null)
+            tab[i] = newNode(hash, key, value, null);</code></pre>
+<p>计算插入点 hash 在 table 对应的 index ，如果不存在（不冲突）则直接插入新的 Node。</p>
+<p>如果存在冲突，则有 4 种情况：</p>
+<ol>
+<li>key或者 hash 相同，直接更新；</li>
+<li>插入或更新红黑树；</li>
+<li>插入或更新链表；</li>
+<li>链表转红黑树；</li>
+</ol>
+<pre><code class="java"> Node&lt;K,V&gt; e; K k;
+ if (p.hash == hash &amp;&amp;
+     ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))
+     //1. hash 和 key 相同或者 key equal，后面直接更新值就可以
+     e = p;
+ else if (p instanceof TreeNode)
+    //2. 原来的节点已经是红黑树了，那么插入或更新红黑树
+     e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+ else {
+    //3. 尝试插入链表
+     for (int binCount = 0; ; ++binCount) {
+         if ((e = p.next) == null) {
+             p.next = newNode(hash, key, value, null);
+            // 4. 如果链表长度大于阈值TREEIFY_THRESHOLD（8），则把链表转成红黑树
+             if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                 treeifyBin(tab, hash);
+             break;
+         }
+         if (e.hash == hash &amp;&amp;
+             ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+            // 链表有相同的节点了，更新值就可以
+             break;
+         p = e;
+     }
+ }
+ if (e != null) { // existing mapping for key
+     V oldValue = e.value;
+     if (!onlyIfAbsent || oldValue == null)
+        // 更新新的数据
+         e.value = value;
+     afterNodeAccess(e);
+     return oldValue;
+ }</code></pre>
+<p>最后插入或更新完成后，根据阈值判断是否需要扩容。</p>
+<pre><code class="java">if (++size &gt; threshold)
+       resize();</code></pre>
+<h1 id="获取数据-——-get"><a href="#获取数据-——-get" class="headerlink" title="获取数据 —— get"></a>获取数据 —— get</h1><p>相对 put ，get 的流程就很简单了，无非就是计算 hash 直接去对应位置取，如果是链表或红黑树就进行查找。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>HashMap 的代码格式实在是一言难尽，可读性较差。</p>
+<p>看完之后对一些面试常见的问题也有了答案，例如</p>
+<blockquote>
+<p>构建 HashMap 传入容量 100 和加载因子 0.75 ，put 的时候放入 95 个数据，会触发扩容吗？</p>
+</blockquote>
+<p>答案是不会，因为在构建时 threshold 被计算为 128。首次put的时候，table 初始化的大小等于 threshold ，threshold 的值被更新为 128 * 0.75 = 96 ，所以 put 95 个数据不会触发扩容。</p>
+<p>todo：hash 冲突的算法。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://blog.csdn.net/fan2012huan/article/details/51097331" target="_blank" rel="noopener">HashMap源码注解 之 静态工具方法hash()、tableSizeFor()（四）</a></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+                    
+                      <a class="hover-with-bg" href="/tags/HashMap/">HashMap</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/25/%E5%B0%8F%E8%AE%B0Android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E5%92%8C%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C/">
+                        <span class="hidden-mobile">小记Android消息处理机制和同步屏障</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script defer>
+      var _mtac = {};
+      (function () {
+        var mta = document.createElement("script");
+        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500716418");
+        
+        mta.setAttribute("cid", "500716419");
+        
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1278771147&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "小记HashMap相关&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 35,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
