@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>Android系统启动之二-启动SystemServer</title>
+    <link href="/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/"/>
+    <url>/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>继上篇<a href="https://hoholidayx.github.io/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/">《Android系统启动之一-启动Zygote》</a>，本篇继续来看 SystemServer 进程做了什么事情。</p><p>Zygote 和 SystemServer 是 Android 系统最重要的两个进程，Zygote 负责创建新进程，而 SystemServer 负责创建应用所需要的服务，例如 ActivityManagerService。</p><p><img src="logo.jpeg" srcset="/img/loading.gif" alt="logo.jpeg"></p><h1 id="SystemServer-main"><a href="#SystemServer-main" class="headerlink" title="SystemServer.main"></a>SystemServer.main</h1><p>源码：<a href="https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:frameworks/base/services/java/com/android/server/SystemServer.java;l=349" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/SystemServer.java</a></p><p>main 方法没有什么内容，就是 new 了一个 SystemServer 类之后调用它的 run 方法。</p><pre><code class="java">/** * The main entry point from zygote. */public static void main(String[] args) {    new SystemServer().run();}</code></pre><h1 id="SystemServer-run"><a href="#SystemServer-run" class="headerlink" title="SystemServer.run"></a>SystemServer.run</h1><p>run 方法的主要工作：</p><ol><li><p>初始化自身和环境；</p></li><li><p>加载 android_server native 库；</p></li><li><p>创建 SystemContext 和 SystemServiceManager；</p></li><li><p>启动各类 Service；</p></li><li><p>Looper 当前线程，开始接收消息。</p></li></ol><pre><code class="java"> private void run() {     ... //取消 Java 虚拟机的内存限制， VMRuntime.getRuntime().clearGrowthLimit();   ... // Increase the number of binder threads in system_server BinderInternal.setMaxThreads(sMaxBinderThreads);   ...  // Prepare the main looper thread (this thread).  //准备 Looper  android.os.Process.setThreadPriority(          android.os.Process.THREAD_PRIORITY_FOREGROUND);  android.os.Process.setCanSelfBackground(false);  Looper.prepareMainLooper();  ...   //创建系统 context   createSystemContext();   // Create the system service manager.   mSystemServiceManager = new SystemServiceManager(mSystemContext);   mSystemServiceManager.setStartInfo(mRuntimeRestart,           mRuntimeStartElapsedTime, mRuntimeStartUptime);   LocalServices.addService(SystemServiceManager.class, mSystemServiceManager);   ...    // Start services.   //启动各项服务   startBootstrapServices();   startCoreServices();   startOtherServices();   ...   //开始 Looper   Looper.loop();}</code></pre><h2 id="createSystemContext"><a href="#createSystemContext" class="headerlink" title="createSystemContext"></a>createSystemContext</h2><p>关于如何创建系统 context 流程比较长，借用一图（来源：<a href="http://gityuan.com/" target="_blank" rel="noopener">gityuan</a>）来看比较清晰。</p><p><img src="SystemServer%E5%88%9B%E5%BB%BASystemContext%E6%B5%81%E7%A8%8B.webp" srcset="/img/loading.gif" alt="SystemServer创建SystemContext流程.webp"></p><h2 id="startBootstrapServices"><a href="#startBootstrapServices" class="headerlink" title="startBootstrapServices"></a>startBootstrapServices</h2><p>该函数负责启动一些关键性的系统服务，以便 Android 系统能开始第一步正常运行。例如安装服务、屏幕显示服务等。</p><pre><code class="java"> private void startBootstrapServices(){     //启动 WatchDog      final Watchdog watchdog = Watchdog.getInstance();      watchdog.start();        ...    //启动安装服务    Installer installer = mSystemServiceManager.startService(Installer.class);    ...    //启动亮屏服务    mSystemServiceManager.startService(LightsService.class);    ... }</code></pre><h2 id="startCoreServices"><a href="#startCoreServices" class="headerlink" title="startCoreServices"></a>startCoreServices</h2><p>这个函数启动一些重要的服务，但是不会影响到 Android 系统正常的启动。例如电池服务、用量统计服务等。</p><pre><code class="java">private void startCoreServices() {// 电池服务mSystemServiceManager.startService(BatteryService.class);...//用量统计服务mSystemServiceManager.startService(UsageStatsService.class);mActivityManagerService.setUsageStatsManager(        LocalServices.getService(UsageStatsManagerInternal.class));...//设备缓存服务mSystemServiceManager.startService(CachedDeviceStateService.class);}</code></pre><h2 id="startOtherServices"><a href="#startOtherServices" class="headerlink" title="startOtherServices"></a>startOtherServices</h2><p>启动其他服务，例如 WindowManagerService、InputManagerService 和 NetworkManagementService 等。</p><p>最后最重要的是 AMS 的 systemReady 方法，调用这个方法表示 SystemServer 已经准备好其他服务了，等待 AMS 做最后的状态准备，AMS 回调完成后表示 AMS 可以开始接受启动其他应用程序。</p><pre><code class="java">private void startOtherServices() {  ...  // We now tell the activity manager it is okay to run third party  // code.  It will call back into us once it has gotten to the state  // where third party code can really run (but before it has actually  // started launching the initial applications), for us to complete our  // initialization.  mActivityManagerService.systemReady(() -&gt; {      ...  })}</code></pre><h2 id="启动Looper"><a href="#启动Looper" class="headerlink" title="启动Looper"></a>启动Looper</h2><p>最后，Looper.loop() 进入等待状态，SystemServer 启动完成，等待其他线程发送消息再进行下一步动作。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Android</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Android</tag>
+      
+      <tag>Java</tag>
+      
+      <tag>源码</tag>
+      
+      <tag>SystemServer</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Android系统启动之一-启动Zygote</title>
     <link href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/"/>
     <url>/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/</url>
@@ -27,37 +58,6 @@
       <tag>源码</tag>
       
       <tag>Zygote</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Android系统启动之一-启动Zygote</title>
-    <link href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/"/>
-    <url>/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/</url>
-    
-    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>继上篇<a href="https://hoholidayx.github.io/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/">《Android系统启动之一-启动Zygote》</a>，本篇继续来看 SystemServer 进程做了什么事情。</p><p>Zygote 和 SystemServer 是 Android 系统最重要的两个进程，Zygote 负责创建新进程，而 SystemServer 负责创建应用所需要的服务，例如 ActivityManagerService。</p><p><img src="logo.jpeg" srcset="/img/loading.gif" alt="logo.jpeg"></p><h1 id="SystemServer-main"><a href="#SystemServer-main" class="headerlink" title="SystemServer.main"></a>SystemServer.main</h1><p>源码：<a href="https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:frameworks/base/services/java/com/android/server/SystemServer.java;l=349" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/SystemServer.java</a></p><p>main 方法没有什么内容，就是 new 了一个 SystemServer 类之后调用它的 run 方法。</p><pre><code class="java">/** * The main entry point from zygote. */public static void main(String[] args) {    new SystemServer().run();}</code></pre><h1 id="SystemServer-run"><a href="#SystemServer-run" class="headerlink" title="SystemServer.run"></a>SystemServer.run</h1><p>run 方法的主要工作：</p><ol><li><p>初始化自身和环境；</p></li><li><p>加载 android_server native 库；</p></li><li><p>创建 SystemContext 和 SystemServiceManager；</p></li><li><p>启动各类 Service；</p></li><li><p>Looper 当前线程，开始接收消息。</p></li></ol><pre><code class="java"> private void run() {     ... //取消 Java 虚拟机的内存限制， VMRuntime.getRuntime().clearGrowthLimit();   ... // Increase the number of binder threads in system_server BinderInternal.setMaxThreads(sMaxBinderThreads);   ...  // Prepare the main looper thread (this thread).  //准备 Looper  android.os.Process.setThreadPriority(          android.os.Process.THREAD_PRIORITY_FOREGROUND);  android.os.Process.setCanSelfBackground(false);  Looper.prepareMainLooper();  ...   //创建系统 context   createSystemContext();   // Create the system service manager.   mSystemServiceManager = new SystemServiceManager(mSystemContext);   mSystemServiceManager.setStartInfo(mRuntimeRestart,           mRuntimeStartElapsedTime, mRuntimeStartUptime);   LocalServices.addService(SystemServiceManager.class, mSystemServiceManager);   ...    // Start services.   //启动各项服务   startBootstrapServices();   startCoreServices();   startOtherServices();   ...   //开始 Looper   Looper.loop();}</code></pre><h2 id="createSystemContext"><a href="#createSystemContext" class="headerlink" title="createSystemContext"></a>createSystemContext</h2><p>关于如何创建系统 context 流程比较长，借用一图（来源：<a href="http://gityuan.com/" target="_blank" rel="noopener">gityuan</a>）来看比较清晰。</p><p><img src="SystemServer%E5%88%9B%E5%BB%BASystemContext%E6%B5%81%E7%A8%8B.webp" srcset="/img/loading.gif" alt="SystemServer创建SystemContext流程.webp"></p><h2 id="startBootstrapServices"><a href="#startBootstrapServices" class="headerlink" title="startBootstrapServices"></a>startBootstrapServices</h2><p>该函数负责启动一些关键性的系统服务，以便 Android 系统能开始第一步正常运行。例如安装服务、屏幕显示服务等。</p><pre><code class="java"> private void startBootstrapServices(){     //启动 WatchDog      final Watchdog watchdog = Watchdog.getInstance();      watchdog.start();        ...    //启动安装服务    Installer installer = mSystemServiceManager.startService(Installer.class);    ...    //启动亮屏服务    mSystemServiceManager.startService(LightsService.class);    ... }</code></pre><h2 id="startCoreServices"><a href="#startCoreServices" class="headerlink" title="startCoreServices"></a>startCoreServices</h2><p>这个函数启动一些重要的服务，但是不会影响到 Android 系统正常的启动。例如电池服务、用量统计服务等。</p><pre><code class="java">private void startCoreServices() {// 电池服务mSystemServiceManager.startService(BatteryService.class);...//用量统计服务mSystemServiceManager.startService(UsageStatsService.class);mActivityManagerService.setUsageStatsManager(        LocalServices.getService(UsageStatsManagerInternal.class));...//设备缓存服务mSystemServiceManager.startService(CachedDeviceStateService.class);}</code></pre><h2 id="startOtherServices"><a href="#startOtherServices" class="headerlink" title="startOtherServices"></a>startOtherServices</h2><p>启动其他服务，例如 WindowManagerService、InputManagerService 和 NetworkManagementService 等。</p><p>最后最重要的是 AMS 的 systemReady 方法，调用这个方法表示 SystemServer 已经准备好其他服务了，等待 AMS 做最后的状态准备，AMS 回调完成后表示 AMS 可以开始接受启动其他应用程序。</p><pre><code class="java">private void startOtherServices() {  ...  // We now tell the activity manager it is okay to run third party  // code.  It will call back into us once it has gotten to the state  // where third party code can really run (but before it has actually  // started launching the initial applications), for us to complete our  // initialization.  mActivityManagerService.systemReady(() -&gt; {      ...  })}</code></pre><h2 id="启动Looper"><a href="#启动Looper" class="headerlink" title="启动Looper"></a>启动Looper</h2><p>最后，Looper.loop() 进入等待状态，SystemServer 启动完成，等待其他线程发送消息再进行下一步动作。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>Android</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>Android</tag>
-      
-      <tag>Java</tag>
-      
-      <tag>源码</tag>
-      
-      <tag>SystemServer</tag>
       
     </tags>
     
