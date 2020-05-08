@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="hoholiday">
   <meta name="keywords" content="">
-  <title>标签 - Java - hohliday&#39;s blog</title>
+  <title>hohliday&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
@@ -42,7 +42,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -128,6 +128,10 @@
           </div>
 
           
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
         </div>
       </div>
     </div>
@@ -137,54 +141,145 @@
     
       <div class="container nopadding-md">
         <div class="py-5" id="board"
-          >
+          style=margin-top:0>
           
           <div class="container">
             <div class="row">
               <div class="col-12 col-md-10 m-auto">
                 
 
-<div class="list-group">
-<!--  <p class="h4">共计 5 篇文章</p>-->
-  <hr>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/" target="_blank">
+          <img src="https://hoholidayx.github.io/2019/10/22/%e5%b0%8f%e8%ae%b0Java%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6%2f%e5%8f%af%e5%9b%9e%e6%94%b6%e5%9e%83%e5%9c%be.jpg" srcset="/img/loading.gif" alt="小记Java内存回收">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/">小记Java内存回收</a>
+
+      <a href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Java GC（Garbage Collection，GC），就是释放垃圾占用的内存空间，防止内存泄露。
+
+判断对象是否可以回收判断内存对象是否能被回收主要有两种方法：
+
+引用计数法（Reachability Counting）
+可达性分析算法（Reachability Analysis）
+
+引用计数法引用计数法是最简单的，在分配对象的时候，记录该对象当前的被引用次数 RC ，当有其他对象引用该对</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-10-22
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+              <a href="/categories/Java/">Java</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a>
+            
+              <a href="/tags/%E5%86%85%E5%AD%98/">内存</a>
+            
+              <a href="/tags/JVM/">JVM</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_blank">
+          <img src="https://hoholidayx.github.io/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/Lua%E6%A0%88%E6%A8%A1%E5%9E%8B.png" srcset="/img/loading.gif" alt="LuaJava在Java、Android中的使用">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">LuaJava在Java、Android中的使用</a>
+
+      <a href="/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最近公司在做一个项目，需要用Lua语言编写的脚本来动态控制安卓app的行为。  
+项目涉及到Lua、LuaJava框架和安卓native开发等知识点。本文主要介绍Lua和Java语言之间是怎么相互调用的，并记录一些开发过程中碰到的问题。
+Lua一些概念
+Lua是一门扩展式程序设计语言，被设计成支持通用过程式编程，并有相关数据描述设施。同时对面向对象编程、函数式编程和数据驱动式编程也提供了良好的支持</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2017-10-08
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/LUA/">LUA</a>
+            
+              <a href="/tags/JAVA/">JAVA</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </span>
+  </nav>
   
-    
-      
-      <p class="h5">2020</p>
-    
-    <a href="/2020/05/03/Android10%E5%90%AF%E5%8A%A8Activity%E6%B5%81%E7%A8%8B/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Android10启动Activity流程</span>
-      <span style="float: right;">05-03</span>
-    </a>
-  
-    
-    <a href="/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Android系统启动之二-启动SystemServer</span>
-      <span style="float: right;">04-29</span>
-    </a>
-  
-    
-    <a href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Android系统启动之一-启动Zygote</span>
-      <span style="float: right;">04-28</span>
-    </a>
-  
-    
-    <a href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">小记HashMap相关</span>
-      <span style="float: right;">04-26</span>
-    </a>
-  
-    
-      
-      <p class="h5">2019</p>
-    
-    <a href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">小记Java内存回收</span>
-      <span style="float: right;">10-22</span>
-    </a>
-  
-</div>
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
 
 
 
@@ -313,7 +408,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签 - Java&nbsp;",
+        "Keep thinking&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 35,

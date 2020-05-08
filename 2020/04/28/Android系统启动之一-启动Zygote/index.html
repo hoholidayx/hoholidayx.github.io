@@ -256,7 +256,7 @@ on zygote-start &amp;&amp; property:ro.crypto.state=unencrypted
       // 作为 zygote 进程启动的，走这个分支
       runtime.start(&quot;com.android.internal.os.ZygoteInit&quot;, args, zygote);
   } else if (className) {
-// fork出来的其他进程走这里
+// 非 zygote 模式启动
       runtime.start(&quot;com.android.internal.os.RuntimeInit&quot;, args, zygote);
   } else {
       ...

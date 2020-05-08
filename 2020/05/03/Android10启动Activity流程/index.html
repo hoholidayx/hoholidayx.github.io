@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="hoholiday">
   <meta name="keywords" content="">
-  <title>标签 - Java - hohliday&#39;s blog</title>
+  <title>Android10启动Activity流程 - hohliday&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
@@ -42,7 +42,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -125,6 +125,38 @@
             </span>
 
             
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2020-05-03 14:13">
+                    星期日, 五月 3日 2020, 2:13 下午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    345 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    3
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
           </div>
 
           
@@ -135,64 +167,117 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>从 Android2.3 到 Android10 ，Activity 的启动的基本流程并没有什么大变化，只是多了更多的封装、优化和新功能。</p>
+<h1 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h1><p><img src="%E5%9F%BA%E4%BA%8EAndroid10Activity%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.png" srcset="/img/loading.gif" alt="基于Android10Activity的启动流程.png"></p>
+<h1 id="关键类"><a href="#关键类" class="headerlink" title="关键类"></a>关键类</h1><ul>
+<li>ActivityThread  应用的主线程入口；</li>
+<li>ActivityManagerService(AMS)  负责管理 activity、task 和 process，管理主入口；</li>
+<li>ActivityStarter  负责 Activity 的启动模式，启动Flag相关处理；</li>
+<li>ActivityStack  负责 Activity 栈和对应状态，并启动对应生命周期；</li>
+<li>ActivityStackSupervisor  与ActivityStack类似，与 WindowManagerService 有交互；</li>
+<li>ClientTransactionItem  执行具体activity生命周期的抽象类，子类  LaunchActivityItem 等</li>
+<li>ClientTransaction  处理相关的信息和生命周期状态</li>
+<li>TransactionExecutor 主要作用是执行ClientTransaction</li>
+<li>ClientLifecycleManager 生命周期的管理调用</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li><p>通过 ContextImpl 或者 shell am start 等入口，向 AMS 发送启动 Activity 请求；</p>
+</li>
+<li><p>AMS 启动工作的前半部分工作，一是根据启动模式和启动标志，找到或创建 ActivityRecord 以及对应的 TaskRecord；二是暂停当前显示的 Activity（onPause），然后处理 新 Activity 启动流程和应用的切换工作；</p>
+</li>
+<li><p>AMS 后半部分工作，通知 zygote 创建并初始化新目标进程（新启动 app 的情况），目标进程 ActivityThread 初始化后通知 AMS 绑定当前进程 ProcessRecord到 ActivityRecord 和 TaskRecord，AMS 调用 realStartActivity 真正启动 Activity（走生命周期） ;</p>
+</li>
+<li><p>目标进程新 Activity 启动完成，在 IdleHandler 发送通知给 AMS，AMS 负责停止之前的 Activity（onStop）</p>
+</li>
+</ol>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
                 
-
-<div class="list-group">
-<!--  <p class="h4">共计 5 篇文章</p>-->
-  <hr>
-  
-    
-      
-      <p class="h5">2020</p>
-    
-    <a href="/2020/05/03/Android10%E5%90%AF%E5%8A%A8Activity%E6%B5%81%E7%A8%8B/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Android10启动Activity流程</span>
-      <span style="float: right;">05-03</span>
-    </a>
-  
-    
-    <a href="/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Android系统启动之二-启动SystemServer</span>
-      <span style="float: right;">04-29</span>
-    </a>
-  
-    
-    <a href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Android系统启动之一-启动Zygote</span>
-      <span style="float: right;">04-28</span>
-    </a>
-  
-    
-    <a href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">小记HashMap相关</span>
-      <span style="float: right;">04-26</span>
-    </a>
-  
-    
-      
-      <p class="h5">2019</p>
-    
-    <a href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">小记Java内存回收</span>
-      <span style="float: right;">10-22</span>
-    </a>
-  
-</div>
-
-
-
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Activity/">Activity</a>
+                    
+                  </div>
+                
               </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/08/%E6%B5%85%E6%9E%90Android%20SparseArray/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">浅析Android SparseArray</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/">
+                        <span class="hidden-mobile">Android系统启动之二-启动SystemServer</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
             </div>
+
+            
           </div>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
   </main>
 
@@ -259,6 +344,34 @@
 
 
 
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
 
 
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
@@ -306,6 +419,20 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
 
 
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
@@ -313,7 +440,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签 - Java&nbsp;",
+        "Android10启动Activity流程&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 35,
@@ -356,6 +483,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 

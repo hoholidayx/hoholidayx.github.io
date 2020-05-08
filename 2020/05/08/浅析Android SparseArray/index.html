@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="hoholiday">
   <meta name="keywords" content="">
-  <title>Android系统启动之二-启动SystemServer - hohliday&#39;s blog</title>
+  <title>浅析Android SparseArray - hohliday&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
@@ -128,8 +128,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-04-29 15:55">
-                    星期三, 四月 29日 2020, 3:55 下午
+                  <time datetime="2020-05-08 15:56">
+                    星期五, 五月 8日 2020, 3:56 下午
                   </time>
                 </div>
               
@@ -139,7 +139,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    620 字
+                    790 字
                   </span>
                 
 
@@ -149,7 +149,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    8
+                    10
                      分钟
                   </span>
                 
@@ -178,107 +178,130 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>继上篇<a href="https://hoholidayx.github.io/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/">《Android系统启动之一-启动Zygote》</a>，本篇继续来看 SystemServer 进程做了什么事情。</p>
-<p>Zygote 和 SystemServer 是 Android 系统最重要的两个进程，Zygote 负责创建新进程，而 SystemServer 负责创建应用所需要的服务，例如 ActivityManagerService。</p>
-<p><img src="logo.jpeg" srcset="/img/loading.gif" alt="logo.jpeg"></p>
-<h1 id="SystemServer-main"><a href="#SystemServer-main" class="headerlink" title="SystemServer.main"></a>SystemServer.main</h1><p>源码：<a href="https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:frameworks/base/services/java/com/android/server/SystemServer.java;l=349" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/SystemServer.java</a></p>
-<p>main 方法没有什么内容，就是 new 了一个 SystemServer 类之后调用它的 run 方法。</p>
-<pre><code class="java">/**
- * The main entry point from zygote.
- */
-public static void main(String[] args) {
-    new SystemServer().run();
+              <h1 id="SparseArray"><a href="#SparseArray" class="headerlink" title="SparseArray"></a>SparseArray</h1><ul>
+<li><a href="https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:frameworks/base/core/java/android/util/SparseArray.java" target="_blank" rel="noopener">源码路径：frameworks/base/core/java/android/util/SparseArray.java</a></li>
+</ul>
+<p>SparseArray 可以替代 HashMap&lt;Integer,Object&gt; 使用，在数据量不大的情况下，虽然查询效率达不到 O(1)，但 SparseArray 能节约更多内存，在移动端上更加适用。</p>
+<p>简单来说 HashMap 的实现是用空间换时间，而 SparseArray 是用时间换空间。</p>
+<p>SparseArray 主要技术点：</p>
+<ul>
+<li><p>使用原始 int 作为 key，避免自动装箱</p>
+</li>
+<li><p>使用二分查找定位 key</p>
+</li>
+<li><p>延迟删除、复用 delete 项</p>
+</li>
+</ul>
+<h1 id="主要成员变量"><a href="#主要成员变量" class="headerlink" title="主要成员变量"></a>主要成员变量</h1><pre><code class="java">public class SparseArray&lt;E&gt; implements Cloneable {
+    private static final Object DELETED = new Object();
+    private boolean mGarbage = false; //标记是否存在待回收的键值对
+
+    private int[] mKeys;
+    private Object[] mValues;
+    private int mSize;
 }</code></pre>
-<h1 id="SystemServer-run"><a href="#SystemServer-run" class="headerlink" title="SystemServer.run"></a>SystemServer.run</h1><p>run 方法的主要工作：</p>
+<p><img src="SparseArray.jpg" srcset="/img/loading.gif" alt="SparseArray.jpg"></p>
+<p>从结构上看比 HashMap 简单了很多，占用的内存也更少了。</p>
+<h1 id="gc"><a href="#gc" class="headerlink" title="gc"></a>gc</h1><p>先看一下比较有特色的 GC 流程，SparseArray 的 GC 用的是”<a href="https://hoholidayx.github.io/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E6%B3%95">标记整理</a>“算法。</p>
+<pre><code class="java"> private void gc() {
+        int n = mSize;
+        int o = 0;
+        int[] keys = mKeys;
+        Object[] values = mValues;
+        for (int i = 0; i &lt; n; i++) {
+            Object val = values[i];
+            if (val != DELETED) {
+            // 将存活的 item 移动到小端
+                if (i != o) {
+                    keys[o] = keys[i];
+                    values[o] = val;
+                    values[i] = null;
+                }
+                o++;
+            }
+        }
+        mGarbage = false;
+        mSize = o;
+    }</code></pre>
+<h1 id="put"><a href="#put" class="headerlink" title="put"></a>put</h1><p>在看 put 之前补一下按位取反的知识，就比较好理解代码为什么这么处理了。</p>
+<blockquote>
+<p>所有正整数的按位取反是其本身+1的负数，所有负整数的按位取反是其本身+1的绝对值，零的按位取反是 -1</p>
+</blockquote>
+<p>put 方法流程：</p>
 <ol>
-<li><p>初始化自身和环境；</p>
+<li><p>二分查找 key，找到返回正数，否则返回左指针的负值（ ~ 按位取反后就是要插入的位置）；</p>
 </li>
-<li><p>加载 android_server native 库；</p>
+<li><p>如果存在则更新数值，返回；</p>
 </li>
-<li><p>创建 SystemContext 和 SystemServiceManager；</p>
+<li><p>如果对应位置被标记为 DELETED ，复用，返回；</p>
 </li>
-<li><p>启动各类 Service；</p>
+<li><p>如需要 GC ，GC 后重新查找插入位置；</p>
 </li>
-<li><p>Looper 当前线程，开始接收消息。</p>
+<li><p>插入数据，如果 mSize 不够则乘 2 扩容复制；</p>
 </li>
 </ol>
-<pre><code class="java"> private void run() {
-     ...
- //取消 Java 虚拟机的内存限制，
- VMRuntime.getRuntime().clearGrowthLimit();
-   ...
- // Increase the number of binder threads in system_server
- BinderInternal.setMaxThreads(sMaxBinderThreads);
-   ...
-  // Prepare the main looper thread (this thread).
-  //准备 Looper
-  android.os.Process.setThreadPriority(
-          android.os.Process.THREAD_PRIORITY_FOREGROUND);
-  android.os.Process.setCanSelfBackground(false);
-  Looper.prepareMainLooper();
-  ...
-   //创建系统 context
-   createSystemContext();
+<pre><code class="java">   public void put(int key, E value) {
+        int i = ContainerHelpers.binarySearch(mKeys, mSize, key);
 
-   // Create the system service manager.
-   mSystemServiceManager = new SystemServiceManager(mSystemContext);
-   mSystemServiceManager.setStartInfo(mRuntimeRestart,
-           mRuntimeStartElapsedTime, mRuntimeStartUptime);
-   LocalServices.addService(SystemServiceManager.class, mSystemServiceManager);
-   ...
+        if (i &gt;= 0) {
+            mValues[i] = value;
+        } else {
+            i = ~i;
 
-    // Start services.
-   //启动各项服务
-   startBootstrapServices();
-   startCoreServices();
-   startOtherServices();
-   ...
-   //开始 Looper
-   Looper.loop();
-}</code></pre>
-<h2 id="createSystemContext"><a href="#createSystemContext" class="headerlink" title="createSystemContext"></a>createSystemContext</h2><p>关于如何创建系统 context 流程比较长，借用一图（来源：<a href="http://gityuan.com/" target="_blank" rel="noopener">gityuan</a>）来看比较清晰。</p>
-<p><img src="SystemServer%E5%88%9B%E5%BB%BASystemContext%E6%B5%81%E7%A8%8B.webp" srcset="/img/loading.gif" alt="SystemServer创建SystemContext流程.webp"></p>
-<h2 id="startBootstrapServices"><a href="#startBootstrapServices" class="headerlink" title="startBootstrapServices"></a>startBootstrapServices</h2><p>该函数负责启动一些关键性的系统服务，以便 Android 系统能开始第一步正常运行。例如安装服务、屏幕显示服务等。</p>
-<pre><code class="java"> private void startBootstrapServices(){
-     //启动 WatchDog
-      final Watchdog watchdog = Watchdog.getInstance();
-      watchdog.start();
-        ...
-    //启动安装服务
-    Installer installer = mSystemServiceManager.startService(Installer.class);
-    ...
-    //启动亮屏服务
-    mSystemServiceManager.startService(LightsService.class);
-    ...
- }</code></pre>
-<h2 id="startCoreServices"><a href="#startCoreServices" class="headerlink" title="startCoreServices"></a>startCoreServices</h2><p>这个函数启动一些重要的服务，但是不会影响到 Android 系统正常的启动。例如电池服务、用量统计服务等。</p>
-<pre><code class="java">private void startCoreServices() {
-// 电池服务
-mSystemServiceManager.startService(BatteryService.class);
-...
-//用量统计服务
-mSystemServiceManager.startService(UsageStatsService.class);
-mActivityManagerService.setUsageStatsManager(
-        LocalServices.getService(UsageStatsManagerInternal.class));
-...
-//设备缓存服务
-mSystemServiceManager.startService(CachedDeviceStateService.class);
-}
-</code></pre>
-<h2 id="startOtherServices"><a href="#startOtherServices" class="headerlink" title="startOtherServices"></a>startOtherServices</h2><p>启动其他服务，例如 WindowManagerService、InputManagerService 和 NetworkManagementService 等。</p>
-<p>最后最重要的是 AMS 的 systemReady 方法，调用这个方法表示 SystemServer 已经准备好其他服务了，等待 AMS 做最后的状态准备，AMS 回调完成后表示 AMS 可以开始接受启动其他应用程序。</p>
-<pre><code class="java">private void startOtherServices() {
-  ...
-  // We now tell the activity manager it is okay to run third party
-  // code.  It will call back into us once it has gotten to the state
-  // where third party code can really run (but before it has actually
-  // started launching the initial applications), for us to complete our
-  // initialization.
-  mActivityManagerService.systemReady(() -&gt; {
-      ...
-  })
-}</code></pre>
-<h2 id="启动Looper"><a href="#启动Looper" class="headerlink" title="启动Looper"></a>启动Looper</h2><p>最后，Looper.loop() 进入等待状态，SystemServer 启动完成，等待其他线程发送消息再进行下一步动作。</p>
+            if (i &lt; mSize &amp;&amp; mValues[i] == DELETED) {
+                mKeys[i] = key;
+                mValues[i] = value;
+                return;
+            }
+
+            if (mGarbage &amp;&amp; mSize &gt;= mKeys.length) {
+                gc();
+
+                // Search again because indices may have changed.
+                i = ~ContainerHelpers.binarySearch(mKeys, mSize, key);
+            }
+
+            mKeys = GrowingArrayUtils.insert(mKeys, mSize, i, key);
+            mValues = GrowingArrayUtils.insert(mValues, mSize, i, value);
+            mSize++;
+        }
+    }</code></pre>
+<h1 id="insert-与扩容"><a href="#insert-与扩容" class="headerlink" title="insert 与扩容"></a>insert 与扩容</h1><p>数组的插入和扩容的具体实现在 GrowingArrayUtils 里，</p>
+<p>当前容量足够，腾出位置直接插入；</p>
+<pre><code class="java">   if (currentSize + 1 &lt;= array.length) {
+       //将 index 之后的数据往后移动
+       System.arraycopy(array, index, array, index + 1, currentSize - index);
+       array[index] = element;
+       return array;
+   }</code></pre>
+<p>容量不够，先乘以 2 扩容后再腾出位置直接插入；</p>
+<pre><code class="java">   // growSize 乘 2
+   T[] newArray = ArrayUtils.newUnpaddedArray((Class&lt;T&gt;)array.getClass().getComponentType(), growSize(currentSize));
+   // 复制数据到新扩容的数组上
+   System.arraycopy(array, 0, newArray, 0, index);
+   newArray[index] = element;
+   //将 index 之后的数据往后移动
+   System.arraycopy(array, index, newArray, index + 1, array.length - index);
+   return newArray;</code></pre>
+<h1 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h1><p>删除的方法比较简单，找到对应 key 的 index，标记为 DELETED 状态，设置垃圾回收状态。</p>
+<pre><code class="java"> public void delete(int key) {
+        int i = ContainerHelpers.binarySearch(mKeys, mSize, key);
+
+        if (i &gt;= 0) {
+            if (mValues[i] != DELETED) {
+                mValues[i] = DELETED;
+                mGarbage = true;
+            }
+        }
+    }</code></pre>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>SparseArray 的代码实现比较简单，延迟删除复用的特点使其适合于<strong>数据量小、重复使用、快速读写的场景</strong>。</p>
+<p>缺点：</p>
+<ul>
+<li><p>性能受限于二分查找</p>
+</li>
+<li><p>数组占用连续内存空间；</p>
+</li>
+</ul>
 
             </article>
             <hr>
@@ -298,11 +321,7 @@ mSystemServiceManager.startService(CachedDeviceStateService.class);
                     
                       <a class="hover-with-bg" href="/tags/Android/">Android</a>
                     
-                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
-                    
                       <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
-                    
-                      <a class="hover-with-bg" href="/tags/SystemServer/">SystemServer</a>
                     
                   </div>
                 
@@ -315,18 +334,12 @@ mSystemServiceManager.startService(CachedDeviceStateService.class);
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/03/Android10%E5%90%AF%E5%8A%A8Activity%E6%B5%81%E7%A8%8B/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Android10启动Activity流程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/">
-                        <span class="hidden-mobile">Android系统启动之一-启动Zygote</span>
+                      <a href="/2020/05/03/Android10%E5%90%AF%E5%8A%A8Activity%E6%B5%81%E7%A8%8B/">
+                        <span class="hidden-mobile">Android10启动Activity流程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -518,7 +531,7 @@ mSystemServiceManager.startService(CachedDeviceStateService.class);
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Android系统启动之二-启动SystemServer&nbsp;",
+        "浅析Android SparseArray&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 35,
