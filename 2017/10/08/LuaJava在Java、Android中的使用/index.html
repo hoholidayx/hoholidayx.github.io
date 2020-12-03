@@ -1,13 +1,13 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -19,18 +19,33 @@
   <meta name="keywords" content="">
   <title>LuaJava在Java、Android中的使用 - hohliday&#39;s blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_9n5xqdrq0nc.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-  <link  rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css" />
-
-
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -38,6 +53,12 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -61,52 +82,73 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -114,48 +156,53 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="LuaJava在Java、Android中的使用">
               
             </span>
 
             
-              
-                <div class="mt-3 post-meta">
-                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2017-10-08 17:26">
-                    星期日, 十月 8日 2017, 5:26 下午
-                  </time>
-                </div>
-              
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2017-10-08 17:26" pubdate>
+        2017年10月8日 下午
+      </time>
+    </span>
+  
+</div>
 
-              <div class="mt-1">
-                
-                  
-                  <span class="post-meta mr-2">
-                    <i class="iconfont icon-chart"></i>
-                    3.4k 字
-                  </span>
-                
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
 
-                
-                  
-                  <span class="post-meta mr-2">
-                      <i class="iconfont icon-clock-fill"></i>
-                    
-                    
-                    38
-                     分钟
-                  </span>
-                
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      38
+       分钟
+    </span>
+  
 
-                
-              </div>
+  
+  
+</div>
+
             
           </div>
 
@@ -175,9 +222,11 @@
     <div class="col-lg-8 nopadding-md">
       <div class="container nopadding-md" id="board-ctn">
         <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">LuaJava在Java、Android中的使用</h1>
             
-            <article class="markdown-body">
+            <div class="markdown-body">
               <p>最近公司在做一个项目，需要用Lua语言编写的脚本来动态控制安卓app的行为。  </p>
 <p>项目涉及到Lua、LuaJava框架和安卓native开发等知识点。本文主要介绍Lua和Java语言之间是怎么相互调用的，并记录一些开发过程中碰到的问题。</p>
 <h2 id="Lua一些概念"><a href="#Lua一些概念" class="headerlink" title="Lua一些概念"></a>Lua一些概念</h2><blockquote>
@@ -191,66 +240,47 @@
 <p>这里重点记录一下Lua的栈，方便后面进行描述。</p>
 <p>Lua虚拟机与C/C++之间的数据交换基本都是通过Lua构建虚拟<a href="https://cloudwu.github.io/lua53doc/manual.html#4.1" target="_blank" rel="noopener"><strong>栈</strong></a>来交互的，无论何时Lua调用 C，被调用的函数都得到一个新的栈， 这个栈独立于C函数本身的栈，也独立于之前的 Lua 栈。它里面包含了Lua传递给C函数的所有参数，而C函数则把要返回的结果放入这个栈以返回给调用者这里。</p>
 <html>
-<img src="Lua栈模型.png" srcset="/img/loading.gif" alt="Lua栈模型"/>
+<img src="Lua栈模型.png" alt="Lua栈模型"/>
 </html>
 
 
 <p>如图Lua的栈的访问索引分为正索引和负索引。正的索引指的是栈上的绝对位置（从1开始）；负的索引则指从栈顶开始的偏移量。展开来说，如果堆栈有 n 个元素，那么索引 1 表示第一个元素（也就是最先被压栈的元素）而索引 n 则指最后一个元素；索引 -1 也是指最后一个元素（即栈顶的元素），索引 -n 是指第一个元素。</p>
 <h2 id="用自定义C函数拓展Lua虚拟机"><a href="#用自定义C函数拓展Lua虚拟机" class="headerlink" title="用自定义C函数拓展Lua虚拟机"></a>用自定义C函数拓展Lua虚拟机</h2><p>自定义的C函数必须得符合Lua定义的方法签名：</p>
-<pre><code>typedef int (*lua_CFunction) (lua_State *L)
-</code></pre><p>例如：</p>
-<pre><code>int foo (lua_State *L) {
-    ...
-    // func body
-    ...
-};</code></pre><p>Lua虚拟机调用函数时，C函数通过Lua中的栈来接受参数，参数以正序入栈（第一个参数首先入栈），当需要向Lua返回值的时候，C函数只需要把它们以正序压到堆栈上（第一个返回值最先压入），然后返回这些返回值的个数。  </p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elm">typedef int (*lua_CFunction) (lua_State *<span class="hljs-type">L</span>)<br></code></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">foo</span> <span class="hljs-params">(lua_State *L)</span> </span>&#123;<br>    ...<br>    <span class="hljs-comment">// func body</span><br>    ...<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>Lua虚拟机调用函数时，C函数通过Lua中的栈来接受参数，参数以正序入栈（第一个参数首先入栈），当需要向Lua返回值的时候，C函数只需要把它们以正序压到堆栈上（第一个返回值最先压入），然后返回这些返回值的个数。  </p>
 <p>这么说还比较抽象还是具体举例子来说明，下面假设实现一个函数需要能够同时计算输入参数的平均值与和，然后将两个值返回给Lua层。</p>
-<pre><code> int foo (lua_State *L) {
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">int</span> foo (lua_State *L) &#123;<br><br>      <span class="hljs-keyword">int</span> n = lua_gettop(L);    <span class="hljs-comment">/* 得到参数参数的个数 */</span><br>      lua_Number <span class="hljs-keyword">sum</span> = <span class="hljs-number">0.0</span>;<br>      <span class="hljs-keyword">int</span> i;<br>      <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>            <span class="hljs-keyword">sum</span> += lua_tonumber(L, i);<br>      &#125;<br>      lua_pushnumber(L, <span class="hljs-keyword">sum</span>/n);        <span class="hljs-comment">/* 第一个返回值 */</span><br>      lua_pushnumber(L, <span class="hljs-keyword">sum</span>);         <span class="hljs-comment">/* 第二个返回值 */</span><br>      <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;                   <span class="hljs-comment">/* 返回值的个数 */</span><br>    &#125;<br></code></pre></td></tr></table></figure>
 
-       int n = lua_gettop(L);    /* 得到参数参数的个数 */
-       lua_Number sum = 0.0;
-       int i;
-       for (i = 1; i &lt;= n; i++) {
-             sum += lua_tonumber(L, i);
-       }
-       lua_pushnumber(L, sum/n);        /* 第一个返回值 */
-       lua_pushnumber(L, sum);         /* 第二个返回值 */
-       return 2;                   /* 返回值的个数 */
-     }
-</code></pre><p>其中</p>
-<pre><code>int n = lua_gettop(L);    /* 得到参数参数的个数 */</code></pre><p>lua_gettop()函数可以得到栈顶元素的索引。因为索引是从1开始编号的,所以这个结果等于栈上的元素个数。特别指出，0表示栈为空。当然这里也可以调用</p>
+<p>其中</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-built_in">int</span> n = lua<span class="hljs-constructor">_gettop(L)</span>;    <span class="hljs-comment">/* 得到参数参数的个数 */</span><br></code></pre></td></tr></table></figure>
+
+
+<p>lua_gettop()函数可以得到栈顶元素的索引。因为索引是从1开始编号的,所以这个结果等于栈上的元素个数。特别指出，0表示栈为空。当然这里也可以调用</p>
 <blockquote>
 <p>lua_Number lua_tonumberx (lua_State <em>L, int index, int</em>isnum); 把给定索引处的 Lua 值转换为 lua_Number 这样一个 C 类型</p>
 </blockquote>
 <p>来直接得到指定索引的值。  </p>
 <p>定义好c函数后，需要将其注册到Lua的虚拟机中才能被调用。</p>
-<pre><code>lua_State *L = luaL_newstate();
-luaL_openlibs(L); //初始化一些自己的东西
- // 传入任意的函数名和函数的指针作为参数
-lua_register(L, “foo&quot;, foo);
- // 加载运行Lua脚本
-luaL_dofile(L,&quot;test.lua&quot;);
-</code></pre><p>这里lua_register是一个宏定义，</p>
-<pre><code>#define lua_register(L,n,f) \
-            (lua_pushcfunction(L, f), lua_setglobal(L, n))
-</code></pre><p>它的作用把 C 函数 f 设到全局变量 name 中，这样Lua就可以访问这个变量<a href="https://cloudwu.github.io/lua53doc/manual.html#2.4" target="_blank" rel="noopener"><strong>元表</strong></a>对应的call方法作为函数来调用。  </p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs 1c">lua_State *L = luaL_newstate();<br>luaL_openlibs(L); <span class="hljs-comment">//初始化一些自己的东西</span><br> <span class="hljs-comment">// 传入任意的函数名和函数的指针作为参数</span><br>lua_register(L, “foo<span class="hljs-string">", foo);</span><br> <span class="hljs-comment">// 加载运行Lua脚本</span><br>luaL_dofile(L,<span class="hljs-string">"test.lua"</span>);<br></code></pre></td></tr></table></figure>
+
+<p>这里lua_register是一个宏定义，</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">#define lua<span class="hljs-constructor">_register(L,<span class="hljs-params">n</span>,<span class="hljs-params">f</span>)</span> \<br>            (lua<span class="hljs-constructor">_pushcfunction(L, <span class="hljs-params">f</span>)</span>, lua<span class="hljs-constructor">_setglobal(L, <span class="hljs-params">n</span>)</span>)<br></code></pre></td></tr></table></figure>
+
+<p>它的作用把 C 函数 f 设到全局变量 name 中，这样Lua就可以访问这个变量<a href="https://cloudwu.github.io/lua53doc/manual.html#2.4" target="_blank" rel="noopener"><strong>元表</strong></a>对应的call方法作为函数来调用。  </p>
 <p>最后来写个测试demo来测试一下我们的自定义函数：</p>
 <p><strong>test.lua:</strong></p>
-<pre><code>function test()
-    ret1, ret2 = foo(1,2,3,4)
-    print ret1
-    print ret2
-end
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span><br>    ret1, ret2 = foo(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>)<br>    <span class="hljs-built_in">print</span> ret1<br>    <span class="hljs-built_in">print</span> ret2<br><span class="hljs-keyword">end</span><br><br>test()<br></code></pre></td></tr></table></figure>
+<p><strong>得到的结果为</strong>：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">&gt; <span class="hljs-number">2.5</span><br>&gt; <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
 
-test()
-</code></pre><p><strong>得到的结果为</strong>：</p>
-<pre><code>&gt; 2.5
-&gt; 10</code></pre><p>So easy~</p>
+<p>So easy~</p>
 <h2 id="Java与Lua之间的交互方式"><a href="#Java与Lua之间的交互方式" class="headerlink" title="Java与Lua之间的交互方式"></a>Java与Lua之间的交互方式</h2><p>基于上述Lua这种”寄生工作”的特性，Java与Lua语言之间相互调用的思路已经很明显了，就是以JNI作为中介。</p>
 <p><strong>通过Native调用Lua：</strong></p>
-<pre><code>graph TD
-Java--&gt;Native
-Native--&gt;LuaVM</code></pre><p>以前的做法是先用C/C++借助JNI编写调用Java的接口函数，然后再将这些函数通过 <a href="https://github.com/LuaDist/toluapp" target="_blank" rel="noopener">tolua++</a>工具导出给Lua使用。这种做法最大的问题就是太繁琐，而且稍微有一点点修改，就要重新编译，严重降低了开发效率。  </p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xl">graph TD<br>J<span class="hljs-function"><span class="hljs-title">ava</span>--&gt;</span>Native<br>N<span class="hljs-function"><span class="hljs-title">ative</span>--&gt;</span>LuaVM<br></code></pre></td></tr></table></figure>
+
+<p>以前的做法是先用C/C++借助JNI编写调用Java的接口函数，然后再将这些函数通过 <a href="https://github.com/LuaDist/toluapp" target="_blank" rel="noopener">tolua++</a>工具导出给Lua使用。这种做法最大的问题就是太繁琐，而且稍微有一点点修改，就要重新编译，严重降低了开发效率。  </p>
 <p>这里我们可以借助一些框架，也就是Lua和Java之间的“桥梁”来省掉不必要的工作，例如：</p>
 <ul>
 <li><a href="http://www.luaj.org/luaj/3.0/README.html" target="_blank" rel="noopener">LuaJ</a></li>
@@ -263,7 +293,7 @@ Native--&gt;LuaVM</code></pre><p>以前的做法是先用C/C++借助JNI编写调
 <p>我们开发的项目最后采用的是LuaJava框架，后文也将会对该框架进行解析。  </p>
 <h2 id="用自定义Java函数拓展Lua虚拟机"><a href="#用自定义Java函数拓展Lua虚拟机" class="headerlink" title="用自定义Java函数拓展Lua虚拟机"></a>用自定义Java函数拓展Lua虚拟机</h2><p>LuaJava框架主要是对Lua的编程接口进行简单的封装，并且提供一些方便Lua、Java函数相互调用的接口，节省了自己去写JNI转换代码的功夫。后续会具体解析这个框架是怎么实现这部分的。</p>
 <html>
-<img src=".pngLuaJava框架的作用" srcset="/img/loading.gif" alt="LuaJava框架的作用" />
+<img src=".pngLuaJava框架的作用" alt="LuaJava框架的作用" />
 </html>  
 
 <p>这里要使用自定义的Java函数来拓展Lua虚拟机需要以下几步：</p>
@@ -274,100 +304,58 @@ Native--&gt;LuaVM</code></pre><p>以前的做法是先用C/C++借助JNI编写调
 </ol>
 <p>先看看JavaFunction类有什么方法，</p>
 <html>
-<img src="JavaFunction类图.png" srcset="/img/loading.gif" alt="JavaFunction类图" />
+<img src="JavaFunction类图.png" alt="JavaFunction类图" />
 </html>
 
 
-<pre><code>L: Luastate</code></pre><p>Lua虚拟机的Java层访问接口，记录CLuaSate在C层的指针地址。</p>
-<pre><code>excute(): int</code></pre><p>自定函数执行入口方法，这是一个需要自己实现的抽象方法，参数的获取和返回值的传递都在这里完成，其中返回的int型代表了返回给Lua结果的个数，与上面C方法是类似的。  </p>
-<pre><code>getParam(index:int) : LuaObject</code></pre><p>获取Lua参数。在C层获取参数的index是从1开始的拿到函数的第一个参数，但是在这个LuaJava框架里你需要<strong>从2开始获得第一个参数</strong>，这是框架的一个小坑后面会讲到。  </p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">L:</span> Luastate<br></code></pre></td></tr></table></figure>
+<p>Lua虚拟机的Java层访问接口，记录CLuaSate在C层的指针地址。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">excute</span><span class="hljs-params">()</span></span>: int<br></code></pre></td></tr></table></figure>
+<p>自定函数执行入口方法，这是一个需要自己实现的抽象方法，参数的获取和返回值的传递都在这里完成，其中返回的int型代表了返回给Lua结果的个数，与上面C方法是类似的。  </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">get<span class="hljs-constructor">Param(<span class="hljs-params">index</span>:<span class="hljs-params">int</span>)</span> : LuaObject<br></code></pre></td></tr></table></figure>
+<p>获取Lua参数。在C层获取参数的index是从1开始的拿到函数的第一个参数，但是在这个LuaJava框架里你需要<strong>从2开始获得第一个参数</strong>，这是框架的一个小坑后面会讲到。  </p>
 <p> LuaObject就是Lua对象在Java层的一个表示，实际上这个Object只维护了指向Lua注册表对应对象的一个引用，这里用到了<strong>Lua的引用机制</strong>的知识。  </p>
 <blockquote>
 <p>Lua 提供了一个 注册表， 这是一个预定义出来的表， 可以用来保存任何 C 代码想保存的 Lua 值。 这个表可以用有效伪索引 LUA_REGISTRYINDEX 来定位。 任何 C 库都可以在这张表里保存数据， 为了防止冲突，你需要特别小心的选择键名。 一般的用法是，你可以用一个包含你的库名的字符串做为键名， 或者取你自己 C 对象的地址，以轻量用户数据的形式做键， 还可以用你的代码创建出来的任意 Lua 对象做键。 关于变量名，字符串键名中以下划线加大写字母的名字被 Lua 保留。<br>注册表中的整数键用于引用机制（参见luaL_ref），以及一些预定义的值。因此，整数键不要用于别的目的。  </p>
 </blockquote>
-<pre><code>register(funcName : string) : void</code></pre><p>注册函数到Lua虚拟机。编写好具体Java类后只需要调用该父类方法，传入你的自定义函数名称就ok了！  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">register</span>(funcName : <span class="hljs-built_in">string</span>) : <span class="hljs-keyword">void</span><br></code></pre></td></tr></table></figure>
+<p>注册函数到Lua虚拟机。编写好具体Java类后只需要调用该父类方法，传入你的自定义函数名称就ok了！  </p>
 <p>下面还是具体来讲个例子。这个自定义函数实现一个打印Log内容，最后返回一个boolean值的功能。</p>
-<pre><code>Class TestLog extends JavaFunction{
-  …
-   @Override
-   public int execute() throws LuaException {
-        LuaObject paramObj = getParam(2); //获取Log参数
-        String logContent = paramObj.getString();//将C对象转换成Java对象
-        Log.d(&quot;[testLog]&quot;, logContent);
-        L.pushBoolean(true);//传递返回值
-        return 1;
-   }
-   …
-}</code></pre><p>编写好自定义函数之后，初始化LuaState，</p>
-<pre><code>LuaState L = LuaStateFactory.newLuaState();
-L.openLibs();
-</code></pre><p>最后注册函数，编写我们的测试用例即可，</p>
-<pre><code>/*注册函数，对应Lua函数名为testLog*/
-testFunc.register(“testLog“);
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">Class TestLog extends JavaFunction&#123;<br>  …<br>   @Override<br>   public <span class="hljs-built_in">int</span> execute<span class="hljs-literal">()</span> throws LuaException &#123;<br>        LuaObject paramObj = get<span class="hljs-constructor">Param(2)</span>; <span class="hljs-comment">//获取Log参数</span><br>        String logContent = paramObj.get<span class="hljs-constructor">String()</span>;<span class="hljs-comment">//将C对象转换成Java对象</span><br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Log</span>.</span></span>d(<span class="hljs-string">"[testLog]"</span>, logContent);<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">L</span>.</span></span>push<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;<span class="hljs-comment">//传递返回值</span><br>        return <span class="hljs-number">1</span>;<br>   &#125;<br>   …<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>编写好自定义函数之后，初始化LuaState，</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">LuaState L = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LuaStateFactory</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">LuaState()</span>;<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">L</span>.</span></span><span class="hljs-keyword">open</span><span class="hljs-constructor">Libs()</span>;<br></code></pre></td></tr></table></figure>
+<p>最后注册函数，编写我们的测试用例即可，</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-comment">/*注册函数，对应Lua函数名为testLog*/</span><br><span class="hljs-selector-tag">testFunc</span><span class="hljs-selector-class">.register</span>(“<span class="hljs-selector-tag">testLog</span>“);<br><br><span class="hljs-comment">/*载入并运行lua脚本文件*/</span><br><span class="hljs-selector-tag">L</span><span class="hljs-selector-class">.LdoFile</span>(“<span class="hljs-selector-tag">test</span><span class="hljs-selector-class">.lua</span>”);<br></code></pre></td></tr></table></figure>
 
-/*载入并运行lua脚本文件*/
-L.LdoFile(“test.lua”);
-</code></pre><p>测试代码test.lua：</p>
-<pre><code>require(&quot;os&quot;)
-function tlog(content)
-    testLog(content)
-end
+<p>测试代码test.lua：</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-function"><span class="hljs-title">require</span>(<span class="hljs-string">"os"</span>)</span><br><span class="hljs-variable">function</span> <span class="hljs-function"><span class="hljs-title">tlog</span>(<span class="hljs-variable">content</span>)</span><br>    <span class="hljs-function"><span class="hljs-title">testLog</span>(<span class="hljs-variable">content</span>)</span><br><span class="hljs-variable">end</span><br><br><span class="hljs-function"><span class="hljs-title">tlog</span>(<span class="hljs-string">"abc"</span>)</span><br><span class="hljs-function"><span class="hljs-title">tlog</span>(<span class="hljs-string">"time"</span>..os.time)</span><br></code></pre></td></tr></table></figure>
+<p>得到期望的输出结果：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-quote">&gt; abc</span><br><span class="hljs-quote">&gt; 1494843227</span><br></code></pre></td></tr></table></figure>
 
-tlog(&quot;abc&quot;)
-tlog(&quot;time&quot;..os.time)
-</code></pre><p>得到期望的输出结果：</p>
-<pre><code>&gt; abc
-&gt; 1494843227</code></pre><h2 id="LuaJava框架的工作原理"><a href="#LuaJava框架的工作原理" class="headerlink" title="LuaJava框架的工作原理"></a>LuaJava框架的工作原理</h2><p>上面说到我们需要调用注册方法register来注册自定义Java函数，查看其源码发现和C代码的实现是一样的，也是拆分成了两个步骤：</p>
-<pre><code>public void register(String name ){
-        L.pushJavaFunction(this); // 先将函数对象压入栈
-        L.setGlobal(name); //将该对象设置为全局变量来使用
-     }
-</code></pre><p>第一步将Java对象压栈，Java部分没有什么代码，直接是调用了对应的native方法，jni_pushJavaFunction 来工作，看一下具体实现代码：</p>
-<pre><code>void  jni_pushJavaFunction ( … )
-{
-    ...
-    ...
-   userData = ( jobject * ) lua_newuserdata( L , sizeof( jobject ) ); // 分配一块指定大小的内存块， 把内存块地址作为一个完全用户数据压栈
-   *userData = javaFunctionObjRef; // 用户空间存放一个指针即轻量用户数据
+<h2 id="LuaJava框架的工作原理"><a href="#LuaJava框架的工作原理" class="headerlink" title="LuaJava框架的工作原理"></a>LuaJava框架的工作原理</h2><p>上面说到我们需要调用注册方法register来注册自定义Java函数，查看其源码发现和C代码的实现是一样的，也是拆分成了两个步骤：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">public void register(String name )&#123;<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">L</span>.</span></span>push<span class="hljs-constructor">JavaFunction(<span class="hljs-params">this</span>)</span>; <span class="hljs-comment">// 先将函数对象压入栈</span><br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">L</span>.</span></span>set<span class="hljs-constructor">Global(<span class="hljs-params">name</span>)</span>; <span class="hljs-comment">//将该对象设置为全局变量来使用</span><br>     &#125;<br></code></pre></td></tr></table></figure>
+<p>第一步将Java对象压栈，Java部分没有什么代码，直接是调用了对应的native方法，jni_pushJavaFunction 来工作，看一下具体实现代码：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">void  jni_pushJavaFunction ( … )<br>&#123;<span class="hljs-operator"><br>    ...<br>    </span>...<br>   userData = ( jobject<span class="hljs-operator"> * </span>) lua<span class="hljs-constructor">_newuserdata( L , <span class="hljs-params">sizeof</span>( <span class="hljs-params">jobject</span> )</span> ); <span class="hljs-comment">// 分配一块指定大小的内存块， 把内存块地址作为一个完全用户数据压栈</span><br>   *userData = javaFunctionObjRef; <span class="hljs-comment">// 用户空间存放一个指针即轻量用户数据</span><br>   <br>   lua<span class="hljs-constructor">_newtable( L )</span>; <span class="hljs-comment">// 创建一个新表</span><br><br>   lua<span class="hljs-constructor">_pushstring( L , LUACALLMETAMETHODTAG )</span>;  <br>    <br>   lua<span class="hljs-constructor">_pushcfunction( L , &amp;<span class="hljs-params">luaJavaFunctionCall</span> )</span>; <span class="hljs-comment">// 将调用函数加入table中</span><br><br>   lua<span class="hljs-constructor">_rawset( L , -3 )</span>;  <span class="hljs-comment">// rawset 不会触发元方法避免调用到其他元操作</span><span class="hljs-operator"><br>   ...<br><br>  </span><span class="hljs-keyword">if</span> ( lua<span class="hljs-constructor">_setmetatable( L , -2 )</span><span class="hljs-operator"> == </span><span class="hljs-number">0</span> )   <span class="hljs-comment">// 将该table作为userData的元表  </span><br>    &#123;<span class="hljs-operator"><br>      ...   </span><span class="hljs-comment">//抛出JNI异常</span><br>    &#125;<br></code></pre></td></tr></table></figure>
 
-   lua_newtable( L ); // 创建一个新表
-
-   lua_pushstring( L , LUACALLMETAMETHODTAG );  
-
-   lua_pushcfunction( L , &amp;luaJavaFunctionCall ); // 将调用函数加入table中
-
-   lua_rawset( L , -3 );  // rawset 不会触发元方法避免调用到其他元操作
-   ...
-
-  if ( lua_setmetatable( L , -2 ) == 0 )   // 将该table作为userData的元表  
-    {
-      ...   //抛出JNI异常
-    }</code></pre><p>首先创建一块Lua的Userdata数据类型，</p>
-<pre><code>userData = ( jobject * ) lua_newuserdata( L , sizeof( jobject ) );</code></pre><p>这个userdata其实就是分配出一块jobject大小内存，用来记录对应的函数指针地址即通过JNI传来的javaFunctionObjRef，L是C层的LuaState指针。  </p>
+<p>首先创建一块Lua的Userdata数据类型，</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">userData</span> = ( jobject * ) lua_newuserdata( L , sizeof( jobject ) )<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>这个userdata其实就是分配出一块jobject大小内存，用来记录对应的函数指针地址即通过JNI传来的javaFunctionObjRef，L是C层的LuaState指针。  </p>
 <p>接下来需要创建该userdata的元表（metadata），还不清楚元表概念的返回去查手册看看就行，</p>
-<pre><code>lua_pushstring( L , LUACALLMETAMETHODTAG );  
-lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元表函数调用的常量标识LUACALLMETAMETHODTAG压入栈作为key，把一个叫做luaJavaFunctionCall函数的地址作为value，这样Lua以函数的方式调用这块userdata的时候就可以从元表查到这个函数地址并调用。  </p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lisp">lua_pushstring( <span class="hljs-name">L</span> , LUACALLMETAMETHODTAG )<span class="hljs-comment">;  </span><br>lua_pushcfunction( <span class="hljs-name">L</span> , <span class="hljs-symbol">&amp;luaJavaFunctionCall</span> )<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>这里将元表函数调用的常量标识LUACALLMETAMETHODTAG压入栈作为key，把一个叫做luaJavaFunctionCall函数的地址作为value，这样Lua以函数的方式调用这块userdata的时候就可以从元表查到这个函数地址并调用。  </p>
 <p>最后回到Java层，</p>
-<pre><code>L.setGlobal(name);</code></pre><p>将这一个userdata设置为一个全局变量，Lua脚本在运行时候就能正常操作这个变量了。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">L</span>.</span></span>set<span class="hljs-constructor">Global(<span class="hljs-params">name</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p>将这一个userdata设置为一个全局变量，Lua脚本在运行时候就能正常操作这个变量了。</p>
 <p>所以这个luaJavaFunctionCall函数就是自定义函数被Lua脚本调用到时，真正工作的地方，其实对应实现在C层：</p>
-<pre><code>int  luaJavaFunctionCall( lua_State * L )
-{
-  ...
-  ...
- obj = lua_touserdata( L , 1 ); // 这个obj其实就是之前记录的函数引用地址
- javaEnv = getEnvFromState( L ); //转换成userdata格式，从LuaState中读取出JNIEnv，
- ...
-  ret = ( *javaEnv )-&gt;CallIntMethod( javaEnv , *obj , java_function_method ); // 回调execute
-   ... 
-  return ret;
-}
-</code></pre><p>看到这里在回去看看前面的JavaFunction.java类，就基本明白是怎么回事了。首先从函数栈中取出第一个参数（这里参考前面的自定义C函数部分），就是前面我们创建的userdata，是自定义JavaFunction类的指针，前面说到有一个坑点就在这里，JavaFUntion类的获取参数为什么要从index=2开始，</p>
-<pre><code>getParam(index:int) : LuaObject</code></pre><p>因为第一个参数是我们的userdata本身，第二个开始才是正确的函数参数。<br>最后很简单了，通过jni反射调用Java层的execute方法（java_function_method）执行Java层的工作。<br>也是So easy！</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-built_in">int</span>  lua<span class="hljs-constructor">JavaFunctionCall( <span class="hljs-params">lua_State</span> <span class="hljs-operator">*</span> L )</span><br>&#123;<span class="hljs-operator"><br>  ...<br>  </span>...<br> obj = lua<span class="hljs-constructor">_touserdata( L , 1 )</span>; <span class="hljs-comment">// 这个obj其实就是之前记录的函数引用地址</span><br> javaEnv = get<span class="hljs-constructor">EnvFromState( L )</span>; <span class="hljs-comment">//转换成userdata格式，从LuaState中读取出JNIEnv，</span><span class="hljs-operator"><br> ...<br>  </span>ret = ( *javaEnv )-&gt;<span class="hljs-constructor">CallIntMethod( <span class="hljs-params">javaEnv</span> , <span class="hljs-operator">*</span><span class="hljs-params">obj</span> , <span class="hljs-params">java_function_method</span> )</span>; <span class="hljs-comment">// 回调execute</span><span class="hljs-operator"><br>   ... <br>  </span>return ret;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>看到这里在回去看看前面的JavaFunction.java类，就基本明白是怎么回事了。首先从函数栈中取出第一个参数（这里参考前面的自定义C函数部分），就是前面我们创建的userdata，是自定义JavaFunction类的指针，前面说到有一个坑点就在这里，JavaFUntion类的获取参数为什么要从index=2开始，</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">get<span class="hljs-constructor">Param(<span class="hljs-params">index</span>:<span class="hljs-params">int</span>)</span> : LuaObject<br></code></pre></td></tr></table></figure>
+<p>因为第一个参数是我们的userdata本身，第二个开始才是正确的函数参数。<br>最后很简单了，通过jni反射调用Java层的execute方法（java_function_method）执行Java层的工作。<br>也是So easy！</p>
 <p>到此完成一次完整的使用Java函数拓展Lua虚拟机的过程。这种方法和用C语言来拓展方式不太一样的地方，就是userdata和元表，获取参数的顺序也不太一样，再往深入的虚拟机里面的实现也还没来得及看，以后有时间的话再继续研究研究。</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这个Luajava框架其实坑点和问题其实还是很多的，并不能完善的上线，例如无法中断停止脚本、多线程问题和JavaGC超时异常等等问题也是头疼，但是经过本人的优化修改都已经把这些问题解决了~后续会继续写文记录一下。<br>One more，如果有能力和时间其实还是不建议使用这个框架了，太麻烦性能也不是特别好，自己从0搞一个。</p>
 <p>这篇文章挖坑了好久，终于趁着放假填完了哈哈哈，之前这个新产品赶着上线事情太多了~</p>
 
-            </article>
+            </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
@@ -375,9 +363,9 @@ lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元�
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
-                    
                       <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
                     
                   </div>
                 
@@ -395,11 +383,11 @@ lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元�
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
                 <div class="post-prevnext row">
-                  <div class="post-prev col-6">
+                  <article class="post-prev col-6">
                     
                     
                       <a href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/">
@@ -408,17 +396,17 @@ lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元�
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
-                  </div>
-                  <div class="post-next col-6">
+                  </article>
+                  <article class="post-next col-6">
                     
                     
-                  </div>
+                  </article>
                 </div>
               
             </div>
 
             
-          </div>
+          </article>
         </div>
       </div>
     </div>
@@ -426,7 +414,7 @@ lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元�
       <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
         <div id="toc">
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
       </div>
@@ -438,16 +426,15 @@ lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元�
 
 
     
-  </main>
 
-  
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -468,81 +455,117 @@ lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元�
     </div>
   </div>
 </div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
     
 
     
+  </main>
 
-    
-      <!-- cnzz Analytics Icon -->
-      <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
-    
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
+  
+
+  
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
+  
 </footer>
 
 <!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/main.js" ></script>
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
 
-  <script  src="/js/lazyload.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
 
 
 
   
-  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
 
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: '.post-content',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
       }
-    });
+    })()
   </script>
 
 
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
 
 
 
 
 
 
-<!-- Plugins -->
 
+  
 
   
 
@@ -569,8 +592,6 @@ lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元�
   
 
   
-
-  
     <!-- cnzz Analytics -->
     <script defer src="//s4.cnzz.com/z_stat.php?id=1278771147&show=pic"
             type="text/javascript"></script>
@@ -578,149 +599,10 @@ lua_pushcfunction( L , &amp;luaJavaFunctionCall );</code></pre><p>这里将元�
 
 
 
-  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      $('pre').each(function () {
-        const pre = $(this);
-        if (pre.find('code.mermaid').length > 0) {
-          return;
-        }
-        pre.addClass('prettyprint  linenums');
-      });
-      prettyPrint();
-    })
-  </script>
 
 
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "LuaJava在Java、Android中的使用&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 35,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      getSearchFile(path);
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
-      }
-    );
-  </script>
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript">
-      //定义获取词语下标
-      var a_idx = 0;
-      jQuery(document).ready(function ($) {
-        //点击body时触发事件
-        $("body").click(function (e) {
-          //需要显示的词语
-          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
-          //设置词语给span标签
-          var $i = $("<span/>").text(a[a_idx]);
-          //下标等于原来下标+1  余 词语总数
-          a_idx = (a_idx + 1) % a.length;
-          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
-          //获取x和y的指针坐标
-          var x = e.pageX, y = e.pageY;
-          //在鼠标的指针的位置给$i定义的span标签添加css样式
-          $i.css({
-            "z-index": 999,
-            "top": y - 20,
-            "left": x,
-            "position": "absolute",
-            "font-weight": "bold",
-            "color": rand_color()
-          });
-          // 随机颜色
-          function rand_color() {
-            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
-          }
-          //在body添加这个标签
-          $("body").append($i);
-          //animate() 方法执行 CSS 属性集的自定义动画。
-          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
-          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
-          $i.animate({
-            //将原来的位置向上移动180
-            "top": y - 180,
-            "opacity": 0
-            //1500动画的速度
-          }, 1500, function () {
-            //时间到了自动删除
-            $i.remove();
-          });
-        });
-      })
-      ;
-    </script>
-  
-
-
-
-
-
-
-
-
-
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 

@@ -1,13 +1,13 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -19,18 +19,17 @@
   <meta name="keywords" content="">
   <title>hohliday&#39;s blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_9n5xqdrq0nc.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-  <link  rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css" />
-
-
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -38,6 +37,12 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -61,52 +66,73 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -114,13 +140,13 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Keep thinking">
               
             </span>
 
@@ -152,25 +178,94 @@
   <div class="row mx-auto index-card">
     
     
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/08/%E6%B5%85%E6%9E%90Android%20SparseArray/">浅析Android SparseArray</a>
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/18/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B-LuaJava%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E8%84%9A%E6%9C%AC%E4%B8%AD%E6%96%AD%E7%9A%84%E6%96%B9%E6%B3%95/">游戏助手-LuaJava框架实现脚本中断的方法</a>
+      </h1>
 
-      <a href="/2020/05/08/%E6%B5%85%E6%9E%90Android%20SparseArray/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/05/18/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B-LuaJava%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E8%84%9A%E6%9C%AC%E4%B8%AD%E6%96%AD%E7%9A%84%E6%96%B9%E6%B3%95/">
           
-        
-        <div>SparseArray
-源码路径：frameworks/base/core/java/android/util/SparseArray.java
-
-SparseArray 可以替代 HashMap&lt;Integer,Object&gt; 使用，在数据量不大的情况下，虽然查询效率达不到 O(1)，但 SparseArray 能节约更多内存，在移动端上更加适用。
-简单来说 HashMap 的实现是</div>
-      </a>
+          
+            
+          
+          问题背景脚本有需求，需要实现一个forceStop方法供脚本主动中断。
+在LuaJava框架中，Lua脚本从入口LuaState.pcall方法开始，会一直阻塞当前Java线程的运行，直到Lua脚本执行结束。
+关键代码实现中断退出使用的是Lua虚拟机的lua_error方法，
+1LUA_API int   (lua_error) (lua_State *L);
+然后就是找到该方法的调用时机。
+不能
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-08
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-18 20:56" pubdate>
+              2020-05-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/LuaJava/">LuaJava</a>
+            
+              <a href="/tags/%E8%84%9A%E6%9C%AC/">脚本</a>
+            
+              <a href="/tags/Lua/">Lua</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/08/%E6%B5%85%E6%9E%90Android%20SparseArray/">浅析Android SparseArray</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/08/%E6%B5%85%E6%9E%90Android%20SparseArray/">
+          
+          
+            
+          
+          SparseArray
+源码路径：frameworks/base/core/java/android/util/SparseArray.java
+
+SparseArray 可以替代 HashMap&lt;Integer,Object&gt; 使用，在数据量不大的情况下，虽然查询效率达不到 O(1)，但 SparseArray 能节约更多内存，在移动端上更加适用。
+简单来说 HashMap 的实现是
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-08 15:56" pubdate>
+              2020-05-08
+            </time>
           </div>
         
         
@@ -192,32 +287,40 @@ SparseArray 可以替代 HashMap&lt;Integer,Object&gt; 使用，在数据量不�
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/03/Android10%E5%90%AF%E5%8A%A8Activity%E6%B5%81%E7%A8%8B/">Android10启动Activity流程</a>
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/03/Android10%E5%90%AF%E5%8A%A8Activity%E6%B5%81%E7%A8%8B/">Android10启动Activity流程</a>
+      </h1>
 
-      <a href="/2020/05/03/Android10%E5%90%AF%E5%8A%A8Activity%E6%B5%81%E7%A8%8B/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/05/03/Android10%E5%90%AF%E5%8A%A8Activity%E6%B5%81%E7%A8%8B/">
           
-        
-        <div>从 Android2.3 到 Android10 ，Activity 的启动的基本流程并没有什么大变化，只是多了更多的封装、优化和新功能。
+          
+            
+          
+          从 Android2.3 到 Android10 ，Activity 的启动的基本流程并没有什么大变化，只是多了更多的封装、优化和新功能。
 流程图
 关键类
 ActivityThread  应用的主线程入口；
 ActivityManagerService(AMS)  负责管理 activity、task 和 process，管理主入口；
-ActivityStarter  负责 Activity 的启</div>
-      </a>
+ActivityStarter  负责 Activity 的启
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-03
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-03 14:13" pubdate>
+              2020-05-03
+            </time>
           </div>
         
         
@@ -243,30 +346,38 @@ ActivityStarter  负责 Activity 的启</div>
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/">Android系统启动之二-启动SystemServer</a>
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/">Android系统启动之二-启动SystemServer</a>
+      </h1>
 
-      <a href="/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/29/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%BA%8C-%E5%90%AF%E5%8A%A8SystemServer/">
           
-        
-        <div>前言继上篇《Android系统启动之一-启动Zygote》，本篇继续来看 SystemServer 进程做了什么事情。
+          
+            
+          
+          前言继上篇《Android系统启动之一-启动Zygote》，本篇继续来看 SystemServer 进程做了什么事情。
 Zygote 和 SystemServer 是 Android 系统最重要的两个进程，Zygote 负责创建新进程，而 SystemServer 负责创建应用所需要的服务，例如 ActivityManagerService。
 
-SystemServer.main源码：framew</div>
-      </a>
+SystemServer.main源码：framew
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-29
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-29 15:55" pubdate>
+              2020-04-29
+            </time>
           </div>
         
         
@@ -292,34 +403,42 @@ SystemServer.main源码：framew</div>
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/">Android系统启动之一-启动Zygote</a>
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/">Android系统启动之一-启动Zygote</a>
+      </h1>
 
-      <a href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/">
           
-        
-        <div>Zygote 是什么Zygote 中文翻译受精卵，顾名思义是细胞分裂的起点。
+          
+            
+          
+          Zygote 是什么Zygote 中文翻译受精卵，顾名思义是细胞分裂的起点。
 在 Android 系统中，通常每个应用程序都运行在单独的进程中，每个进程有自己的 Java 虚拟机，而进程和虚拟机就是由 Zygote 创建孵化出来的。
 由下图的 Activity 启动栈可以看出，Zygote 就是 Java 堆栈的起点。
 
 Zygote 的作用
 启动 Java 虚拟机；
 
-加载常用类、JNI 函数、</div>
-      </a>
+加载常用类、JNI 函数、
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-28
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-28 21:05" pubdate>
+              2020-04-28
+            </time>
           </div>
         
         
@@ -345,38 +464,46 @@ Zygote 的作用
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/" target="_blank">
-          <img src="https://hoholidayx.github.io/2020/04/26/%e5%b0%8f%e8%ae%b0HashMap%e7%9b%b8%e5%85%b3%2fHashMap%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84.jpg" srcset="/img/loading.gif" alt="小记HashMap相关">
+        <a href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/" target="_self">
+          <img src="https://hoholidayx.github.io/2020/04/26/%e5%b0%8f%e8%ae%b0HashMap%e7%9b%b8%e5%85%b3%2fHashMap%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84.jpg" alt="小记HashMap相关">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/">小记HashMap相关</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/">小记HashMap相关</a>
+      </h1>
 
-      <a href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/">
           
-        
-        <div>代码版本：java/util/HashMap.java @ Android-10.0.0_r30
+          
+            
+          
+          代码版本：java/util/HashMap.java @ Android-10.0.0_r30
 
 前言HashMap 是 Android、Java 面试的常客，阅读学习其源码还是很有必要的。总之先来一个 HashMap 的整体结构，然后顺着慢慢分析。
 
 HashMap 的存储结构由数组、链表和红黑树组成，JDK1.8 之前没有使用红黑树。
-构造 HashMapHashMap 的构建有两个重要的参</div>
-      </a>
+构造 HashMapHashMap 的构建有两个重要的参
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-26
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-26 17:00" pubdate>
+              2020-04-26
+            </time>
           </div>
         
         
@@ -404,27 +531,31 @@ HashMap 的存储结构由数组、链表和红黑树组成，JDK1.8 之前没�
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/04/25/%E5%B0%8F%E8%AE%B0Android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E5%92%8C%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C/" target="_blank">
-          <img src="https://hoholidayx.github.io/2020/04/25/%e5%b0%8f%e8%ae%b0Android%e6%b6%88%e6%81%af%e5%a4%84%e7%90%86%e6%9c%ba%e5%88%b6%e5%92%8c%e5%90%8c%e6%ad%a5%e5%b1%8f%e9%9a%9c%2f%e6%b6%88%e6%81%af%e6%9c%ba%e5%88%b6%e6%9e%b6%e6%9e%84.png" srcset="/img/loading.gif" alt="小记Android消息处理机制和同步屏障">
+        <a href="/2020/04/25/%E5%B0%8F%E8%AE%B0Android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E5%92%8C%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C/" target="_self">
+          <img src="https://hoholidayx.github.io/2020/04/25/%e5%b0%8f%e8%ae%b0Android%e6%b6%88%e6%81%af%e5%a4%84%e7%90%86%e6%9c%ba%e5%88%b6%e5%92%8c%e5%90%8c%e6%ad%a5%e5%b1%8f%e9%9a%9c%2f%e6%b6%88%e6%81%af%e6%9c%ba%e5%88%b6%e6%9e%b6%e6%9e%84.png" alt="小记Android消息处理机制和同步屏障">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/04/25/%E5%B0%8F%E8%AE%B0Android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E5%92%8C%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C/">小记Android消息处理机制和同步屏障</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/25/%E5%B0%8F%E8%AE%B0Android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E5%92%8C%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C/">小记Android消息处理机制和同步屏障</a>
+      </h1>
 
-      <a href="/2020/04/25/%E5%B0%8F%E8%AE%B0Android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E5%92%8C%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/25/%E5%B0%8F%E8%AE%B0Android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E5%92%8C%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C/">
           
-        
-        <div>代码版本： Android-10.0.0_r30
+          
+            
+          
+          代码版本： Android-10.0.0_r30
 消息处理架构在Java层上，Android实现消息处理机制主要有以下几个类：
 
 android/os/Handler.java
@@ -432,13 +563,17 @@ android/os/Message.java
 android/os/Looper.java
 android/os/MessageQueue.java
 
-虽然它们之间的关系比较简单，但如果要深究其原理还是非常复杂的，特别是</div>
-      </a>
+虽然它们之间的关系比较简单，但如果要深究其原理还是非常复杂的，特别是
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-25
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-25 18:56" pubdate>
+              2020-04-25
+            </time>
           </div>
         
         
@@ -455,9 +590,9 @@ android/os/MessageQueue.java
             
               <a href="/tags/Android/">Android</a>
             
-              <a href="/tags/%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/">消息机制</a>
-            
               <a href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+            
+              <a href="/tags/%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/">消息机制</a>
             
               <a href="/tags/Handler/">Handler</a>
             
@@ -466,27 +601,31 @@ android/os/MessageQueue.java
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/" target="_blank">
-          <img src="https://hoholidayx.github.io/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA%2BcuDNN%2Btf%2BPython%E7%8E%AF%E5%A2%83/%E5%B0%81%E9%9D%A2%E5%9B%BE.jpeg" srcset="/img/loading.gif" alt="Ubuntu下搭建CUDA+cuDNN+tf+Python环境">
+        <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/" target="_self">
+          <img src="https://hoholidayx.github.io/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA%2BcuDNN%2Btf%2BPython%E7%8E%AF%E5%A2%83/%E5%B0%81%E9%9D%A2%E5%9B%BE.jpeg" alt="Ubuntu下搭建CUDA+cuDNN+tf+Python环境">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/">Ubuntu下搭建CUDA+cuDNN+tf+Python环境</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/">Ubuntu下搭建CUDA+cuDNN+tf+Python环境</a>
+      </h1>
 
-      <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/">
           
-        
-        <div>安装NVIDIA CUDA版本
+          
+            
+          
+          安装NVIDIA CUDA版本
 Ubuntu：16.0.4
 Toolkit：10.0
 cuDNN：7.5.1 (April 22, 2019) for CUDA 10.0
@@ -495,13 +634,17 @@ cuDNN：7.5.1 (April 22, 2019) for CUDA 10.0
 官网下载CUDA Toolkit
 
 安装cuda之前需要先安装gcc、g++和 build-essential等。
-sudo apt-get install build-essential gcc g++ make binu</div>
-      </a>
+1sudo apt-get install build-essential gcc g++ make bin
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-04-22
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-22 11:41" pubdate>
+              2020-04-22
+            </time>
           </div>
         
         
@@ -523,40 +666,48 @@ sudo apt-get install build-essential gcc g++ make binu</div>
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/" target="_blank">
-          <img src="https://hoholidayx.github.io/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/%E5%B0%81%E9%9D%A2%E5%9B%BE.png" srcset="/img/loading.gif" alt="在Ubuntu进行StyleGAN2训练Google Colab版">
+        <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/" target="_self">
+          <img src="https://hoholidayx.github.io/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/%E5%B0%81%E9%9D%A2%E5%9B%BE.png" alt="在Ubuntu进行StyleGAN2训练Google Colab版">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/">在Ubuntu进行StyleGAN2训练Google Colab版</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/">在Ubuntu进行StyleGAN2训练Google Colab版</a>
+      </h1>
 
-      <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/">
           
-        
-        <div>准备工具
+          
+            
+          
+          准备工具
 稳定的梯子
 谷歌账号(有钱最好，新用户可以试用300$)
 训练集
 
 准备训练集如果只想走一下流程的话，随便准备百来张图片就可以了，毕竟跑一次训练成本很高，支持的图片尺寸有256x256，512x512和1024x1024。
 推荐一个国内的网站seeprettyface，有不少产品和免费的图库下载。
-StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.py将原</div>
-      </a>
+StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.py将原
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-31
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-31 11:04" pubdate>
+              2020-03-31
+            </time>
           </div>
         
         
@@ -571,56 +722,64 @@ StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.p
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
+              <a href="/tags/Ubuntu/">Ubuntu</a>
+            
               <a href="/tags/StyleGAN/">StyleGAN</a>
             
               <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
             
               <a href="/tags/AI/">AI</a>
             
-              <a href="/tags/Ubuntu/">Ubuntu</a>
-            
           </div>
         
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="row mx-auto index-card">
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/" target="_blank">
-          <img src="https://hoholidayx.github.io/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E8%87%AA%E5%8A%A8%E5%88%B7%E5%86%92%E9%99%A9%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" alt="关于Android游戏助手">
+        <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/" target="_self">
+          <img src="https://hoholidayx.github.io/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E8%87%AA%E5%8A%A8%E5%88%B7%E5%86%92%E9%99%A9%E8%AE%BE%E7%BD%AE.png" alt="关于Android游戏助手">
         </a>
       </div>
     
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">关于Android游戏助手</a>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">关于Android游戏助手</a>
+      </h1>
 
-      <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/" class="index-excerpt">
-        
-        
+      <p class="index-excerpt">
+        <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">
           
-        
-        <div>游戏助手是什么终于开始这个系列的填坑了，自上次17年写的文章《LuaJava在Java、Android中的使用》 已经过了2年，主要介绍了游戏助手技术栈的其中一项。本文开始将继续记录一些项目中碰到的问题和有价值的经验。项目坟头都长草了祭奠一下。
+          
+            
+          
+          游戏助手是什么终于开始这个系列的填坑了，自上次17年写的文章《LuaJava在Java、Android中的使用》 已经过了2年，主要介绍了游戏助手技术栈的其中一项。本文开始将继续记录一些项目中碰到的问题和有价值的经验。项目坟头都长草了祭奠一下。
 
 这里游戏助手主要指的是Android端的应用，虽然iOS端也有能够实现的方案，但是成本较高且本人对iOS技术钻研不精，所以不做讨论。
-游戏助手是什么，用</div>
-      </a>
+游戏助手是什么，用
+        </a>
+      </p>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-17
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-17 15:42" pubdate>
+              2020-03-17
+            </time>
           </div>
         
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
-            
               <a href="/categories/Android/">Android</a>
+            
+              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
             
           </div>
         
@@ -637,54 +796,7 @@ StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.p
           </div>
         
       </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/03/03/LuaJava%E6%A1%86%E6%9E%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%94%AF%E6%8C%81%E4%BF%AE%E6%94%B9/">LuaJava框架多线程支持修改</a>
-
-      <a href="/2020/03/03/LuaJava%E6%A1%86%E6%9E%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%94%AF%E6%8C%81%E4%BF%AE%E6%94%B9/" class="index-excerpt">
-        
-        
-          
-        
-        <div>问题背景LuaJava框架是不支持多线程调用的，例如在游戏助手里，脚本需要在Java层执行一个异步任务，然后回调通知Lua层，因为Lua是单独跑在一个线程里，而回调是在主线程，所以这时候会发生崩溃或者Lua虚拟机的栈异常。
-解决方案这种情况有两种解决方案，一是修改LUA虚拟机，使其在当前线程能够执行post过来的任务，类似Handler，这种方案没有实现;二是在Java层或者JNI层修改，使其线程</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-03-03
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
-            
-              <a href="/categories/Android/">Android</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">Android</a>
-            
-              <a href="/tags/LuaJava/">LuaJava</a>
-            
-              <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
-            
-          </div>
-        
-      </div>
-    </div>
+    </article>
   </div>
 
 
@@ -709,16 +821,15 @@ StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.p
         </div>
       </div>
     
-  </main>
 
-  
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -739,53 +850,111 @@ StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.p
     </div>
   </div>
 </div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
     
 
     
+  </main>
 
-    
-      <!-- cnzz Analytics Icon -->
-      <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
-    
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
+  
+
+  
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
+  
 </footer>
 
 <!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/main.js" ></script>
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
 
-  <script  src="/js/lazyload.js" ></script>
-
-
-
-
-
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
-
-
-
-
-
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 <!-- Plugins -->
 
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   
 
@@ -812,8 +981,6 @@ StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.p
   
 
   
-
-  
     <!-- cnzz Analytics -->
     <script defer src="//s4.cnzz.com/z_stat.php?id=1278771147&show=pic"
             type="text/javascript"></script>
@@ -823,119 +990,8 @@ StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.p
 
 
 
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Keep thinking&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 35,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      getSearchFile(path);
-      this.onclick = null
-    }
-  </script>
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript">
-      //定义获取词语下标
-      var a_idx = 0;
-      jQuery(document).ready(function ($) {
-        //点击body时触发事件
-        $("body").click(function (e) {
-          //需要显示的词语
-          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
-          //设置词语给span标签
-          var $i = $("<span/>").text(a[a_idx]);
-          //下标等于原来下标+1  余 词语总数
-          a_idx = (a_idx + 1) % a.length;
-          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
-          //获取x和y的指针坐标
-          var x = e.pageX, y = e.pageY;
-          //在鼠标的指针的位置给$i定义的span标签添加css样式
-          $i.css({
-            "z-index": 999,
-            "top": y - 20,
-            "left": x,
-            "position": "absolute",
-            "font-weight": "bold",
-            "color": rand_color()
-          });
-          // 随机颜色
-          function rand_color() {
-            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
-          }
-          //在body添加这个标签
-          $("body").append($i);
-          //animate() 方法执行 CSS 属性集的自定义动画。
-          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
-          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
-          $i.animate({
-            //将原来的位置向上移动180
-            "top": y - 180,
-            "opacity": 0
-            //1500动画的速度
-          }, 1500, function () {
-            //时间到了自动删除
-            $i.remove();
-          });
-        });
-      })
-      ;
-    </script>
-  
-
-
-
-
-
-
-
-
-
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 

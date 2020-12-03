@@ -1,13 +1,13 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
 
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -19,18 +19,33 @@
   <meta name="keywords" content="">
   <title>LuaJava框架多线程支持修改 - hohliday&#39;s blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_9n5xqdrq0nc.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-  <link  rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css" />
-
-
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -38,6 +53,12 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -61,52 +82,73 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -114,48 +156,53 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" parallax=true
+    <div class="banner intro-2" id="background" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="LuaJava框架多线程支持修改">
               
             </span>
 
             
-              
-                <div class="mt-3 post-meta">
-                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-03-03 12:17">
-                    星期二, 三月 3日 2020, 12:17 中午
-                  </time>
-                </div>
-              
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-03-03 12:17" pubdate>
+        2020年3月3日 中午
+      </time>
+    </span>
+  
+</div>
 
-              <div class="mt-1">
-                
-                  
-                  <span class="post-meta mr-2">
-                    <i class="iconfont icon-chart"></i>
-                    1.1k 字
-                  </span>
-                
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
 
-                
-                  
-                  <span class="post-meta mr-2">
-                      <i class="iconfont icon-clock-fill"></i>
-                    
-                    
-                    15
-                     分钟
-                  </span>
-                
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
 
-                
-              </div>
+  
+  
+</div>
+
             
           </div>
 
@@ -175,9 +222,11 @@
     <div class="col-lg-8 nopadding-md">
       <div class="container nopadding-md" id="board-ctn">
         <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">LuaJava框架多线程支持修改</h1>
             
-            <article class="markdown-body">
+            <div class="markdown-body">
               <h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>LuaJava框架是不支持多线程调用的，例如在游戏助手里，脚本需要在Java层执行一个异步任务，然后回调通知Lua层，因为Lua是单独跑在一个线程里，而回调是在主线程，所以这时候会发生崩溃或者Lua虚拟机的栈异常。</p>
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>这种情况有两种解决方案，一是修改LUA虚拟机，使其在当前线程能够执行post过来的任务，类似Handler，这种方案没有实现;二是在Java层或者JNI层修改，使其线程安全。</p>
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>  JNI编程和Linux上的C/C++编程还是挺相似的，每次java调用JNI中的函数时都会传入有关JVM的一些参数（如JNIEnv，jobject），每次JNI回调java中的方法时都要通过JVM的有关参数来实现，当在JNI中涉及到多线程的话还是有一些不一样的地方，就是要在子线程函数里使用AttachCurrentThread()和DetachCurrentThread()这两个函数，在这两个函数之间加入回调java方法所需要的代码。</p>
@@ -185,28 +234,14 @@
 <h2 id="native层修改"><a href="#native层修改" class="headerlink" title="native层修改"></a>native层修改</h2><ol>
 <li>保存全局的JavaVM指针</li>
 </ol>
-<pre><code class="C">jint JNI_OnLoad(JavaVM* vm, void* reserved) {
-    ...
+<figure class="highlight C"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-function">jint <span class="hljs-title">JNI_OnLoad</span><span class="hljs-params">(JavaVM* vm, <span class="hljs-keyword">void</span>* reserved)</span> </span>&#123;<br>    ...<br>    <br>    <span class="hljs-comment">//将vm指针保存到全局变量中</span><br>    set_jvm(vm);<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
 
-    //将vm指针保存到全局变量中
-    set_jvm(vm);
-    ...
-}
-</code></pre>
 <ol start="2">
 <li>Lua运行时获取当前线程的env</li>
 </ol>
 <p>在 luajava.c的getEnvFromState方法实现里，去更新指针。</p>
-<pre><code class="C">JNIEnv *getEnvFromState(lua_State *L) {
+<figure class="highlight C"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-function">JNIEnv *<span class="hljs-title">getEnvFromState</span><span class="hljs-params">(lua_State *L)</span> </span>&#123;<br><br>    JNIEnv *javaEnv = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-keyword">if</span> (g_jvm-&gt;AttachCurrentThread(&amp;javaEnv, <span class="hljs-literal">NULL</span>) == JNI_OK) &#123;<br>        <span class="hljs-keyword">return</span> javaEnv;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        LOGE(<span class="hljs-string">"JavaEnv attach failed!"</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-    JNIEnv *javaEnv = NULL;
-    if (g_jvm-&gt;AttachCurrentThread(&amp;javaEnv, NULL) == JNI_OK) {
-        return javaEnv;
-    } else {
-        LOGE(&quot;JavaEnv attach failed!&quot;);
-        return NULL;
-    }
-}</code></pre>
 <h2 id="Java层修改"><a href="#Java层修改" class="headerlink" title="Java层修改"></a>Java层修改</h2><ol start="3">
 <li>去除同步锁</li>
 </ol>
@@ -216,103 +251,17 @@
 <li>在 JavaFunction 类，删除掉LuaState L，用全局ThreadLocal来代替存储。</li>
 </ol>
 <p>execute稍作修改，让native调用的时候调的是execute(long)方法，这样在方法执行之前可以做一些事情。</p>
-<pre><code class="Java">    public abstract class JavaFunction {
+<figure class="highlight Java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs Java">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JavaFunction</span> </span>&#123;<br><br>    <span class="hljs-comment">/**<br>     * This is the state in which this function will exist.<br>     */</span><br>    <span class="hljs-comment">//    protected LuaState L;</span><br>    <span class="hljs-comment">//用来保存c层lua_state的指针，当需要在对应栈上操作的时候，从这个ThreadLocal取</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ThreadLocal&lt;Long&gt; mLuaStateCPoniter = <span class="hljs-keyword">new</span> ThreadLocal&lt;Long&gt;() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> Long <span class="hljs-title">initialValue</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> (<span class="hljs-keyword">long</span>) <span class="hljs-number">0</span>;<br>        &#125;<br>    &#125;;<br><br>    <span class="hljs-comment">/**<br>     * This method is called from Lua. Any parameters can be taken with<br>     * &lt;code&gt;getParam&lt;/code&gt;. A reference to the JavaFunctionWrapper itself is<br>     * always the first parameter received. Values passed back as results<br>     * of the function must be pushed onto the stack.<br>     *<br>     * <span class="hljs-doctag">@return</span> The number of values pushed onto the stack.<br>     */</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">int</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> LuaException</span>;<br><br>    <span class="hljs-comment">//native调用这个同步的execute，保证在正确的栈上调用完后才能让其他线程换栈</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">execute</span><span class="hljs-params">(<span class="hljs-keyword">long</span> lua_state)</span> <span class="hljs-keyword">throws</span> LuaException </span>&#123;<br>        mLuaStateCPoniter.set(lua_state);<br>        <span class="hljs-keyword">return</span> execute();<br>    &#125;<br><br>    <span class="hljs-comment">/**<br>     * Constructor that receives a LuaState.<br>     *<br>     * <span class="hljs-doctag">@param</span> L LuaState object associated with this JavaFunction object<br>     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">JavaFunction</span><span class="hljs-params">(LuaState L)</span> </span>&#123;<br>        mLuaStateCPoniter.set(L.getCPtrPeer());<br>    &#125;<br><br>    <span class="hljs-comment">/**<br>     * Returns a parameter received from Lua. Parameters are numbered from 1.<br>     * A reference to the JavaFunction itself is always the first parameter<br>     * received (the same as &lt;code&gt;this&lt;/code&gt;).<br>     *<br>     * <span class="hljs-doctag">@param</span> idx Index of the parameter.<br>     * <span class="hljs-doctag">@return</span> Reference to parameter.<br>     * <span class="hljs-doctag">@see</span> LuaObject<br>     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> LuaObject <span class="hljs-title">getParam</span><span class="hljs-params">(<span class="hljs-keyword">int</span> idx)</span> </span>&#123;<br>        <span class="hljs-keyword">long</span> luaStateCPoniter = mLuaStateCPoniter.get();<br>        LuaState L = LuaStateFactory.getExistingState(luaStateCPoniter);<br>        <span class="hljs-keyword">return</span> L.getLuaObject(idx);<br>    &#125;<br><br>    <span class="hljs-comment">/**<br>     * Register a JavaFunction with a given name. This method registers in a<br>     * global variable the JavaFunction specified.<br>     *<br>     * <span class="hljs-doctag">@param</span> name name of the function.<br>     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">register</span><span class="hljs-params">(String name)</span> <span class="hljs-keyword">throws</span> LuaException </span>&#123;<br>        <span class="hljs-keyword">long</span> luaStateCPoniter = mLuaStateCPoniter.get();<br>        <span class="hljs-comment">//新增的方法，用于获取当前线程的LuaState</span><br>        LuaState L = LuaStateFactory.getExistingState(luaStateCPoniter);<br>        <span class="hljs-keyword">synchronized</span> (L) &#123;<br>            L.pushJavaFunction(<span class="hljs-keyword">this</span>);<span class="hljs-comment">//在栈上生成一个userdata，并设置其metatable的一些方法</span><br>            L.setGlobal(name);<span class="hljs-comment">//然后将这个userdata存在global表上</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-    /**
-     * This is the state in which this function will exist.
-     */
-    //    protected LuaState L;
-    //用来保存c层lua_state的指针，当需要在对应栈上操作的时候，从这个ThreadLocal取
-    protected static final ThreadLocal&lt;Long&gt; mLuaStateCPoniter = new ThreadLocal&lt;Long&gt;() {
-        @Override
-        protected Long initialValue() {
-            return (long) 0;
-        }
-    };
-
-    /**
-     * This method is called from Lua. Any parameters can be taken with
-     * &lt;code&gt;getParam&lt;/code&gt;. A reference to the JavaFunctionWrapper itself is
-     * always the first parameter received. Values passed back as results
-     * of the function must be pushed onto the stack.
-     *
-     * @return The number of values pushed onto the stack.
-     */
-
-    public abstract int execute() throws LuaException;
-
-    //native调用这个同步的execute，保证在正确的栈上调用完后才能让其他线程换栈
-
-    public int execute(long lua_state) throws LuaException {
-        mLuaStateCPoniter.set(lua_state);
-        return execute();
-    }
-
-    /**
-     * Constructor that receives a LuaState.
-     *
-     * @param L LuaState object associated with this JavaFunction object
-     */
-    public JavaFunction(LuaState L) {
-        mLuaStateCPoniter.set(L.getCPtrPeer());
-    }
-
-    /**
-     * Returns a parameter received from Lua. Parameters are numbered from 1.
-     * A reference to the JavaFunction itself is always the first parameter
-     * received (the same as &lt;code&gt;this&lt;/code&gt;).
-     *
-     * @param idx Index of the parameter.
-     * @return Reference to parameter.
-     * @see LuaObject
-     */
-    public LuaObject getParam(int idx) {
-        long luaStateCPoniter = mLuaStateCPoniter.get();
-        LuaState L = LuaStateFactory.getExistingState(luaStateCPoniter);
-        return L.getLuaObject(idx);
-    }
-
-    /**
-     * Register a JavaFunction with a given name. This method registers in a
-     * global variable the JavaFunction specified.
-     *
-     * @param name name of the function.
-     */
-    public void register(String name) throws LuaException {
-        long luaStateCPoniter = mLuaStateCPoniter.get();
-        //新增的方法，用于获取当前线程的LuaState
-        LuaState L = LuaStateFactory.getExistingState(luaStateCPoniter);
-        synchronized (L) {
-            L.pushJavaFunction(this);//在栈上生成一个userdata，并设置其metatable的一些方法
-            L.setGlobal(name);//然后将这个userdata存在global表上
-        }
-    }
-}</code></pre>
 <ol start="5">
 <li>LuaStateFatcoty新增一个方法，根据当前的CPointer获取对应的LuaState。</li>
 </ol>
-<pre><code class="Java">    /**
-     * Returns a existing instance of LuaState
-     *
-     * @param cPointer
-     * @return LuaState
-     */
-    public synchronized static LuaState getExistingState(long cPointer) {
-        for(Object luaState:states){
-            if(luaState!=null){
-                LuaState lua_state = (LuaState)luaState;
-                if(lua_state.getCPtrPeer() == cPointer){
-                    return lua_state;
-                }
-            }
-        }
-        return null;
-    }
-</code></pre>
+<figure class="highlight Java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">/**<br> * Returns a existing instance of LuaState<br> *<br> * <span class="hljs-doctag">@param</span> cPointer<br> * <span class="hljs-doctag">@return</span> LuaState<br> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">static</span> LuaState <span class="hljs-title">getExistingState</span><span class="hljs-params">(<span class="hljs-keyword">long</span> cPointer)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span>(Object luaState:states)&#123;<br>        <span class="hljs-keyword">if</span>(luaState!=<span class="hljs-keyword">null</span>)&#123;<br>            LuaState lua_state = (LuaState)luaState;<br>            <span class="hljs-keyword">if</span>(lua_state.getCPtrPeer() == cPointer)&#123;<br>                <span class="hljs-keyword">return</span> lua_state;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这种实现方式有点类似于协程，魔改之后算是基本能支持多线程操作，虽然不是很完美也可能不太稳定。这个多线程方案在产品中调用频次很低，所以也没有反馈实际效果如何，但是至少不崩溃并且异步回调是正常的。</p>
 <p>因为Lua虚拟机本身就是只能单线程执行的，强行使其多线程执行肯定会有一些问题，除非有人有能力修改Lua的虚拟机那也是不错的。</p>
 
-            </article>
+            </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
@@ -320,9 +269,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
-                    
                       <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
                     
                   </div>
                 
@@ -340,11 +289,11 @@
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
                 <div class="post-prevnext row">
-                  <div class="post-prev col-6">
+                  <article class="post-prev col-6">
                     
                     
                       <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">
@@ -353,8 +302,8 @@
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
-                  </div>
-                  <div class="post-next col-6">
+                  </article>
+                  <article class="post-next col-6">
                     
                     
                       <a href="/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/">
@@ -363,13 +312,13 @@
                         <i class="iconfont icon-arrowright"></i>
                       </a>
                     
-                  </div>
+                  </article>
                 </div>
               
             </div>
 
             
-          </div>
+          </article>
         </div>
       </div>
     </div>
@@ -377,7 +326,7 @@
       <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
         <div id="toc">
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
       </div>
@@ -389,16 +338,15 @@
 
 
     
-  </main>
 
-  
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -419,81 +367,117 @@
     </div>
   </div>
 </div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
     
 
     
+  </main>
 
-    
-      <!-- cnzz Analytics Icon -->
-      <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
-    
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
+  
+
+  
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
+  
 </footer>
 
 <!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/main.js" ></script>
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
 
-  <script  src="/js/lazyload.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
 
 
 
   
-  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
 
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: '.post-content',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
       }
-    });
+    })()
   </script>
 
 
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
 
 
 
 
 
 
-<!-- Plugins -->
 
+  
 
   
 
@@ -520,8 +504,6 @@
   
 
   
-
-  
     <!-- cnzz Analytics -->
     <script defer src="//s4.cnzz.com/z_stat.php?id=1278771147&show=pic"
             type="text/javascript"></script>
@@ -529,149 +511,10 @@
 
 
 
-  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      $('pre').each(function () {
-        const pre = $(this);
-        if (pre.find('code.mermaid').length > 0) {
-          return;
-        }
-        pre.addClass('prettyprint  linenums');
-      });
-      prettyPrint();
-    })
-  </script>
 
 
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "LuaJava框架多线程支持修改&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 35,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      getSearchFile(path);
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
-      }
-    );
-  </script>
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript">
-      //定义获取词语下标
-      var a_idx = 0;
-      jQuery(document).ready(function ($) {
-        //点击body时触发事件
-        $("body").click(function (e) {
-          //需要显示的词语
-          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
-          //设置词语给span标签
-          var $i = $("<span/>").text(a[a_idx]);
-          //下标等于原来下标+1  余 词语总数
-          a_idx = (a_idx + 1) % a.length;
-          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
-          //获取x和y的指针坐标
-          var x = e.pageX, y = e.pageY;
-          //在鼠标的指针的位置给$i定义的span标签添加css样式
-          $i.css({
-            "z-index": 999,
-            "top": y - 20,
-            "left": x,
-            "position": "absolute",
-            "font-weight": "bold",
-            "color": rand_color()
-          });
-          // 随机颜色
-          function rand_color() {
-            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
-          }
-          //在body添加这个标签
-          $("body").append($i);
-          //animate() 方法执行 CSS 属性集的自定义动画。
-          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
-          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
-          $i.animate({
-            //将原来的位置向上移动180
-            "top": y - 180,
-            "opacity": 0
-            //1500动画的速度
-          }, 1500, function () {
-            //时间到了自动删除
-            $i.remove();
-          });
-        });
-      })
-      ;
-    </script>
-  
-
-
-
-
-
-
-
-
-
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 
