@@ -55,7 +55,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -156,7 +156,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -216,11 +216,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -236,7 +236,7 @@
 <li><a href="https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:frameworks/base/core/java/android/os/MessageQueue.java" target="_blank" rel="noopener">android/os/MessageQueue.java</a></li>
 </ul>
 <p>虽然它们之间的关系比较简单，但如果要深究其原理还是非常复杂的，特别是到native层部分。</p>
-<p><img src="%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6%E6%9E%B6%E6%9E%84.png" alt="消息机制架构.png"></p>
+<p><img src="%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6%E6%9E%B6%E6%9E%84.png" srcset="/img/loading.gif" alt="消息机制架构.png"></p>
 <p>如图所示，Handler负责处理消息，类似一个句柄，其他线程可以向其发送 Message ， Message 进入消息队列 MessageQueue 中，一个运行在主线程的 Looper 不断从队列中取出消息，然后调用其 Handler 或者 Callback 处理逻辑。</p>
 <h1 id="处理消息"><a href="#处理消息" class="headerlink" title="处理消息"></a>处理消息</h1><h2 id="构建Looper"><a href="#构建Looper" class="headerlink" title="构建Looper"></a>构建Looper</h2><p>Looper 的内部维护了一个 MessageQueue 对象，在线程中调用 Looper.prepare 来创建新的 Looper。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LooperThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>&#123;<br>      Handler handler;<br>      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>          <span class="hljs-comment">// 必须先调用</span><br>          Looper.prepare();<br>          <span class="hljs-comment">//用 Looper 来创建 Handler</span><br>          handler = <span class="hljs-keyword">new</span> Handler(Looper.myLooper());<br>          Looper.loop();<br>      &#125;<br> &#125;<br></code></pre></td></tr></table></figure>
@@ -288,7 +288,7 @@
 <p>Message processing occurs as usual until the message queue encounters the<br>synchronization barrier that has been posted.  When the barrier is encountered,<br>later synchronous messages in the queue are stalled (prevented from being executed) until the barrier is released by calling {@link #removeSyncBarrier} and specifying the token that identifies the synchronization barrier.</p>
 </blockquote>
 <p>大概意思就是同步屏障是阻碍正常消息队列循环的一种手段，这个屏障会阻碍同步消息也就是平时我们发送的消息的循环，而异步消息还是正常发送，所以异步消息和同步屏障通常是搭配使用的。如下图所示：</p>
-<p><img src="%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C.png" alt="同步屏障.png"></p>
+<p><img src="%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C.png" srcset="/img/loading.gif" alt="同步屏障.png"></p>
 <p>同步屏障的意义简单来说，就像游戏服务器拥挤的时候，异步消息就是 VIP 玩家可以优先登录游戏，而普通玩家需要等到服务器缓解的时候才能登录。实际上在 Android 中，同步屏障的意义也是在于此，例如屏幕的绘制信号。</p>
 <h2 id="同步屏障实现"><a href="#同步屏障实现" class="headerlink" title="同步屏障实现"></a>同步屏障实现</h2><h3 id="插入屏障"><a href="#插入屏障" class="headerlink" title="插入屏障"></a>插入屏障</h3><p>调用 MessageQueue 的 postSyncBarrier 放置一个同步屏障，when 参数指定屏障发生的时间。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">postSyncBarrier</span><span class="hljs-params">(<span class="hljs-keyword">long</span> when)</span> </span>&#123;<br>       <span class="hljs-comment">// Enqueue a new sync barrier token.</span><br>       <span class="hljs-comment">// We don't need to wake the queue because the purpose of a barrier is to stall it.</span><br>       <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;<br>           <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> token = mNextBarrierToken++;<br>           <span class="hljs-keyword">final</span> Message msg = Message.obtain();<br>           msg.markInUse();<br>           msg.when = when;<br>           msg.arg1 = token;<br><br>           Message prev = <span class="hljs-keyword">null</span>;<br>           Message p = mMessages;<br>           <span class="hljs-keyword">if</span> (when != <span class="hljs-number">0</span>) &#123;<br>               <span class="hljs-keyword">while</span> (p != <span class="hljs-keyword">null</span> &amp;&amp; p.when &lt;= when) &#123;<br>                   prev = p;<br>                   p = p.next;<br>               &#125;<br>           &#125;<br>           <span class="hljs-keyword">if</span> (prev != <span class="hljs-keyword">null</span>) &#123; <span class="hljs-comment">// invariant: p == prev.next</span><br>               msg.next = p;<br>               prev.next = msg;<br>           &#125; <span class="hljs-keyword">else</span> &#123;<br>               msg.next = p;<br>               mMessages = msg;<br>           &#125;<br>           <span class="hljs-keyword">return</span> token;<br>       &#125;<br>   &#125;<br></code></pre></td></tr></table></figure>
@@ -336,7 +336,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -438,9 +438,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

@@ -55,7 +55,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -156,7 +156,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -216,11 +216,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -230,7 +230,7 @@
               <h1 id="Zygote-是什么"><a href="#Zygote-是什么" class="headerlink" title="Zygote 是什么"></a>Zygote 是什么</h1><p>Zygote 中文翻译受精卵，顾名思义是细胞分裂的起点。</p>
 <p>在 Android 系统中，通常每个应用程序都运行在单独的进程中，每个进程有自己的 Java 虚拟机，而进程和虚拟机就是由 Zygote 创建孵化出来的。</p>
 <p>由下图的 Activity 启动栈可以看出，Zygote 就是 Java 堆栈的起点。</p>
-<p><img src="Zygote%E6%98%AF%E4%BB%80%E4%B9%88.png" alt="Zygote是什么.png"></p>
+<p><img src="Zygote%E6%98%AF%E4%BB%80%E4%B9%88.png" srcset="/img/loading.gif" alt="Zygote是什么.png"></p>
 <h1 id="Zygote-的作用"><a href="#Zygote-的作用" class="headerlink" title="Zygote 的作用"></a>Zygote 的作用</h1><ul>
 <li><p>启动 Java 虚拟机；</p>
 </li>
@@ -242,7 +242,7 @@
 </li>
 </ul>
 <h1 id="创建-Zygote"><a href="#创建-Zygote" class="headerlink" title="创建 Zygote"></a>创建 Zygote</h1><h2 id="init-进程"><a href="#init-进程" class="headerlink" title="init 进程"></a>init 进程</h2><p>Linux 系统在启动的时候，会创建一个 init 进程，进程会读取 init.rc 配置文件运行一些初始化脚本，类似于在 Windows 下的开始-&gt;启动菜单。</p>
-<p><img src="init.rc.png" alt="init.rc.png"></p>
+<p><img src="init.rc.png" srcset="/img/loading.gif" alt="init.rc.png"></p>
 <p><em>这里需要使用 Android 模拟器或者可以 root 的手机获取 root 权限才能看到。</em></p>
 <p>还有一个 init.zygote32.rc 文件（64 位就是 init.zygote64_32.rc），是 zygote 的启动脚本，会被 init.rc 调用。</p>
 <p><strong>/init.rc</strong></p>
@@ -294,7 +294,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-comment">/**<br> * Finish remaining work for the newly forked system server process.<br> */</span><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Runnable <span class="hljs-title">handleSystemServerProcess</span><span class="hljs-params">(ZygoteArguments parsedArgs)</span> </span>&#123;<br>	...<br>	<span class="hljs-keyword">if</span> (parsedArgs.mNiceName != <span class="hljs-keyword">null</span>) &#123;<br>		<span class="hljs-comment">//设置进程名为 system_server</span><br>        Process.setArgV0(parsedArgs.mNiceName);<br>    &#125;<br>    ...<br>     <span class="hljs-keyword">if</span> (systemServerClasspath != <span class="hljs-keyword">null</span>) &#123;<br>     	  <span class="hljs-comment">// 找到ClassLoader </span><br>          cl = createPathClassLoader(systemServerClasspath, parsedArgs.mTargetSdkVersion);<br>          Thread.currentThread().setContextClassLoader(cl);<br>      &#125;<br><br>      <span class="hljs-comment">/*<br>       * Pass the remaining arguments to SystemServer.<br>       */</span><br>      <span class="hljs-comment">//在zygoteInit方法内做一些参数初始，</span><br>      <span class="hljs-comment">//最后调用RuntimeInit.applicationInit 方法，调起com.android.server.SystemServer的 main 方法。</span><br>      <span class="hljs-keyword">return</span> ZygoteInit.zygoteInit(parsedArgs.mTargetSdkVersion,<br>              parsedArgs.mDisabledCompatChanges,<br>              parsedArgs.mRemainingArgs, cl);<br></code></pre></td></tr></table></figure>
 
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>最后以一图概括整个 zygote 启动流程，就很明了了。</p>
-<p><img src="Zygote%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.png" alt="Zygote启动流程.png"></p>
+<p><img src="Zygote%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.png" srcset="/img/loading.gif" alt="Zygote启动流程.png"></p>
 <p>SystemServer 内的初始化更复杂，后续继续查看学习。</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.jianshu.com/p/1dee610cf074" target="_blank" rel="noopener">Android世界的起源 — Zygote</a></p>
 
@@ -329,7 +329,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -431,9 +431,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

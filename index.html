@@ -39,7 +39,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -140,7 +140,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -165,7 +165,7 @@
 
   <main>
     
-      <div class="container nopadding-md">
+      <div class="container nopadding-x-md">
         <div class="py-5" id="board"
           style=margin-top:0>
           
@@ -174,6 +174,197 @@
               <div class="col-12 col-md-10 m-auto">
                 
 
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/04/RePlugin%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89Activity%E5%9D%91%E4%BD%8D%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" target="_self">
+          <img src="https://hoholidayx.github.io/2020/12/23/RePlugin%E6%A1%86%E6%9E%B6%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9C%BA%E6%99%AF%E4%B8%8B%E5%90%AF%E5%8A%A8%E6%8F%92%E4%BB%B6%E7%9A%84%E9%97%AE%E9%A2%98/RePlugin.png" srcset="/img/loading.gif" alt="RePlugin使用自定义Activity坑位的实现方式">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/04/RePlugin%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89Activity%E5%9D%91%E4%BD%8D%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/">RePlugin使用自定义Activity坑位的实现方式</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/04/RePlugin%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89Activity%E5%9D%91%E4%BD%8D%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/">
+          
+          
+            
+          
+          问题背景项目有需要让插件Activity的启动坑位声明带上showOnLockScreen，但是RePlugin默认实现所带的坑位只有常规按照透明主题或者launchMode来区分的，甚至不支持横屏activity坑位，Github上也有类似需要定制坑位的issue：
+
+怎么让Replugin启动一个插件Activity的时候，去使用我们在宿主AndroidManifest.xml中自定义的坑位？
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-04 10:39" pubdate>
+              2021-03-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+              <a href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+            
+              <a href="/tags/RePlugin/">RePlugin</a>
+            
+              <a href="/tags/%E6%8F%92%E4%BB%B6%E5%8C%96/">插件化</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/12/24/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E8%BF%99%E4%B8%AA%E9%94%85Glide%E4%B8%8D%E8%83%8C%E2%80%94%E2%80%94%E8%81%8A%E8%81%8AGlide%E5%88%B0%E5%BA%95%E6%8A%8Acontext%E6%80%8E%E4%B9%88%E4%BA%86/" target="_self">
+          <img src="https://github.com/bumptech/glide/raw/master/static/glide_logo.png" srcset="/img/loading.gif" alt="内存泄漏这个锅Glide不背——聊聊Glide到底把context怎么了">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/12/24/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E8%BF%99%E4%B8%AA%E9%94%85Glide%E4%B8%8D%E8%83%8C%E2%80%94%E2%80%94%E8%81%8A%E8%81%8AGlide%E5%88%B0%E5%BA%95%E6%8A%8Acontext%E6%80%8E%E4%B9%88%E4%BA%86/">内存泄漏这个锅Glide不背——聊聊Glide到底把context怎么了</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/12/24/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E8%BF%99%E4%B8%AA%E9%94%85Glide%E4%B8%8D%E8%83%8C%E2%80%94%E2%80%94%E8%81%8A%E8%81%8AGlide%E5%88%B0%E5%BA%95%E6%8A%8Acontext%E6%80%8E%E4%B9%88%E4%BA%86/">
+          
+          
+            
+          
+          前言今天刷到一篇内容和观点都挺新颖的文章《小题大做 | Handler内存泄露全面分析》，看到后面如何解决内存泄漏时有一段内容引起我的思考，
+
+“比如Glide使用的时候传的上下文不要用Activity而改用Application的上下文。”
+
+印象中这个说法中在很多其他文章都提到过，矛头都指向了“万恶的”Glide.with(context)，我想Glide这个量级的开源项目了，会犯这种低级错误
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-12-24 21:39" pubdate>
+              2020-12-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+            
+              <a href="/tags/Glide/">Glide</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/12/23/RePlugin%E6%A1%86%E6%9E%B6%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9C%BA%E6%99%AF%E4%B8%8B%E5%90%AF%E5%8A%A8%E6%8F%92%E4%BB%B6%E7%9A%84%E9%97%AE%E9%A2%98/" target="_self">
+          <img src="https://hoholidayx.github.io/2020/12/23/RePlugin%E6%A1%86%E6%9E%B6%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9C%BA%E6%99%AF%E4%B8%8B%E5%90%AF%E5%8A%A8%E6%8F%92%E4%BB%B6%E7%9A%84%E9%97%AE%E9%A2%98/RePlugin.png" srcset="/img/loading.gif" alt="RePlugin框架在多线程场景下启动插件的问题">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/12/23/RePlugin%E6%A1%86%E6%9E%B6%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9C%BA%E6%99%AF%E4%B8%8B%E5%90%AF%E5%8A%A8%E6%8F%92%E4%BB%B6%E7%9A%84%E9%97%AE%E9%A2%98/">RePlugin框架在多线程场景下启动插件的问题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/12/23/RePlugin%E6%A1%86%E6%9E%B6%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9C%BA%E6%99%AF%E4%B8%8B%E5%90%AF%E5%8A%A8%E6%8F%92%E4%BB%B6%E7%9A%84%E9%97%AE%E9%A2%98/">
+          
+          
+            
+          
+          项目概况本项目使用了插件化框架RePlugin，不同于通常的Android插件化应用一个主程序拖带多个小的功能插件，项目主程序是一个空壳没有业务逻辑只负责启动一个大的主插件，同时也拖带其他小功能插件，结构如图所示： 
+这样做的优点是可以最大限度的发挥插件化的灵活性，所有业务插件都能够快速的发版升级，不需要更新主程序。缺点是加载速度更慢，需要加载完主插件APP才算可以正常使用，所以主插件需要控制包的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-12-23 21:14" pubdate>
+              2020-12-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android/">Android</a>
+            
+              <a href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Android/">Android</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+            
+              <a href="/tags/RePlugin/">RePlugin</a>
+            
+              <a href="/tags/%E6%8F%92%E4%BB%B6%E5%8C%96/">插件化</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
 
   <div class="row mx-auto index-card">
     
@@ -472,7 +663,7 @@ Zygote 的作用
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/04/26/%E5%B0%8F%E8%AE%B0HashMap%E7%9B%B8%E5%85%B3/" target="_self">
-          <img src="https://hoholidayx.github.io/2020/04/26/%e5%b0%8f%e8%ae%b0HashMap%e7%9b%b8%e5%85%b3%2fHashMap%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84.jpg" alt="小记HashMap相关">
+          <img src="https://hoholidayx.github.io/2020/04/26/%e5%b0%8f%e8%ae%b0HashMap%e7%9b%b8%e5%85%b3%2fHashMap%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84.jpg" srcset="/img/loading.gif" alt="小记HashMap相关">
         </a>
       </div>
     
@@ -539,7 +730,7 @@ HashMap 的存储结构由数组、链表和红黑树组成，JDK1.8 之前没�
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/04/25/%E5%B0%8F%E8%AE%B0Android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E5%92%8C%E5%90%8C%E6%AD%A5%E5%B1%8F%E9%9A%9C/" target="_self">
-          <img src="https://hoholidayx.github.io/2020/04/25/%e5%b0%8f%e8%ae%b0Android%e6%b6%88%e6%81%af%e5%a4%84%e7%90%86%e6%9c%ba%e5%88%b6%e5%92%8c%e5%90%8c%e6%ad%a5%e5%b1%8f%e9%9a%9c%2f%e6%b6%88%e6%81%af%e6%9c%ba%e5%88%b6%e6%9e%b6%e6%9e%84.png" alt="小记Android消息处理机制和同步屏障">
+          <img src="https://hoholidayx.github.io/2020/04/25/%e5%b0%8f%e8%ae%b0Android%e6%b6%88%e6%81%af%e5%a4%84%e7%90%86%e6%9c%ba%e5%88%b6%e5%92%8c%e5%90%8c%e6%ad%a5%e5%b1%8f%e9%9a%9c%2f%e6%b6%88%e6%81%af%e6%9c%ba%e5%88%b6%e6%9e%b6%e6%9e%84.png" srcset="/img/loading.gif" alt="小记Android消息处理机制和同步屏障">
         </a>
       </div>
     
@@ -597,201 +788,6 @@ android/os/MessageQueue.java
               <a href="/tags/Handler/">Handler</a>
             
               <a href="/tags/Message/">Message</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/" target="_self">
-          <img src="https://hoholidayx.github.io/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA%2BcuDNN%2Btf%2BPython%E7%8E%AF%E5%A2%83/%E5%B0%81%E9%9D%A2%E5%9B%BE.jpeg" alt="Ubuntu下搭建CUDA+cuDNN+tf+Python环境">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/">Ubuntu下搭建CUDA+cuDNN+tf+Python环境</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/04/22/Ubuntu%E4%B8%8B%E6%90%AD%E5%BB%BACUDA+cuDNN+tf+Python%E7%8E%AF%E5%A2%83/">
-          
-          
-            
-          
-          安装NVIDIA CUDA版本
-Ubuntu：16.0.4
-Toolkit：10.0
-cuDNN：7.5.1 (April 22, 2019) for CUDA 10.0
-
-
-官网下载CUDA Toolkit
-
-安装cuda之前需要先安装gcc、g++和 build-essential等。
-1sudo apt-get install build-essential gcc g++ make bin
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-04-22 11:41" pubdate>
-              2020-04-22
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Ubuntu/">Ubuntu</a>
-            
-              <a href="/tags/%E8%BF%90%E7%BB%B4/">运维</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/" target="_self">
-          <img src="https://hoholidayx.github.io/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/%E5%B0%81%E9%9D%A2%E5%9B%BE.png" alt="在Ubuntu进行StyleGAN2训练Google Colab版">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/">在Ubuntu进行StyleGAN2训练Google Colab版</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/03/31/%E5%9C%A8Ubuntu%E8%BF%9B%E8%A1%8CStyleGAN2%E8%AE%AD%E7%BB%83Google%20Colab%E7%89%88/">
-          
-          
-            
-          
-          准备工具
-稳定的梯子
-谷歌账号(有钱最好，新用户可以试用300$)
-训练集
-
-准备训练集如果只想走一下流程的话，随便准备百来张图片就可以了，毕竟跑一次训练成本很高，支持的图片尺寸有256x256，512x512和1024x1024。
-推荐一个国内的网站seeprettyface，有不少产品和免费的图库下载。
-StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.py将原
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-03-31 11:04" pubdate>
-              2020-03-31
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Ubuntu/">Ubuntu</a>
-            
-              <a href="/tags/StyleGAN/">StyleGAN</a>
-            
-              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
-            
-              <a href="/tags/AI/">AI</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/" target="_self">
-          <img src="https://hoholidayx.github.io/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E8%87%AA%E5%8A%A8%E5%88%B7%E5%86%92%E9%99%A9%E8%AE%BE%E7%BD%AE.png" alt="关于Android游戏助手">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">关于Android游戏助手</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/03/17/%E5%85%B3%E4%BA%8EAndroid%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">
-          
-          
-            
-          
-          游戏助手是什么终于开始这个系列的填坑了，自上次17年写的文章《LuaJava在Java、Android中的使用》 已经过了2年，主要介绍了游戏助手技术栈的其中一项。本文开始将继续记录一些项目中碰到的问题和有价值的经验。项目坟头都长草了祭奠一下。
-
-这里游戏助手主要指的是Android端的应用，虽然iOS端也有能够实现的方案，但是成本较高且本人对iOS技术钻研不精，所以不做讨论。
-游戏助手是什么，用
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-03-17 15:42" pubdate>
-              2020-03-17
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Android/">Android</a>
-            
-              <a href="/categories/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B/">游戏助手</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">Android</a>
-            
-              <a href="/tags/%E6%B8%B8%E6%88%8F/">游戏</a>
-            
-              <a href="/tags/%E8%BE%85%E5%8A%A9/">辅助</a>
             
           </div>
         
@@ -877,9 +873,6 @@ StyleGAN2不能支持直接输入图片，需要用官方提供的dataset_tool.p
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

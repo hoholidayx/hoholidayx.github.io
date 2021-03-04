@@ -55,7 +55,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -156,7 +156,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -216,11 +216,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -240,7 +240,7 @@
 <p>这里重点记录一下Lua的栈，方便后面进行描述。</p>
 <p>Lua虚拟机与C/C++之间的数据交换基本都是通过Lua构建虚拟<a href="https://cloudwu.github.io/lua53doc/manual.html#4.1" target="_blank" rel="noopener"><strong>栈</strong></a>来交互的，无论何时Lua调用 C，被调用的函数都得到一个新的栈， 这个栈独立于C函数本身的栈，也独立于之前的 Lua 栈。它里面包含了Lua传递给C函数的所有参数，而C函数则把要返回的结果放入这个栈以返回给调用者这里。</p>
 <html>
-<img src="Lua栈模型.png" alt="Lua栈模型"/>
+<img src="Lua栈模型.png" srcset="/img/loading.gif" alt="Lua栈模型"/>
 </html>
 
 
@@ -293,7 +293,7 @@
 <p>我们开发的项目最后采用的是LuaJava框架，后文也将会对该框架进行解析。  </p>
 <h2 id="用自定义Java函数拓展Lua虚拟机"><a href="#用自定义Java函数拓展Lua虚拟机" class="headerlink" title="用自定义Java函数拓展Lua虚拟机"></a>用自定义Java函数拓展Lua虚拟机</h2><p>LuaJava框架主要是对Lua的编程接口进行简单的封装，并且提供一些方便Lua、Java函数相互调用的接口，节省了自己去写JNI转换代码的功夫。后续会具体解析这个框架是怎么实现这部分的。</p>
 <html>
-<img src=".pngLuaJava框架的作用" alt="LuaJava框架的作用" />
+<img src=".pngLuaJava框架的作用" srcset="/img/loading.gif" alt="LuaJava框架的作用" />
 </html>  
 
 <p>这里要使用自定义的Java函数来拓展Lua虚拟机需要以下几步：</p>
@@ -304,7 +304,7 @@
 </ol>
 <p>先看看JavaFunction类有什么方法，</p>
 <html>
-<img src="JavaFunction类图.png" alt="JavaFunction类图" />
+<img src="JavaFunction类图.png" srcset="/img/loading.gif" alt="JavaFunction类图" />
 </html>
 
 
@@ -386,7 +386,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -482,9 +482,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

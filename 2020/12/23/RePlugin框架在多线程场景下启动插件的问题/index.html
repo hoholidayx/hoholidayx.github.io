@@ -1,0 +1,526 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="hoholiday">
+  <meta name="keywords" content="">
+  <title>RePlugin框架在多线程场景下启动插件的问题 - hohliday&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>hohliday's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="RePlugin框架在多线程场景下启动插件的问题">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-23 21:14" pubdate>
+        2020年12月23日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RePlugin框架在多线程场景下启动插件的问题</h1>
+            
+            <div class="markdown-body">
+              <h1 id="项目概况"><a href="#项目概况" class="headerlink" title="项目概况"></a>项目概况</h1><p>本项目使用了插件化框架RePlugin，不同于通常的Android插件化应用一个主程序拖带多个小的功能插件，项目主程序是一个空壳没有业务逻辑只负责启动一个大的主插件，同时也拖带其他小功能插件，结构如图所示：<br> <img src="%E6%8F%92%E4%BB%B6%E7%BB%93%E6%9E%84%E8%A7%86%E5%9B%BE.jpg" srcset="/img/loading.gif" alt="插件结构视图.jpg"></p>
+<p>这样做的优点是可以最大限度的发挥插件化的灵活性，所有业务插件都能够快速的发版升级，不需要更新主程序。<br>缺点是加载速度更慢，需要加载完主插件APP才算可以正常使用，所以主插件需要控制包的大小和复杂度，并且加载成功率也是一个问题。</p>
+<h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>发版基本都是发插件没有升级主程序，最近放量升级了主程序版本后，发现主程序在升级安装后首次启动主插件失败概率大幅上升，在部分手机特别是7.0以下设备更为明显几乎是必现，而第二次再进入则正常。</p>
+<h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><p>首先检查启动主插件的流程是否有问题，</p>
+<p><img src="%E5%90%AF%E5%8A%A8%E4%B8%BB%E6%8F%92%E4%BB%B6%E6%B5%81%E7%A8%8B.jpg" srcset="/img/loading.gif" alt="启动主插件流程.jpg"></p>
+<p>异步RePlugin.fetchContext目的是异步加载并且安装主插件，并运行起主插件的Application，不阻塞主线程做loading动画，异步加载完后再去post到主线程去启动主插件的activity。</p>
+<p>根据打点情况来看是记录1异常增多，也就是RePlugin在加载fetchContext的时候失败了。</p>
+<p>首先跟进fetchContext方法源码，看一下方法失败的分支，列举可能出现失败的场景。<br>跟到Plugin.loadLocked方法内开始产生失败结果主要6种情况：<br>1.框架初始化Loader类失败<br>2.插件信息加载失败<br>3.插件资源加载失败<br>4.插件dex释放失败<br>5.插件是否已经在内存<br>6.加载进程锁失败<br>通过观察log和断点调试，发现产生load false结果的主要是情况5。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">boolean</span> il = mLoader.isAppLoaded();<br><span class="hljs-keyword">if</span>(LOG)&#123;<br>LogDebug.i(MAIN_TAG,<span class="hljs-string">"loadLocked():Initialized,isloaded="</span>+il);<br>&#125;<br><span class="hljs-keyword">return</span> il;<br></code></pre></td></tr></table></figure>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isAppLoaded</span><span class="hljs-params">()</span></span>&#123;<br><span class="hljs-keyword">return</span> mPlugin!=<span class="hljs-keyword">null</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>该方法里面只判断了mPlugin是否已经加载到内存之中了，目的应该是避免重复的load插件。<br>继续观察日志，并没发现有其他加载失败的异常，可以认为插件是正常加载的为什么mPlugin会为null呢。</p>
+<p>考虑到我们的项目有多个进程，进程之间不同插件通信也比较频繁，有一部分是通过RePlugin提供的fetchBinder的方法来通信的，fetchBinder方法也会尝试加载安装插件，而且我们主程序加载流程中也有异步操作，判断可能是出现了多线程同步问题。</p>
+<p>继续查看代码，直到Plugin.loadLocked方法之前都没有看到任何的线程同步锁，进一步加深了同步问题的嫌疑，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">loadLocked</span><span class="hljs-params">(<span class="hljs-keyword">int</span> load, <span class="hljs-keyword">boolean</span> useCache)</span> </span>&#123;<br>        ...<br>        <span class="hljs-keyword">if</span> (mInitialized) &#123;<br>            ...<br>            <span class="hljs-keyword">boolean</span> il = mLoader.isAppLoaded();<br>            <span class="hljs-keyword">if</span> (LOG) &#123;<br>                LogDebug.i(MAIN_TAG, <span class="hljs-string">"loadLocked(): Initialized, is loaded = "</span> + il);<br>            &#125;<br>            <span class="hljs-keyword">return</span> il;<br>        &#125;<br>        mInitialized = <span class="hljs-keyword">true</span>;<br> <br>        ...<br> <br>        ProcessLocker lock = <span class="hljs-keyword">new</span> ProcessLocker(context, lockFileName);<br>        <span class="hljs-keyword">if</span> (LOG) &#123;<br>            LogDebug.i(PLUGIN_TAG, <span class="hljs-string">"loadLocked(): Ready to lock! logtag = "</span> + logTag + <span class="hljs-string">"; pn = "</span> + mInfo.getName());<br>        &#125;<br>        ...<br> <br>        <span class="hljs-keyword">long</span> t1 = System.currentTimeMillis();<br>        <span class="hljs-comment">//释放资源、加载dex和载入内存等操作，长耗时</span><br>        <span class="hljs-keyword">boolean</span> rc = doLoad(logTag, context, parent, manager, load);<br>        ...<br>        lock.unlock();<br> <br>        ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>一直到 <strong>boolean rc = doload</strong> 方法开始使用了一个进程锁来释放和加载dex，方法完成后上面的mPlugin变量才会被赋值。</p>
+<p>看到这里就比较明朗了，</p>
+<p>关键因素是mInitialized这个变量，当一个线程A首先进入loadLocked方法，此时mInitialized=false，随后立即将mInitialized设置为true，这时候线程B也进入了这个方法，可能会读到mInitialized=true（说可能是因为这个字段没有volatile关键字，无法保证线程间的可见性），进入if分支后判断mLoader.isApploaded，这时候因为线程A还没有执行完doLoad方法，所以线程B直接返回了false插件加载失败。</p>
+<p>调试发现在初始化的时候，确实有其他进程通过（RePlugin.fetchBinder方法）binder来加载这个插件，与我们在主程序中异步加载产生冲突。</p>
+<p>因此我们在异步方法中使用RePlugin.fetchContext失败的概率大幅上升。</p>
+<h1 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h1><p>RePlugin框架加载插件的方法是线程不安全的，后入的线程会接收到插件未加载的错误结果，插件加载时间过长（特别是插件升级），导致加载主插件的逻辑超时、超重试后自动结束，而当先入线程执行完毕，插件也正常加载完毕，所以第二次再进入的时候是正常的。</p>
+<p>至于为什么是7.0和6.0设备高发，应该和Android版本或AOT没什么太大关系，除了AOT速度比较慢，设备速度慢就容易复现，这是一个通用的bug，取决于doload加载插件的耗时是否大于超时或重试次数。</p>
+<p>复现条件：</p>
+<ol>
+<li>内置插件第一次安装或更新，且体积较大，导致loadLocked耗时过长；</li>
+<li>多线程安装、调用未（正在）安装的插件；例如本例AsyncTask异步初始化和binder线程</li>
+</ol>
+<h1 id="修改方案"><a href="#修改方案" class="headerlink" title="修改方案"></a>修改方案</h1><p>暂不考虑修改RePlugin的代码，毕竟目前这种修改举轻若重，修改一点可能又会引发更多问题。</p>
+<p>考虑修改我们的主插件加载流程，比较简单，异步等待插件真正加载完成后，回调函数内再启动主插件的Activity。</p>
+<p>这里又有个小问题，RePlugin虽然提供了pluginInstalled的回调，但是仅限于外部插件而不是内置插件，所以没法得知内部插件的安装回调…</p>
+<p><strong>方案B：在异步线程RePlugin.fetchContext之后，如果获取到context为null，则启动轮询检查dex是否释放完成，等待轮询结果后再走后面启动Activity的流程。</strong></p>
+<p>鉴于框架本身也没有提供准确的回调时机，不是很完美，但也能提高加载的成功率，待后续发版验证。。。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>截至目前2020-11-27，RePlugin框架仍存在这些问题，有时间可以提几个PR。</p>
+<ol>
+<li>加载、启动插件线程安全</li>
+<li>pluginInstalled接口只有调外部插件安装成功会回调</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+                    
+                      <a class="hover-with-bg" href="/tags/RePlugin/">RePlugin</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%8F%92%E4%BB%B6%E5%8C%96/">插件化</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/12/24/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E8%BF%99%E4%B8%AA%E9%94%85Glide%E4%B8%8D%E8%83%8C%E2%80%94%E2%80%94%E8%81%8A%E8%81%8AGlide%E5%88%B0%E5%BA%95%E6%8A%8Acontext%E6%80%8E%E4%B9%88%E4%BA%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">内存泄漏这个锅Glide不背——聊聊Glide到底把context怎么了</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/18/%E6%B8%B8%E6%88%8F%E5%8A%A9%E6%89%8B-LuaJava%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E8%84%9A%E6%9C%AC%E4%B8%AD%E6%96%AD%E7%9A%84%E6%96%B9%E6%B3%95/">
+                        <span class="hidden-mobile">游戏助手-LuaJava框架实现脚本中断的方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script defer>
+      var _mtac = {};
+      (function () {
+        var mta = document.createElement("script");
+        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500716418");
+        
+        mta.setAttribute("cid", "500716419");
+        
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+      })();
+    </script>
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1278771147&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

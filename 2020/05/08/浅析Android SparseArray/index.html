@@ -55,7 +55,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -156,7 +156,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -216,11 +216,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -243,7 +243,7 @@
 </ul>
 <h1 id="主要成员变量"><a href="#主要成员变量" class="headerlink" title="主要成员变量"></a>主要成员变量</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SparseArray</span>&lt;<span class="hljs-title">E</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">Cloneable</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object DELETED = <span class="hljs-keyword">new</span> Object();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> mGarbage = <span class="hljs-keyword">false</span>; <span class="hljs-comment">//标记是否存在待回收的键值对</span><br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] mKeys;<br>    <span class="hljs-keyword">private</span> Object[] mValues;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mSize;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="SparseArray.jpg" alt="SparseArray.jpg"></p>
+<p><img src="SparseArray.jpg" srcset="/img/loading.gif" alt="SparseArray.jpg"></p>
 <p>从结构上看比 HashMap 简单了很多，占用的内存也更少了。</p>
 <h1 id="gc"><a href="#gc" class="headerlink" title="gc"></a>gc</h1><p>先看一下比较有特色的 GC 流程，SparseArray 的 GC 用的是”<a href="https://hoholidayx.github.io/2019/10/22/%E5%B0%8F%E8%AE%B0Java%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E6%B3%95">标记整理</a>“算法。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">gc</span><span class="hljs-params">()</span> </span>&#123;<br>       <span class="hljs-keyword">int</span> n = mSize;<br>       <span class="hljs-keyword">int</span> o = <span class="hljs-number">0</span>;<br>       <span class="hljs-keyword">int</span>[] keys = mKeys;<br>       Object[] values = mValues;<br>       <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>           Object val = values[i];<br>           <span class="hljs-keyword">if</span> (val != DELETED) &#123;<br>           <span class="hljs-comment">// 将存活的 item 移动到小端</span><br>               <span class="hljs-keyword">if</span> (i != o) &#123;<br>                   keys[o] = keys[i];<br>                   values[o] = val;<br>                   values[i] = <span class="hljs-keyword">null</span>;<br>               &#125;<br>               o++;<br>           &#125;<br>       &#125;<br>       mGarbage = <span class="hljs-keyword">false</span>;<br>       mSize = o;<br>   &#125;<br></code></pre></td></tr></table></figure>
@@ -313,7 +313,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -415,9 +415,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

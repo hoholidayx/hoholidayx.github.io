@@ -55,7 +55,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -156,7 +156,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -216,11 +216,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -229,7 +229,7 @@
             <div class="markdown-body">
               <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>继上篇<a href="https://hoholidayx.github.io/2020/04/28/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E4%B9%8B%E4%B8%80-%E5%90%AF%E5%8A%A8Zygote/">《Android系统启动之一-启动Zygote》</a>，本篇继续来看 SystemServer 进程做了什么事情。</p>
 <p>Zygote 和 SystemServer 是 Android 系统最重要的两个进程，Zygote 负责创建新进程，而 SystemServer 负责创建应用所需要的服务，例如 ActivityManagerService。</p>
-<p><img src="logo.jpeg" alt="logo.jpeg"></p>
+<p><img src="logo.jpeg" srcset="/img/loading.gif" alt="logo.jpeg"></p>
 <h1 id="SystemServer-main"><a href="#SystemServer-main" class="headerlink" title="SystemServer.main"></a>SystemServer.main</h1><p>源码：<a href="https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:frameworks/base/services/java/com/android/server/SystemServer.java;l=349" target="_blank" rel="noopener">frameworks/base/services/java/com/android/server/SystemServer.java</a></p>
 <p>main 方法没有什么内容，就是 new 了一个 SystemServer 类之后调用它的 run 方法。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**<br> * The main entry point from zygote.<br> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>    <span class="hljs-keyword">new</span> SystemServer().run();<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -250,7 +250,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br> 	...<br> <span class="hljs-comment">//取消 Java 虚拟机的内存限制，</span><br> VMRuntime.getRuntime().clearGrowthLimit();<br>   ...<br> <span class="hljs-comment">// Increase the number of binder threads in system_server</span><br> BinderInternal.setMaxThreads(sMaxBinderThreads);<br>   ...<br>  <span class="hljs-comment">// Prepare the main looper thread (this thread).</span><br>  <span class="hljs-comment">//准备 Looper</span><br>  android.os.Process.setThreadPriority(<br>          android.os.Process.THREAD_PRIORITY_FOREGROUND);<br>  android.os.Process.setCanSelfBackground(<span class="hljs-keyword">false</span>);<br>  Looper.prepareMainLooper();<br>  ...<br>   <span class="hljs-comment">//创建系统 context</span><br>   createSystemContext();<br><br>   <span class="hljs-comment">// Create the system service manager.</span><br>   mSystemServiceManager = <span class="hljs-keyword">new</span> SystemServiceManager(mSystemContext);<br>   mSystemServiceManager.setStartInfo(mRuntimeRestart,<br>           mRuntimeStartElapsedTime, mRuntimeStartUptime);<br>   LocalServices.addService(SystemServiceManager<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">mSystemServiceManager</span>)</span>;<br>   ...<br><br>    <span class="hljs-comment">// Start services.</span><br>   <span class="hljs-comment">//启动各项服务</span><br>   startBootstrapServices();<br>   startCoreServices();<br>   startOtherServices();<br>   ...<br>   <span class="hljs-comment">//开始 Looper</span><br>   Looper.loop();<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="createSystemContext"><a href="#createSystemContext" class="headerlink" title="createSystemContext"></a>createSystemContext</h2><p>关于如何创建系统 context 流程比较长，借用一图（来源：<a href="http://gityuan.com/" target="_blank" rel="noopener">gityuan</a>）来看比较清晰。</p>
-<p><img src="SystemServer%E5%88%9B%E5%BB%BASystemContext%E6%B5%81%E7%A8%8B.webp" alt="SystemServer创建SystemContext流程.webp"></p>
+<p><img src="SystemServer%E5%88%9B%E5%BB%BASystemContext%E6%B5%81%E7%A8%8B.webp" srcset="/img/loading.gif" alt="SystemServer创建SystemContext流程.webp"></p>
 <h2 id="startBootstrapServices"><a href="#startBootstrapServices" class="headerlink" title="startBootstrapServices"></a>startBootstrapServices</h2><p>该函数负责启动一些关键性的系统服务，以便 Android 系统能开始第一步正常运行。例如安装服务、屏幕显示服务等。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">startBootstrapServices</span><span class="hljs-params">()</span></span>&#123;<br>	<span class="hljs-comment">//启动 WatchDog</span><br>	 <span class="hljs-keyword">final</span> Watchdog watchdog = Watchdog.getInstance();<br>     watchdog.start();<br>       ...<br>   <span class="hljs-comment">//启动安装服务</span><br>   Installer installer = mSystemServiceManager.startService(Installer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<br>   ...<br>   <span class="hljs-comment">//启动亮屏服务</span><br>   mSystemServiceManager.startService(LightsService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<br>   ...<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -294,7 +294,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -396,9 +396,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

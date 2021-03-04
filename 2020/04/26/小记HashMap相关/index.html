@@ -55,7 +55,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -156,7 +156,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -216,11 +216,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -230,7 +230,7 @@
               <p>代码版本：<a href="https://cs.android.com/android/platform/superproject/+/android-10.0.0_r30:libcore/ojluni/src/main/java/java/util/HashMap.java" target="_blank" rel="noopener">java/util/HashMap.java @ Android-10.0.0_r30</a></p>
 <hr>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>HashMap 是 Android、Java 面试的常客，阅读学习其源码还是很有必要的。总之先来一个 HashMap 的整体结构，然后顺着慢慢分析。</p>
-<p><img src="HashMap%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.jpg" alt="HashMap存储结构.jpg"></p>
+<p><img src="HashMap%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.jpg" srcset="/img/loading.gif" alt="HashMap存储结构.jpg"></p>
 <p>HashMap 的存储结构由数组、链表和红黑树组成，JDK1.8 之前没有使用红黑树。</p>
 <h1 id="构造-HashMap"><a href="#构造-HashMap" class="headerlink" title="构造 HashMap"></a>构造 HashMap</h1><p>HashMap 的构建有两个重要的参数：</p>
 <ul>
@@ -249,7 +249,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">int</span> n = cap - <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
 <p>是因为如果 cap 已经是2 的幂而不减 1，经过下面的位运算之后会得到 cap 的 2 倍。</p>
 <p>这段算法比较抽象，借图表示一下：</p>
-<p><img src="tableSizeFor.jpeg" alt="tableSizeFor.jpeg"></p>
+<p><img src="tableSizeFor.jpeg" srcset="/img/loading.gif" alt="tableSizeFor.jpeg"></p>
 <p>因为 Integer 是 32bit ，算法移动到 16bit 的时候最多就是 32 个 1 了，所以最后可能产生负数。</p>
 <p>实际上在构造方法里 threshold 的值并没有乘上load factor，而是推迟到了 put 方法调用的时候，重新更新 threshold 的值。</p>
 <h1 id="插入或更新数据-——-put"><a href="#插入或更新数据-——-put" class="headerlink" title="插入或更新数据 —— put"></a>插入或更新数据 —— put</h1><h2 id="hash-方法"><a href="#hash-方法" class="headerlink" title="hash 方法"></a>hash 方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> V <span class="hljs-title">put</span><span class="hljs-params">(K key, V value)</span> </span>&#123;<br>      <span class="hljs-keyword">return</span> putVal(hash(key), key, value, <span class="hljs-keyword">false</span>, <span class="hljs-keyword">true</span>);<br>  &#125;<br></code></pre></td></tr></table></figure>
@@ -260,7 +260,7 @@
 <p>这里为什么要重新计算一次 hash 而不使用原来的？这个和 table 的 index 计算有关。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">n = table.length;<br>index = （n-<span class="hljs-number">1</span>） &amp; hash;<br></code></pre></td></tr></table></figure>
 <p>假设 table.length=2^4=16，经过计算会发现只有后 4 位参与了运算。</p>
-<p><img src="hash%E6%96%B9%E6%B3%95.jpeg" alt="hash方法.jpeg"></p>
+<p><img src="hash%E6%96%B9%E6%B3%95.jpeg" srcset="/img/loading.gif" alt="hash方法.jpeg"></p>
 <p>因为数据表长度是 2 的幂，在没有高位参与运算的时候，特别在数据表较短的时候容易产生碰撞，方案考虑现在 hashcode 比较成熟，综合性能与效率，仅做一次高低位异或就可以减少大部分冲突。</p>
 <h2 id="resize"><a href="#resize" class="headerlink" title="resize"></a>resize</h2><p>在 putVal 之前先研究一下 resize 容量调整方法，在这个方法里不只是扩容这么简单，它主要做了：</p>
 <ul>
@@ -330,7 +330,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -432,9 +432,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })

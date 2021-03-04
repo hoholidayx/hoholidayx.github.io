@@ -1,0 +1,542 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="hoholiday">
+  <meta name="keywords" content="">
+  <title>RePlugin使用自定义Activity坑位的实现方式 - hohliday&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>hohliday's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="RePlugin使用自定义Activity坑位的实现方式">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-04 10:39" pubdate>
+        2021年3月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RePlugin使用自定义Activity坑位的实现方式</h1>
+            
+            <div class="markdown-body">
+              <h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>项目有需要让插件Activity的启动坑位声明带上showOnLockScreen，但是RePlugin默认实现所带的坑位只有常规按照透明主题或者launchMode来区分的，甚至不支持横屏activity坑位，Github上也有类似需要定制坑位的issue：</p>
+<ul>
+<li><p><a href="https://github.com/Qihoo360/RePlugin/issues/551" target="_blank" rel="noopener">怎么让Replugin启动一个插件Activity的时候，去使用我们在宿主AndroidManifest.xml中自定义的坑位？ #551</a></p>
+</li>
+<li><p><a href="https://github.com/Qihoo360/RePlugin/issues/740" target="_blank" rel="noopener">插件无法横屏，建议在repluginHostConfig中增加配置开关 #740</a></p>
+</li>
+</ul>
+<p>但是RePlugin官方并没有提供接口或者解决方案，估计是缺少开发维护或者比较麻烦。</p>
+<h1 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h1><p>在尽量不修改源码的情况下去实现这个定制坑位的需求，避免引发其他新问题（项目时间有限）。</p>
+<p>我们知道RePlugin启动插件Activity的方案：</p>
+<ol>
+<li>替换原启动Intent的component为宿主坑位；</li>
+<li>在内存记录原intent的启动信息；</li>
+<li>instrumentation反射创建activity的时候，通过RePluginClassLoader来查找对应的类，此时再将此坑位类对应的原intent信息取出，替换为插件的class。</li>
+</ol>
+<p>所以要实现自定义坑位，需要关注RePlugin内这三部分的具体实现。</p>
+<p>第一部分是替换intent，RePlugin启动Activity分为两步，一是检查如果是插件component则分配坑位，二是调用context启动activity。所以重点是第一步手动分配intent的坑位，将component替换为（宿主context，坑位class），源intent的信息会记录到category字段中:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">newIntent.addCategory(<span class="hljs-string">"container:"</span>+container);<span class="hljs-comment">//坑位class</span><br>newIntent.addCategory(<span class="hljs-string">"process:-2147483648"</span>);<span class="hljs-comment">//UI进程</span><br>newIntent.addCategory(<span class="hljs-string">"plugin:"</span>+PLUGIN_NAME);<span class="hljs-comment">//插件名称</span><br>newIntent.addCategory(<span class="hljs-string">"activity:"</span>+activityClass);<span class="hljs-comment">//原插件activityClass</span><br>newIntent.addCategory(<span class="hljs-string">"counter:0"</span>);<br></code></pre></td></tr></table></figure>
+
+<p>第二部分记录原intent信息，记录的信息结体为PluginContainers#ActivityState，保存在PluginContainers.mStates中，这里需要保存一份自定坑位的启动记录。</p>
+<p><strong>PluginContainers.java:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**<br>* 所有坑的状态集合<br>*/</span><br><span class="hljs-keyword">private</span> HashMap&lt;String, ActivityState&gt; mStates = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br></code></pre></td></tr></table></figure>
+
+
+<p>第三部分反射创建Activity的时候调用路径为：RePluginClassLoader.loadClass -&gt; PMF.loadClass -&gt; PmBase.loadClass -&gt; PluginProcessPer.resolveActivityClass -&gt; PluginContainers.lookupByContainer，</p>
+<p><strong>PmBase.java:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (mContainerActivities.contains(className)) &#123;<br>     Class&lt;?&gt; c = mClient.resolveActivityClass(className);<br>     <span class="hljs-keyword">if</span> (c != <span class="hljs-keyword">null</span>) &#123;<br>         <span class="hljs-keyword">return</span> c;<br>     &#125;<br>     ...<br>    <span class="hljs-keyword">return</span> DummyActivity<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中PmBase的mContainerActivities成员也维护着坑位信息，这里也需要加入自定的坑位信息。 </p>
+<p>所以理论上只要修改上面这三部分，Activity自定坑位的启动链就没问题了。</p>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><p>最后实现是一套简易的坑位分配系统，在Activity启动前分配坑位，反射创建Activity完成或超时还原坑位。</p>
+<p><strong>主程序修改点</strong></p>
+<ul>
+<li>声明定制坑位：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;activity<br> android:name=<span class="hljs-string">"CContainer.ShowLock.Translucent"</span><br> android:configChanges=<span class="hljs-string">"keyboardHidden|orientation"</span><br> android:icon=<span class="hljs-string">"@drawable/wx"</span><br> android:label=<span class="hljs-string">"微信"</span><br> android:showOnLockScreen=<span class="hljs-string">"true"</span><br> android:showWhenLocked=<span class="hljs-string">"true"</span><br> android:theme=<span class="hljs-string">"@android:style/Theme.Translucent.NoTitleBar"</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>实现插件定制坑位分配的方法，在插件内反射调用：</li>
+</ul>
+<p><strong>RePluginContainerHook.java:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**<br>* 插件内反射调用<br>*/</span><br><span class="hljs-meta">@Nullable</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">loadPluginActivityContainer</span><span class="hljs-params">(String pluginName, String activityClass, Bundle extras)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (sAvailableDefaultContainers.size() == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">//分配可使用的坑位</span><br>    String container = sAvailableDefaultContainers.iterator().next();<br>    <span class="hljs-keyword">if</span> (container == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">//构建自定义坑位的ActivityState</span><br>    PluginContainers.ActivityState activityState = <span class="hljs-keyword">new</span> PluginContainers.ActivityState(container);<br>    activityState.plugin = pluginName;<br>    activityState.activity = activityClass;<br><br>    <span class="hljs-keyword">boolean</span> success = <span class="hljs-keyword">true</span>;<br><br>    <span class="hljs-comment">//添加到mStates</span><br>    HashMap&lt;String, PluginContainers.ActivityState&gt; stateHashMap = getRePluginContainerStates();<br>    <span class="hljs-keyword">if</span> (stateHashMap != <span class="hljs-keyword">null</span>) &#123;<br>        stateHashMap.put(container, activityState);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        success = <span class="hljs-keyword">false</span>;<br>    &#125;<br><br>    <span class="hljs-comment">//添加到mContainerActivities</span><br>    HashSet&lt;String&gt; rePluginContainerActivities = getRePluginContainerActivities();<br>    <span class="hljs-keyword">if</span> (success &amp;&amp; rePluginContainerActivities != <span class="hljs-keyword">null</span>) &#123;<br>        rePluginContainerActivities.add(container);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        success = <span class="hljs-keyword">false</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (success) &#123;<br>        sAvailableDefaultContainers.remove(container);<br>        sUsedContainers.add(container);<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (success) &#123;<br>        <span class="hljs-comment">//监听超时，回收未能正常启动的坑位</span><br>        Message timeoutMsg = sTimeoutHandler.obtainMessage(TimeoutHandler.MSG_TIMEOUT, container);<br>        sTimeoutHandler.sendMessageDelayed(timeoutMsg, TimeoutHandler.LAUNCH_TIMEOUT);<br>    &#125;<br>    <span class="hljs-keyword">return</span> success ? container : <span class="hljs-keyword">null</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>继承RePluginClassLoader（在RePluginConfig创建时设置），自定义loadClass方法，增加还原坑位的调用时机和打底防崩溃的代码：</li>
+</ul>
+<p><strong>CustomRePluginLoader.java:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> Class&lt;?&gt; loadClass(String className, <span class="hljs-keyword">boolean</span> resolve) <span class="hljs-keyword">throws</span> ClassNotFoundException &#123;<br>    Class&lt;?&gt; cl;<br>    <span class="hljs-keyword">try</span> &#123;<br>        cl = <span class="hljs-keyword">super</span>.loadClass(className, resolve);<br>    &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException classNotFoundException) &#123;<br>        <span class="hljs-keyword">if</span> (RePluginContainerHook.isCustomContainer(className)) &#123;<br>            <span class="hljs-comment">//防止自定义坑位的逻辑出错，打底避免崩溃</span><br>            cl = DummyActivity<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">throw</span> classNotFoundException;<br>        &#125;<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        RePluginContainerHook.onPostLoadClass(className);<br>    &#125;<br>    <span class="hljs-keyword">return</span> cl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>RePluginContainerHook.java:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPostLoadClass</span><span class="hljs-params">(String className)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (sUsedContainers.remove(className)) &#123;<br>        sTimeoutHandler.removeMessages(TimeoutHandler.MSG_TIMEOUT, className);<br><br>        <span class="hljs-comment">//还原坑位</span><br>        sAvailableDefaultContainers.add(className);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p><strong>插件内修改点</strong></p>
+<ul>
+<li>反射调用分配定制坑位：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**<br>* 构建新的intent，用于让插件在自定义坑位上启动<br>*/</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Intent <span class="hljs-title">loadActivityCustomContainer</span><span class="hljs-params">(Intent intent)</span> </span>&#123;<br>    ClassLoader hostClassLoader = RePlugin.getHostClassLoader();<br>    <span class="hljs-keyword">try</span> &#123;<br>        Class classContainerHook = hostClassLoader.loadClass(<span class="hljs-string">"com.qihoo360.loader2.RePluginContainerHook"</span>);<br>        Method methodLoadPluginActivityContainer = classContainerHook.getDeclaredMethod(<span class="hljs-string">"loadPluginActivityContainer"</span>, String<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">String</span>.<span class="hljs-title">class</span>, <span class="hljs-title">Bundle</span>.<span class="hljs-title">class</span>)</span>;<br><br>        ComponentName componentName = intent.getComponent();<br>        String activityClass = componentName.getClassName();<br>        String container = (String) methodLoadPluginActivityContainer.invoke(<span class="hljs-keyword">null</span>, PLUGIN_NAME, activityClass, <span class="hljs-keyword">null</span>);<br>        <span class="hljs-keyword">if</span> (container == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>        &#125;<br>        Context hostContext = RePlugin.getHostContext();<br>        ComponentName newComponentName = <span class="hljs-keyword">new</span> ComponentName(hostContext, container);<br>        Intent newIntent = <span class="hljs-keyword">new</span> Intent(intent);<br>        newIntent.setComponent(newComponentName);<br>        newIntent.addCategory(<span class="hljs-string">"container:"</span> + container);<br>        newIntent.addCategory(<span class="hljs-string">"process:-2147483648"</span>);<br>        newIntent.addCategory(<span class="hljs-string">"plugin:"</span> + PLUGIN_NAME);<br>        newIntent.addCategory(<span class="hljs-string">"activity:"</span> + activityClass);<br>        newIntent.addCategory(<span class="hljs-string">"counter:0"</span>);<br>        <span class="hljs-keyword">return</span> newIntent;<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="可能存在的问题"><a href="#可能存在的问题" class="headerlink" title="可能存在的问题"></a>可能存在的问题</h2><p>不能同时启动太多activity，不然坑位不够用（毕竟简易版，可以增加坑位数量和回收机制解决）</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>如果能修改RePlugin源码应该有更优雅的实现方式，修改的地方差不多也就是上面提到的内容，但是时间比较紧急，后面能有更完善的实现再考虑提交PR。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+                    
+                      <a class="hover-with-bg" href="/tags/RePlugin/">RePlugin</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%8F%92%E4%BB%B6%E5%8C%96/">插件化</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/12/24/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E8%BF%99%E4%B8%AA%E9%94%85Glide%E4%B8%8D%E8%83%8C%E2%80%94%E2%80%94%E8%81%8A%E8%81%8AGlide%E5%88%B0%E5%BA%95%E6%8A%8Acontext%E6%80%8E%E4%B9%88%E4%BA%86/">
+                        <span class="hidden-mobile">内存泄漏这个锅Glide不背——聊聊Glide到底把context怎么了</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1278771147" style="display: none"></span>
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script defer>
+      var _mtac = {};
+      (function () {
+        var mta = document.createElement("script");
+        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500716418");
+        
+        mta.setAttribute("cid", "500716419");
+        
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+      })();
+    </script>
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1278771147&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

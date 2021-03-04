@@ -55,7 +55,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    var CONFIG = {"hostname":"hoholidayx.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":200}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":"500716418","cid":"500716419"},"woyaola":null,"cnzz":"1278771147","leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -156,7 +156,7 @@
   </div>
 </nav>
 
-    <div class="banner intro-2" id="background" parallax=true
+    <div class="banner" id="banner" parallax=true
          style="background: url('/img/default.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
@@ -216,11 +216,11 @@
     
       
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
     <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
@@ -228,7 +228,7 @@
             
             <div class="markdown-body">
               <h1 id="游戏助手是什么"><a href="#游戏助手是什么" class="headerlink" title="游戏助手是什么"></a>游戏助手是什么</h1><p>终于开始这个系列的填坑了，自上次17年写的文章<a href="https://hoholidayx.github.io/2017/10/08/LuaJava%E5%9C%A8Java%E3%80%81Android%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">《LuaJava在Java、Android中的使用》</a> 已经过了2年，主要介绍了游戏助手技术栈的其中一项。本文开始将继续记录一些项目中碰到的问题和有价值的经验。<del>项目坟头都长草了祭奠一下。</del></p>
-<p><img src="%E5%BF%83%E5%A1%9E.jpg" alt="心塞"></p>
+<p><img src="%E5%BF%83%E5%A1%9E.jpg" srcset="/img/loading.gif" alt="心塞"></p>
 <p>这里游戏助手主要指的是Android端的应用，虽然iOS端也有能够实现的方案，但是成本较高且本人对iOS技术钻研不精，所以不做讨论。</p>
 <p>游戏助手是什么，用我的定义来说，就是</p>
 <ol>
@@ -236,19 +236,19 @@
 <li><strong>或者是增强补充游戏内的某些功能</strong>，例如魔兽世界伤害统计的辅助工具软件。</li>
 </ol>
 <p>下图展示的是<a href="https://cfm.qq.com/" target="_blank" rel="noopener">穿越火线手游</a>自动操作塔防。</p>
-<p><img src="cf%E8%87%AA%E5%8A%A8%E6%B8%B8%E6%88%8F.gif" alt="cf自动游戏.gif"></p>
+<p><img src="cf%E8%87%AA%E5%8A%A8%E6%B8%B8%E6%88%8F.gif" srcset="/img/loading.gif" alt="cf自动游戏.gif"></p>
 <p><a href="https://pvp.qq.com/" target="_blank" rel="noopener">王者荣耀</a>自动刷冒险设置。</p>
-<p><img src="%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E8%87%AA%E5%8A%A8%E5%88%B7%E5%86%92%E9%99%A9%E8%AE%BE%E7%BD%AE.png" alt="王者荣耀自动刷冒险设置"></p>
+<p><img src="%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E8%87%AA%E5%8A%A8%E5%88%B7%E5%86%92%E9%99%A9%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" alt="王者荣耀自动刷冒险设置"></p>
 <p>这里可能有人会说“这不就是WG嘛”，对的，这东西俗称其实就是WG，但是在这里不讨论什么“道德伦理”问题，技术本身没有好坏，关键在于怎么去使用它。</p>
 <p>在移动端实现游戏助手辅助功能主要有两个流派，以是否读写内存作区分：</p>
 <ul>
 <li>不读写内存</li>
 </ul>
-<p><img src="%E4%B8%8D%E8%AF%BB%E5%86%99%E5%86%85%E5%AD%98.jpg" alt="不读写内存"></p>
+<p><img src="%E4%B8%8D%E8%AF%BB%E5%86%99%E5%86%85%E5%AD%98.jpg" srcset="/img/loading.gif" alt="不读写内存"></p>
 <ul>
 <li>读写内存</li>
 </ul>
-<p><img src="%E8%AF%BB%E5%86%99%E5%86%85%E5%AD%98.jpg" alt="读写内存"></p>
+<p><img src="%E8%AF%BB%E5%86%99%E5%86%85%E5%AD%98.jpg" srcset="/img/loading.gif" alt="读写内存"></p>
 <h1 id="市面上的产品"><a href="#市面上的产品" class="headerlink" title="市面上的产品"></a>市面上的产品</h1><p>18年再往之前，可以说是这个领域的黄金时期，有着各式各样的种游戏辅助软件，其中时间较长用户规模也比较大的有叉叉助手，还有在末期才出现的游戏超人等，我研究比较多的也就这俩，下面也就拿这两家和我厂的产品来介绍。</p>
 <table>
 <thead>
@@ -279,18 +279,18 @@
 </tr>
 </tbody></table>
 <h2 id="叉叉助手"><a href="#叉叉助手" class="headerlink" title="叉叉助手"></a>叉叉助手</h2><p>叉叉助手是行业内最有资历的产品，<del>所以后面才被杀鸡儆猴</del>，最早应该是在PC端有不少的资源，后续转战移动端，拥有自己的脚本开发者生态圈，这一点是令人向往的。</p>
-<p><img src="%E5%8F%89%E5%8F%89%E5%8A%A9%E6%89%8B.jpeg" alt="叉叉助手.jpeg"></p>
+<p><img src="%E5%8F%89%E5%8F%89%E5%8A%A9%E6%89%8B.jpeg" srcset="/img/loading.gif" alt="叉叉助手.jpeg"></p>
 <p>叉叉助手支持手机root和非root使用，核心技术是通过获取adb shell的权限，启动自己的守护和工作进程，通过进程间通信实现屏幕的截图和模拟点击等操作，属于上文说的不读写内存的流派1。</p>
 <p>root的情况下就不说了，什么事情都能干，但是用户群比较小；非root的情况就比较复杂，需要引导用户在PC端上下载“钥匙应用”进行APP的“激活”，本质上就是利用手机与pc端的adb连接，来启动手机的shell进程获取权限。</p>
 <h2 id="游戏超人"><a href="#游戏超人" class="headerlink" title="游戏超人"></a>游戏超人</h2><p>游戏超人应该是猎豹做的一款辅助，我知道它的时候已经是末期了，给我的第一印象就是UI很好看很精细，<del>不像我厂的产品很多UI都是我自己动手的，</del>它提供的功能也比较简单，基本都是游戏界面美化之类的，从下图也可以看出。</p>
-<p><img src="%E6%B8%B8%E6%88%8F%E8%B6%85%E4%BA%BA.jpeg" alt="游戏超人.jpeg"></p>
+<p><img src="%E6%B8%B8%E6%88%8F%E8%B6%85%E4%BA%BA.jpeg" srcset="/img/loading.gif" alt="游戏超人.jpeg"></p>
 <p>经过分析发现，其实它的核心实现非常简单，就是悬浮窗，剩下的就是怎么制作这些美化UI和这些UI怎么去适配游戏和屏幕分辨率的问题了。</p>
 <h2 id="我厂的游戏助手-AY"><a href="#我厂的游戏助手-AY" class="headerlink" title="我厂的游戏助手-AY"></a>我厂的游戏助手-AY</h2><p>我厂的游戏助手项目简称AY好了，这里不方便透露名字。AY的实现方式集合了上文的两种流派来实现的。</p>
-<p><img src="AY.jpg" alt="AY.jpg"></p>
+<p><img src="AY.jpg" srcset="/img/loading.gif" alt="AY.jpg"></p>
 <p>AY依靠分身（沙箱）SDK提供的沙箱环境和多个hook接口，实现了对内存的读写，这里主要是为了实现上文的“输出模拟点击”部分；同时使用Android5.0提供的屏幕录制接口，实现“获取屏幕截图”部分。</p>
 <p>这种方式可以结合两种流派的优点，可以在免root的情况下，不需要像叉叉助手一样复杂的用户引导流程，又可以实现对第三方应用的输出模拟点击，所以AY能比同类产品有更强的能力去做更多的事情，后续的产品迭代也证明了这点。</p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>到了19年之后就开始这些产品就开始凉了（包括我厂的项目），原因有很多，主要因腾讯加强了对作弊的打压，反作弊SDK不断升级攻防难度加大，投入不抵产出，更主要的原因是政府层面出手打压这块产业，其中最惨的就是叉叉助手，<a href="https://www.sohu.com/a/361203096_120123245" target="_blank" rel="noopener">《叉叉助手公司被查！案值数亿元，也成全国首例违法脚本公司》</a>。</p>
-<p><img src="%E9%BB%98%E5%93%80.jpg" alt="默哀"></p>
+<p><img src="%E9%BB%98%E5%93%80.jpg" srcset="/img/loading.gif" alt="默哀"></p>
 <p>虽然产业消亡了，但是还是沉淀不少的技术，也许未来还能有用武之地的，例如在自动化测试等…</p>
 
             </div>
@@ -324,7 +324,7 @@
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
-                <div class="post-prevnext row">
+                <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
                     
@@ -426,9 +426,6 @@
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":200})
     NProgress.start()
-    document.addEventListener('DOMContentLoaded', function() {
-      window.NProgress && window.NProgress.inc();
-    })
     window.addEventListener('load', function() {
       NProgress.done();
     })
